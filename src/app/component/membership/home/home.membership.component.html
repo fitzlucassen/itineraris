@@ -1,0 +1,16 @@
+<div id="membership-container">
+	<div class="c3">
+		<md-input class="big-form" dividerColor="teal" placeholder="Pseudo ou e-mail" [(ngModel)]="newUser.email"></md-input>
+		<br/>
+		<md-input class="big-form" dividerColor="teal" placeholder="Mot de passe" type="password" [(ngModel)]="newUser.password"></md-input>
+		<br/>
+		<button md-mini-fab (click)="signIn()"><md-icon>check</md-icon></button>
+	</div>
+	<div class="c3" style="text-align:center;">
+		<h2 class="big-title">/</h2>
+	</div>
+	<div class="c3 big-icon">
+		<a href="#" (click)="goToSignup()" class="signup-button"><button md-mini-fab><md-icon>add</md-icon></button></a>
+	</div>
+	<div class="clear"></div>
+</div>

@@ -4,15 +4,29 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { UserComponent } from './user/user.component';
+import { HomeMembershipComponent } from './component/membership/home/home.membership.component';
 
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { MaterialModule } from '@angular/material';
+import { RouterModule, Routes } from '@angular/router';
+import { SignupMembershipComponent } from './component/membership/signup/signup.membership.component';
+
+const appRoutes: Routes = [
+  {
+    path: 'signup',
+    component: SignupMembershipComponent,
+    data: {
+      title: 'Itineraris - Inscription'
+    }
+  },
+  { path: '', component: HomeMembershipComponent },
+];
 
 @NgModule({
   declarations: [
     AppComponent,
-    UserComponent
+    HomeMembershipComponent,
+    SignupMembershipComponent
   ],
   imports: [
     BrowserModule,
@@ -21,7 +35,8 @@ import { MaterialModule } from '@angular/material';
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDR6MQEKvMFKiYTS0uZZTA-YIKe2yRcfng'
     }),
-    MaterialModule.forRoot()
+    MaterialModule.forRoot(),
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [],
   bootstrap: [AppComponent]

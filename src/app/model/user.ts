@@ -6,10 +6,8 @@ export class User {
     email: string;
     password: string;
 
-    constructor(pseudo:string, email:string, password:string) {
+    constructor(values: Object = {}) {
         this.id = new Guid();
-        this.pseudo = pseudo;
-        this.email = email;
-        this.password = password;
+        (<any>Object).assign(this, values);
     }
 }
