@@ -1,10 +1,17 @@
 <div id="membership-container">
 	<div class="">
-		<md-input class="big-form" placeholder="Pseudo" [(ngModel)]="newUser.pseudo"></md-input>
+		<md-input class="big-form" placeholder="Pseudo" [(ngModel)]="newUser.pseudo">
+			<md-hint *ngIf="pseudoError" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">{{pseudoError}}</md-hint>
+		</md-input>
+		
 		<br/>
-		<md-input class="big-form" placeholder="E-mail" aria-required="true" [(ngModel)]="newUser.email" type="E-mail"></md-input>
+		<md-input class="big-form" placeholder="E-mail" aria-required="true" [(ngModel)]="newUser.email" type="E-mail">
+			<md-hint *ngIf="emailError" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">{{emailError}}</md-hint>
+		</md-input>
 		<br/>
-		<md-input class="big-form" dividerColor="teal" placeholder="Mot de passe" type="password" [(ngModel)]="newUser.password"></md-input>
+		<md-input class="big-form" dividerColor="teal" placeholder="Mot de passe" type="password" [(ngModel)]="newUser.password" (keyup.enter)="signup()">
+			<md-hint *ngIf="passwordError" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">{{passwordError}}</md-hint>
+		</md-input>
 		<br/>
 		<button md-mini-fab (click)="signup()"><md-icon>check</md-icon></button>
 	</div>

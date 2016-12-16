@@ -21,7 +21,7 @@ export class UserService {
 	signin(emailOrPseudo: string, password: string): boolean {
 		var items = JSON.parse(localStorage.getItem('users'));
 
-		if (items.filter(u => u.password == password && (u.email == emailOrPseudo || u.pseudo == emailOrPseudo)).length > 0) {
+		if (items != null && items.filter(u => u.password == password && (u.email == emailOrPseudo || u.pseudo == emailOrPseudo)).length > 0) {
 			var user:User = items.filter(u => u.password == password && (u.email == emailOrPseudo || u.pseudo == emailOrPseudo))[0];
 
 			localStorage.setItem('current_user', JSON.stringify(user)); 

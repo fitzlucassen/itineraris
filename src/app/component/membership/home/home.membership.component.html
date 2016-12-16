@@ -2,7 +2,7 @@
 	<div class="c3">
 		<md-input class="big-form" dividerColor="teal" placeholder="Pseudo ou e-mail" [(ngModel)]="newUser.email"></md-input>
 		<br/>
-		<md-input class="big-form" dividerColor="teal" placeholder="Mot de passe" type="password" [(ngModel)]="newUser.password"></md-input>
+		<md-input class="big-form" dividerColor="teal" placeholder="Mot de passe" type="password" [(ngModel)]="newUser.password" (keyup.enter)="signIn()"></md-input>
 		<br/>
 		<button md-mini-fab (click)="signIn()"><md-icon>check</md-icon></button>
 	</div>
