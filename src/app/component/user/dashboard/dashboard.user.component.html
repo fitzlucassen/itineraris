@@ -1,0 +1,27 @@
+<md-toolbar color="primary">
+    <button md-icon-button (click)="start.toggle()">
+        <md-icon>menu</md-icon>
+    </button>
+	&nbsp;
+	&nbsp;
+    <span>Itineraris</span>
+</md-toolbar>
+
+<md-sidenav-layout class="left-navigation">
+    <md-sidenav #start mode="side" opened="false">
+		<md-nav-list>
+			<md-list-item>
+				<md-icon md-list-avatar aria-label="Créer un itinéraire">add</md-icon>
+				<a md-line href="javascript: void(0);" (click)="openDialog()">Créer un itinéraire</a>
+			</md-list-item>
+			<md-list-item>
+				<md-icon md-list-avatar aria-label="Voir les itinéraires">remove_red_eye</md-icon>
+				<a md-line href="#">Voir les itinéraires</a>
+			</md-list-item>
+     	</md-nav-list>
+    </md-sidenav>
+
+    <div class="dashboard-home-content">
+        <h1 class="big-title">Bienvenue sur votre Dashboard.<br/><br/>Vous pouvez ici créer vos itinéraires de voyage !</h1>
+    </div>
+</md-sidenav-layout>

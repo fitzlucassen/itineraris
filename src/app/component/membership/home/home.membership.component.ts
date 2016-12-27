@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
 import { User } from '../../../model/user';
 import { UserService } from '../../../service/user.service';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 @Component({
 	selector: 'app-membership-home',
@@ -12,21 +13,35 @@ import { UserService } from '../../../service/user.service';
 export class HomeMembershipComponent implements OnInit {
 	newUser: User = new User();
 
-	constructor(private userService: UserService, private router: Router) { }
+	pseudo: FormControl;
+	password: FormControl;
+	form: FormGroup;
+
+	constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {
+		this.pseudo = new FormControl('', [Validators.required, Validators.minLength(3)]);
+		this.password = new FormControl('', [Validators.required, Validators.minLength(3)]);
+
+		this.form = this.fb.group({
+			pseudo: this.pseudo,
+			password: this.password,
+		});
+	}
 
 	ngOnInit() {
 	}
 
-	signIn() {
-		var ok = this.userService.signin(this.newUser.email, this.newUser.password);
-		if (ok)
-			alert('Ok');
-		else
-			alert('Ko');
+	signin() {
+		if (this.form.dirty && this.form.valid) {
+			var ok = this.userService.signin(this.newUser.email, this.newUser.password);
+			if (ok)
+				this.router.navigate(['account/dashboard']);
+			else
+				alert('Désolé mais aucun compte n\'existe avec les identifiants suivants');
+		}
 	}
 
-	goToSignup(){
-		this.router.navigate(['signup']);
+	goToSignup() {
+		this.router.navigate(['membership/signup']);
 		return false;
 	}
 }

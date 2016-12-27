@@ -1,9 +1,10 @@
 @import '~@angular/material/core/theming/prebuilt/indigo-pink.css';
 /* You can add global styles to this file, and also import other style files */
-html,body{
+html,body, app-user-dashboard{
     height: 100%;
     width: 100%;
     margin: 0;
+	display: block;
 }
 .clear{
     clear: both;

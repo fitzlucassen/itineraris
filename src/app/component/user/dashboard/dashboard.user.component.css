@@ -1,0 +1,20 @@
+md-sidenav-layout{
+    margin: 0;
+    height: 100%;
+
+    background: transparent;
+}
+md-sidenav{
+    width: 300px;
+}
+h1.big-title{
+	font-family: roboto;
+	font-weight: normal;
+	font-size: 40px;
+    text-align: center;
+	margin-top: 15%;
+}
+    md-icon{
+        width: initial !important;
+        height: initial !important;
+    }

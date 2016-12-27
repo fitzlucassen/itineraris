@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
 import { User } from '../../../model/user';
 import { UserService } from '../../../service/user.service';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 @Component({
 	selector: 'app-membership-signup',
@@ -11,43 +12,33 @@ import { UserService } from '../../../service/user.service';
 })
 export class SignupMembershipComponent implements OnInit {
 	newUser: User = new User();
-	pseudoError: string = null;
-	emailError: string = null;
-	passwordError: string = null;
+	
+	pseudo: FormControl;
+	email: FormControl;
+	password: FormControl;
+	form: FormGroup;
 
-	constructor(private userService: UserService, private router: Router) { }
+	constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {
+		this.pseudo = new FormControl('', [Validators.required, Validators.minLength(3)]);
+		this.email = new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}')]);
+		this.password = new FormControl('', [Validators.required, Validators.minLength(3)]);
+
+		this.form = this.fb.group({
+			pseudo: this.pseudo,
+			email: this.email,
+			password: this.password,
+		});
+	 }
 
 	ngOnInit() {
 	}
 
-	signup() {
-		if (!this.checkSignup())
-			return false;
-		else {
+	signup($event) {
+		if (this.form.dirty && this.form.valid){
 			this.userService.signup(this.newUser);
 			this.newUser = new User();
-			this.router.navigate(['/']);
-			return false;
+			this.router.navigate(['membership']);
 		}
-	}
-
-	private checkSignup():boolean {
-		if (this.newUser.pseudo == null || this.newUser.pseudo.length == 0)
-			this.pseudoError = "Champs recquis";
-		else
-			this.pseudoError = null;
-		if (this.newUser.email == null || this.newUser.email.length == 0)
-			this.emailError = "Champs recquis";
-		else
-			this.emailError = null;
-		if (this.newUser.password == null || this.newUser.password.length == 0)
-			this.passwordError = "Champs recquis";
-		else
-			this.passwordError = null;
-
-		if (this.pseudoError != null || this.emailError != null || this.passwordError != null)
-			return false;
-		else
-			return true;
+		return false;
 	}
 }

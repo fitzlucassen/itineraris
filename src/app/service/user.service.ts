@@ -5,6 +5,12 @@ import { User } from '../model/user';
 export class UserService {
 	constructor() { }
 
+	isSignedin(): boolean{
+		let c = localStorage.getItem('current_user');
+		console.log(c);
+		return c != "" && c != null; 
+	}
+
 	signup(user: User): UserService {
 		var items = JSON.parse(localStorage.getItem('users'));
 		
