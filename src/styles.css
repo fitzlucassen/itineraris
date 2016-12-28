@@ -28,6 +28,7 @@ app-root .tempDiv{
 .md-overlay-pane{
     width: 600px;
 }
-.md-input-placeholder{
+
+.md-toolbar-tools .md-input-placeholder{
 	color: white !important;
 }
