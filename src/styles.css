@@ -24,3 +24,10 @@ app-root .tempDiv{
 	background: white;
 	text-align: center;
 }
+
+.md-overlay-pane{
+    width: 600px;
+}
+.md-input-placeholder{
+	color: white !important;
+}

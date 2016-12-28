@@ -1,0 +1,21 @@
+<div class="md-padding">
+	<form name="userForm" [formGroup]="form" (ngSubmit)="registerItinerary($event)">
+		<div layout layout-sm="column">
+			<md-input class="big-form" placeholder="Nom de l'itinéraire" formControlName="name" [(ngModel)]="newItinerary.name" required flex>
+				<md-hint *ngIf="!name.untouched && !name.valid && name.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">nom requis</md-hint>
+				<md-hint *ngIf="!name.untouched && !name.valid && name.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">3 caractères minimum</md-hint>
+			</md-input>
+			<md-input class="big-form" placeholder="Pays principal" formControlName="country" [(ngModel)]="newItinerary.country" required flex>
+				<md-hint *ngIf="!country.untouched && !country.valid && country.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">pays requis</md-hint>
+			</md-input>
+		</div>
+		<md-textarea class="big-form" placeholder="Description du voyage" formControlName="description" [(ngModel)]="newItinerary.description" required flex>
+			<md-hint *ngIf="!description.untouched && !description.valid && description.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">description requise</md-hint>
+			<md-hint *ngIf="!description.untouched && !description.valid && description.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">3 caractères minimum</md-hint>
+		</md-textarea>
+		<br/>
+		<br/>
+		<button md-raised-button>VALIDER</button>
+	</form>
+</div>
+

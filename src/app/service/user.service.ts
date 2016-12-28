@@ -11,6 +11,11 @@ export class UserService {
 		return c != "" && c != null; 
 	}
 
+	getCurrentUser():User{
+		let c = localStorage.getItem('current_user');
+		return JSON.parse(c);
+	}
+
 	signup(user: User): UserService {
 		var items = JSON.parse(localStorage.getItem('users'));
 		

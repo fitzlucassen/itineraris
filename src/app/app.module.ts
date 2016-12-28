@@ -14,6 +14,7 @@ import { DashboardUserComponent } from './component/user/dashboard/dashboard.use
 
 import { UserService } from './service/user.service';
 import { AuthGuard } from './auth-guard';
+import { ItineraryDialogComponent } from './component/user/itinerary-dialog/itinerary-dialog.component';
 
 const appRoutes: Routes = [
 	{
@@ -45,7 +46,11 @@ const appRoutes: Routes = [
 		AppComponent,
 		HomeMembershipComponent,
 		SignupMembershipComponent,
-		DashboardUserComponent
+		DashboardUserComponent,
+		ItineraryDialogComponent
+	],
+	entryComponents: [
+		ItineraryDialogComponent
 	],
 	imports: [
 		BrowserModule,
