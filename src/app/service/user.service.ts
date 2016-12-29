@@ -7,7 +7,6 @@ export class UserService {
 
 	isSignedin(): boolean{
 		let c = localStorage.getItem('current_user');
-		console.log(c);
 		return c != "" && c != null; 
 	}
 

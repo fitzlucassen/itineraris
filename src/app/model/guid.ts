@@ -1,12 +1,8 @@
 export class Guid {
-    private str: string;
+    public str: string;
 
     constructor(str?: string) {
         this.str = str || Guid.getNewGUIDString();
-    }
-
-    toString() {
-        return this.str;
     }
 
     private static getNewGUIDString() {

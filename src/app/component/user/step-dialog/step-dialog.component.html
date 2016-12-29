@@ -1,0 +1,21 @@
+<div class="md-padding">
+	<form name="userForm" [formGroup]="form" (ngSubmit)="registerStep($event)">
+		<div layout layout-sm="column">
+			<md-input class="big-form" placeholder="Ville de l'étape'" formControlName="city" [(ngModel)]="newStep.city" required flex>
+				<md-hint *ngIf="!city.untouched && !city.valid && city.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">ville requise</md-hint>
+				<md-hint *ngIf="!city.untouched && !city.valid && city.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">2 caractères minimum</md-hint>
+			</md-input>
+			<md-input class="big-form" placeholder="Date de l'étape'" formControlName="date" [(ngModel)]="newStep.date" required flex>
+				<md-hint *ngIf="!date.untouched && !date.valid && date.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">date requise</md-hint>
+			</md-input>
+		</div>
+		<md-textarea class="big-form" placeholder="Description de l'étape'" formControlName="description" [(ngModel)]="newStep.description" required flex>
+			<md-hint *ngIf="!description.untouched && !description.valid && description.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">description requise</md-hint>
+			<md-hint *ngIf="!description.untouched && !description.valid && description.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">3 caractères minimum</md-hint>
+		</md-textarea>
+		<br/>
+		<br/>
+		<button md-raised-button>VALIDER</button>
+	</form>
+</div>
+
