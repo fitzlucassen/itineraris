@@ -13,13 +13,14 @@ import { MdSnackBar } from '@angular/material';
 })
 export class ItineraryDialogComponent implements OnInit {
 	newItinerary: Itinerary = new Itinerary();
+	isUpdate: boolean = false;
 
 	name: FormControl;
 	country: FormControl;
 	description: FormControl;
 	form: FormGroup;
 
-	constructor(public snackBar: MdSnackBar, private fb: FormBuilder, public dialogRef: MdDialogRef<ItineraryDialogComponent>, private itineraryService:ItineraryService) {
+	constructor(public snackBar: MdSnackBar, private fb: FormBuilder, public dialogRef: MdDialogRef<ItineraryDialogComponent>, private itineraryService: ItineraryService) {
 		this.name = new FormControl('', [Validators.required, Validators.minLength(3)]);
 		this.country = new FormControl('', [Validators.required]);
 		this.description = new FormControl('', [Validators.required, Validators.minLength(3)]);
@@ -38,14 +39,23 @@ export class ItineraryDialogComponent implements OnInit {
 		this.snackBar.open('Félicitation votre itinéraire a bien été créé', 'Ok');
 	}
 
+	successfullyUpdated() {
+		this.snackBar.open('Félicitation votre itinéraire a bien été modifié', 'Ok');
+	}
+
 	registerItinerary() {
 		if (this.form.dirty && this.form.valid) {
-			this.itineraryService.create(this.newItinerary);
-
-			this.successfullyCreated();
+			if (this.isUpdate) {
+				this.itineraryService.update(this.newItinerary);
+				this.successfullyUpdated();
+			}
+			else {
+				this.itineraryService.create(this.newItinerary);
+				this.successfullyCreated();
+			}
 
 			var that = this;
-			setTimeout(function(){
+			setTimeout(function () {
 				that.newItinerary = new Itinerary();
 				that.dialogRef.close();
 			}, 500);

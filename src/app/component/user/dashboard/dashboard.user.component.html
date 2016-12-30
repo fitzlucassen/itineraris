@@ -50,7 +50,12 @@
 					<md-icon md-list-avatar aria-label="{{itinerary.name}}">airplanemode_active</md-icon>
 					<a md-line href="javascript: void(0);" (click)="goToItinerary(itinerary.name, itinerary.id)"><b>{{itinerary.name}}</b></a>
 					<a md-line href="javascript: void(0);" (click)="goToItinerary(itinerary.name, itinerary.id)">{{itinerary.description}}</a>
-					<md-divider></md-divider>
+
+					<div>
+						<md-icon class="little-icon" (click)="editItinerary(itinerary.id)">mode_edit</md-icon>
+						<br/>
+						<md-icon class="little-icon" (click)="removeItinerary(itinerary.id)">delete</md-icon>
+					</div>
 				</md-list-item>
 			</md-nav-list>
 		</md-sidenav>

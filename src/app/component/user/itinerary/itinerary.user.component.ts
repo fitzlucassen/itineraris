@@ -20,15 +20,15 @@ export class ItineraryUserComponent implements OnInit {
 	currentUser: User;
 	dialogRef: MdDialogRef<StepDialogComponent>;
 	itinerarySteps: Array<ItineraryStep>;
-	showSearch:boolean;
-	search:string;
+	showSearch: boolean;
+	search: string;
 
-	constructor(public itineraryDialog: MdDialog, public route: ActivatedRoute, private itineraryService: ItineraryService, private userService: UserService) {
+	constructor(public itineraryDialog: MdDialog, public route: ActivatedRoute, private itineraryService: ItineraryService, private userService: UserService, private router: Router) {
 		this.currentUser = userService.getCurrentUser();
 		this.showSearch = false;
 	}
 
-	toggleSearch(){
+	toggleSearch() {
 		this.showSearch = !this.showSearch;
 	}
 
@@ -40,8 +40,32 @@ export class ItineraryUserComponent implements OnInit {
 
 		var that = this;
 		return this.dialogRef.afterClosed().subscribe(function () {
-			that.itinerarySteps = that.itineraryService.getItinerarySteps(that.currentItinerary);
+			that.itinerarySteps = that.itineraryService.getItinerarySteps(that.currentItinerary.id);
 		});
+	}
+
+	editStep(id: Guid) {
+		this.dialogRef = this.itineraryDialog.open(StepDialogComponent, {
+			disableClose: false,
+		});
+		this.dialogRef.componentInstance.newStep = this.itineraryService.getStepById(id);
+		this.dialogRef.componentInstance.isUpdate = true;
+
+		var that = this;
+		return this.dialogRef.afterClosed().subscribe(function () {
+			that.itinerarySteps = that.itineraryService.getItinerarySteps(that.currentItinerary.id);
+		});
+	}
+
+	removeStep(id: Guid) {
+		if (confirm('Êtes-vous sur de vouloir supprimer cette étape ?')) {
+			this.itineraryService.deleteStep(id);
+			this.itinerarySteps = this.itineraryService.getItinerarySteps(this.currentItinerary.id);
+		}
+	}
+
+	goToDashboard() {
+		this.router.navigate(['compte/tableau-de-bord.html']);
 	}
 
 	ngOnInit() {
@@ -50,7 +74,7 @@ export class ItineraryUserComponent implements OnInit {
 			let id = params['id'];
 			let name = params['name'];
 			this.currentItinerary = this.itineraryService.getItineraryById(this.currentUser, id);
-			this.itinerarySteps = this.itineraryService.getItinerarySteps(this.currentItinerary);
+			this.itinerarySteps = this.itineraryService.getItinerarySteps(this.currentItinerary.id);
 		});
 	}
 }

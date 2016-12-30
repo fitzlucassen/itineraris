@@ -12,6 +12,7 @@ import { MdSnackBar } from '@angular/material';
 })
 export class StepDialogComponent implements OnInit {
 	newStep: ItineraryStep = new ItineraryStep();
+	isUpdate: boolean = false;
 
 	city: FormControl;
 	date: FormControl;
@@ -37,14 +38,23 @@ export class StepDialogComponent implements OnInit {
 		this.snackBar.open('Félicitation votre étape a bien été créée', 'Ok');
 	}
 
+	successfullyUpdated() {
+		this.snackBar.open('Félicitation votre étape a bien été modifiée', 'Ok');
+	}
+
 	registerStep() {
 		if (this.form.dirty && this.form.valid) {
-			this.itineraryService.createStep(this.newStep);
-
-			this.successfullyCreated();
+			if (this.isUpdate) {
+				this.itineraryService.updateStep(this.newStep);
+				this.successfullyUpdated();
+			}
+			else {
+				this.itineraryService.createStep(this.newStep);
+				this.successfullyCreated();
+			}
 
 			var that = this;
-			setTimeout(function(){
+			setTimeout(function () {
 				that.newStep = new ItineraryStep();
 				that.dialogRef.close();
 			}, 500);

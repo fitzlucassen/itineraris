@@ -40,6 +40,26 @@ export class DashboardUserComponent implements OnInit {
 		});
 	}
 
+	editItinerary(id:Guid){
+		this.dialogRef = this.itineraryDialog.open(ItineraryDialogComponent, {
+			disableClose: false,
+		});
+		this.dialogRef.componentInstance.newItinerary = this.itineraryService.getItineraryById(this.currentUser, id.str);
+		this.dialogRef.componentInstance.isUpdate = true;
+
+		var that = this;
+		return this.dialogRef.afterClosed().subscribe(function () {
+			that.itineraries = that.itineraryService.getUserItineraries(that.currentUser);
+		});
+	}
+
+	removeItinerary(id:Guid){
+		if(confirm('Êtes-vous sur de vouloir supprimer cet itinéraire ?')){
+			this.itineraryService.delete(id);
+			this.itineraries = this.itineraryService.getUserItineraries(this.currentUser);
+		}
+	}
+
 	toggleSearch(){
 		this.showSearch = !this.showSearch;
 	}
