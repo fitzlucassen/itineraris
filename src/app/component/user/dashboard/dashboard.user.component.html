@@ -40,7 +40,7 @@
 					<md-input md-theme="input" *ngIf="showSearch" placeholder="nom de l'itinéraire">
 					</md-input>
 					<span flex *ngIf="!showSearch"></span>
-					
+
 					<md-icon *ngIf="!showSearch" aria-label="Search" (click)="toggleSearch()">search</md-icon>
 					<md-icon *ngIf="showSearch" aria-label="Back" (click)="toggleSearch()">arrow_back</md-icon>
 				</div>
@@ -54,11 +54,9 @@
 				</md-list-item>
 			</md-nav-list>
 		</md-sidenav>
+
+		<div class="dashboard-home-content">
+			<h1 class="big-title">Bienvenue sur votre Dashboard.<br/><br/>Vous pouvez ici créer vos itinéraires de voyage !</h1>
+		</div>
 	</md-sidenav-layout>
-
-	<div class="dashboard-home-content">
-		<h1 class="big-title">Bienvenue sur votre Dashboard.<br/><br/>Vous pouvez ici créer vos itinéraires de voyage !</h1>
-
-		<!--<itinerary-dialog></itinerary-dialog>-->
-	</div>
 </md-sidenav-layout>
