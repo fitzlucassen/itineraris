@@ -34,14 +34,14 @@ export class HomeMembershipComponent implements OnInit {
 		if (this.form.dirty && this.form.valid) {
 			var ok = this.userService.signin(this.newUser.email, this.newUser.password);
 			if (ok)
-				this.router.navigate(['account/dashboard']);
+				this.router.navigate(['compte/tableau-de-bord.html']);
 			else
 				alert('Désolé mais aucun compte n\'existe avec les identifiants suivants');
 		}
 	}
 
 	goToSignup() {
-		this.router.navigate(['membership/signup']);
+		this.router.navigate(['compte/inscription.html']);
 		return false;
 	}
 }

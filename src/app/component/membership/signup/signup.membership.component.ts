@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, CanActivate } from '@angular/router';
+import { Router } from '@angular/router';
 import { User } from '../../../model/user';
 import { UserService } from '../../../service/user.service';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
@@ -47,7 +47,7 @@ export class SignupMembershipComponent implements OnInit {
 			var that = this;
 			setTimeout(function(){
 				that.newUser = new User();
-				that.router.navigate(['membership']);
+				that.router.navigate(['compte/connexion.html']);
 			}, 500);
 		}
 		return false;

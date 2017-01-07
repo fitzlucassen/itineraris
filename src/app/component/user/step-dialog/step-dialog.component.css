@@ -1,0 +1,9 @@
+md-input{
+    width: 49% !important;
+}
+md-textarea{
+    width: 100%;
+}
+[md-raised-button]{
+    float: right;
+}

@@ -15,30 +15,42 @@ import { DashboardUserComponent } from './component/user/dashboard/dashboard.use
 import { UserService } from './service/user.service';
 import { AuthGuard } from './auth-guard';
 import { ItineraryDialogComponent } from './component/user/itinerary-dialog/itinerary-dialog.component';
+import { SearchPipe } from './pipe/search.pipe';
+import { ItineraryUserComponent } from './component/user/itinerary/itinerary.user.component';
+import { StepDialogComponent } from './component/user/step-dialog/step-dialog.component';
+import { SearchStepPipe } from './pipe/search-step.pipe';
 
 const appRoutes: Routes = [
 	{
-		path: 'membership',
+		path: 'compte/connexion.html',
 		component: HomeMembershipComponent,
 		data: {
 			title: 'Itineraris - Connexion'
 		}
 	},
 	{
-		path: 'membership/signup',
+		path: 'compte/inscription.html',
 		component: SignupMembershipComponent,
 		data: {
 			title: 'Itineraris - Inscription'
 		}
 	},
 	{
-		path: 'account/dashboard',
+		path: 'compte/tableau-de-bord.html',
 		component: DashboardUserComponent,
 		canActivate: [AuthGuard],
 		data: {
 			title: 'Itineraris - Dashboard'
 		}
 	},
+	{
+		path: 'compte/itinéraire/:id/:name',
+		component: ItineraryUserComponent,
+		canActivate: [AuthGuard],
+		data: {
+			title: 'Itineraris - Itinéraire'
+		}
+	}
 ];
 
 @NgModule({
@@ -47,10 +59,15 @@ const appRoutes: Routes = [
 		HomeMembershipComponent,
 		SignupMembershipComponent,
 		DashboardUserComponent,
-		ItineraryDialogComponent
+		ItineraryDialogComponent,
+		SearchPipe,
+		ItineraryUserComponent,
+		StepDialogComponent,
+		SearchStepPipe
 	],
 	entryComponents: [
-		ItineraryDialogComponent
+		ItineraryDialogComponent,
+		StepDialogComponent
 	],
 	imports: [
 		BrowserModule,
