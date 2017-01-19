@@ -19,6 +19,7 @@ import { SearchPipe } from './pipe/search.pipe';
 import { ItineraryUserComponent } from './component/user/itinerary/itinerary.user.component';
 import { StepDialogComponent } from './component/user/step-dialog/step-dialog.component';
 import { SearchStepPipe } from './pipe/search-step.pipe';
+import { HomeComponent } from './component/home/home/home.component';
 
 const appRoutes: Routes = [
 	{
@@ -50,6 +51,13 @@ const appRoutes: Routes = [
 		data: {
 			title: 'Itineraris - Itinéraire'
 		}
+	},
+	{
+		path: '',
+		component: HomeComponent,
+		data: {
+			title: 'Itineraris'
+		}
 	}
 ];
 
@@ -63,7 +71,8 @@ const appRoutes: Routes = [
 		SearchPipe,
 		ItineraryUserComponent,
 		StepDialogComponent,
-		SearchStepPipe
+		SearchStepPipe,
+		HomeComponent
 	],
 	entryComponents: [
 		ItineraryDialogComponent,
