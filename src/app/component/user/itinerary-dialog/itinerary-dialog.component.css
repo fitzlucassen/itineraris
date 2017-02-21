@@ -1,7 +1,7 @@
-md-input{
+md-input-container{
     width: 49% !important;
 }
-md-textarea{
+textarea{
     width: 100%;
 }
 [md-raised-button]{

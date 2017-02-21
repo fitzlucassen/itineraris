@@ -2,21 +2,24 @@
 	<h1 class="big-title">Entrez vos informations d'identification afin de créer un compte</h1>
 
 	<form [formGroup]="form" (ngSubmit)="signup($event)">
-		<md-input class="big-form" placeholder="Pseudo" required formControlName="pseudo" [(ngModel)]="newUser.pseudo">
+		<md-input-container >
+			<input mdInput class="big-form" placeholder="Pseudo" required formControlName="pseudo" [(ngModel)]="newUser.pseudo"/>
 			<md-hint *ngIf="!pseudo.untouched && !pseudo.valid && pseudo.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">pseudo requis</md-hint>
 			<md-hint *ngIf="!pseudo.untouched && !pseudo.valid && pseudo.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">3 caractères minimum</md-hint>
-		</md-input>
+		</md-input-container>
 
 		<br/>
-		<md-input class="big-form" placeholder="E-mail" required type="email" formControlName="email" [(ngModel)]="newUser.email">
+		<md-input-container >
+			<input mdInput class="big-form" placeholder="E-mail" required type="email" formControlName="email" [(ngModel)]="newUser.email"/>
 			<md-hint *ngIf="!email.untouched && !email.valid && email.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">e-mail requis</md-hint>
 			<md-hint *ngIf="!email.untouched && !email.valid && email.errors.pattern" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">email must be like aaa@yyy.zzz</md-hint>
-		</md-input>
+		</md-input-container>
 		<br/>
-		<md-input class="big-form" placeholder="Mot de passe" required type="password" formControlName="password" [(ngModel)]="newUser.password">
+		<md-input-container >
+			<input mdInput class="big-form" placeholder="Mot de passe" required type="password" formControlName="password" [(ngModel)]="newUser.password"/>
 			<md-hint *ngIf="!password.untouched && !password.valid && password.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">mot de passe requis</md-hint>
 			<md-hint *ngIf="!password.untouched && !password.valid && password.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">3 caractères minimum</md-hint>
-		</md-input>
+		</md-input-container>
 		<br/>
 		<button md-mini-fab><md-icon>check</md-icon></button>
 	</form>

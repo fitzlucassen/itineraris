@@ -5,7 +5,7 @@
 	<span>Itineraris - Itinéraire</span>
 </md-toolbar>
 
-<md-sidenav-layout class="left-navigation">
+<md-sidenav-container class="left-navigation">
 	<md-sidenav #start mode="side" opened="false">
 		<div class="myself">
 			<span flex=""></span>
@@ -36,15 +36,16 @@
 		</md-nav-list>
 	</md-sidenav>
 
-	<md-sidenav-layout class="left-navigation">
+	<md-sidenav-container class="left-navigation">
 		<md-sidenav #next mode="side" opened="false" layout="column" layout-fill class="md-sidenav-left md-sidenav-list" md-component-id="nav">
 			<md-toolbar class="md-whiteframe-z1" ng-class="{'md-hue-1':showSearch}">
 				<div class="md-toolbar-tools">
 					<h3 *ngIf="!showSearch">
 						Vos étapes
 					</h3>
-					<md-input md-theme="input" *ngIf="showSearch" [(ngModel)]="search" placeholder="ville de l'étape">
-					</md-input>
+					<md-input-container *ngIf="showSearch">
+						<input mdInput md-theme="input" [(ngModel)]="search" placeholder="ville de l'étape"/>
+					</md-input-container>
 					<span flex *ngIf="!showSearch"></span>
 
 					<md-icon *ngIf="!showSearch" aria-label="Search" (click)="toggleSearch()">search</md-icon>
@@ -68,5 +69,5 @@
 		<div class="dashboard-home-content">
 			<h1 class="big-title">Gérer votre itinéraire.<br/><br/>Vous pouvez ici gérer les différentes étapes de votre itinéraire !</h1>
 		</div>
-	</md-sidenav-layout>
-</md-sidenav-layout>
+	</md-sidenav-container>
+</md-sidenav-container>
