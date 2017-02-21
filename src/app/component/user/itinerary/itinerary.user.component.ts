@@ -22,10 +22,12 @@ export class ItineraryUserComponent implements OnInit {
 	itinerarySteps: Array<ItineraryStep>;
 	showSearch: boolean;
 	search: string;
+	screenHeight: number;
 
 	constructor(public itineraryDialog: MdDialog, public route: ActivatedRoute, private itineraryService: ItineraryService, private userService: UserService, private router: Router) {
 		this.currentUser = userService.getCurrentUser();
 		this.showSearch = false;
+		this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
 	}
 
 	toggleSearch() {

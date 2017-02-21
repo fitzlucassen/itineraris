@@ -7,7 +7,7 @@
 				<md-hint *ngIf="!city.untouched && !city.valid && city.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">2 caractères minimum</md-hint>
 			</md-input-container>
 			<md-input-container>
-				<input mdInput class="big-form" placeholder="Date de l'étape" formControlName="date" [(ngModel)]="newStep.date" required flex/>
+				<input mdInput type="date" class="big-form" placeholder="Date de l'étape" formControlName="date" [(ngModel)]="newStep.date" required flex/>
 				<md-hint *ngIf="!date.untouched && !date.valid && date.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">date requise</md-hint>
 			</md-input-container>
 		</div>

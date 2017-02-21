@@ -5,7 +5,7 @@
 	<span>Itineraris - Itinéraire</span>
 </md-toolbar>
 
-<md-sidenav-container class="left-navigation">
+<md-sidenav-container class="left-navigation" [ngStyle]="{'height': screenHeight + 'px'}">
 	<md-sidenav #start mode="side" opened="false">
 		<div class="myself">
 			<span flex=""></span>
@@ -36,7 +36,7 @@
 		</md-nav-list>
 	</md-sidenav>
 
-	<md-sidenav-container class="left-navigation">
+	<md-sidenav-container class="left-navigation" [ngStyle]="{'height': screenHeight + 'px'}">
 		<md-sidenav #next mode="side" opened="false" layout="column" layout-fill class="md-sidenav-left md-sidenav-list" md-component-id="nav">
 			<md-toolbar class="md-whiteframe-z1" ng-class="{'md-hue-1':showSearch}">
 				<div class="md-toolbar-tools">
