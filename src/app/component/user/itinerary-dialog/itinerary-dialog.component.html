@@ -2,12 +2,12 @@
 	<form name="userForm" [formGroup]="form" (ngSubmit)="registerItinerary($event)">
 		<div layout layout-sm="column">
 			<md-input-container flex>
-				<input mdInput class="big-form" placeholder="Nom de l'itinéraire" formControlName="name" [(ngModel)]="newItinerary.name" required />
+				<input mdInput class="big-form" placeholder="Nom de l'itinéraire" formControlName="name" [(ngModel)]="newItinerary.name" required/>
 				<md-hint *ngIf="!name.untouched && !name.valid && name.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">nom requis</md-hint>
 				<md-hint *ngIf="!name.untouched && !name.valid && name.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">3 caractères minimum</md-hint>
 			</md-input-container>
 			<md-input-container flex>
-				<input mdInput class="big-form" placeholder="Pays principal" formControlName="country" [(ngModel)]="newItinerary.country" required />
+				<input mdInput #search class="big-form" placeholder="Pays principal" formControlName="country" [(ngModel)]="newItinerary.country" required autocorrect="off" autocapitalize="off" spellcheck="off" class="form-control"/>
 				<md-hint *ngIf="!country.untouched && !country.valid && country.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">pays requis</md-hint>
 			</md-input-container>
 		</div>

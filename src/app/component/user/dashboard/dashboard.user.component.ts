@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { UserService } from '../../../service/user.service';
 import { ItineraryService } from '../../../service/itinerary.service';
 import { User } from '../../../model/user';
@@ -69,5 +69,6 @@ export class DashboardUserComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		this.container._element.nativeElement.setAttribute('style', 'height:' + (screen.height - 194) + 'px');
 	}
 }

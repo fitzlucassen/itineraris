@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@angular/compiler-cli": "^2.1.0",
+    "@types/googlemaps": "^3.26.1",
     "@types/jasmine": "2.5.38",
     "@types/node": "^6.0.42",
     "angular-cli": "1.0.0-beta.20-4",

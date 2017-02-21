@@ -84,7 +84,8 @@ const appRoutes: Routes = [
 		FormsModule,
 		HttpModule,
 		AgmCoreModule.forRoot({
-			apiKey: 'AIzaSyDR6MQEKvMFKiYTS0uZZTA-YIKe2yRcfng'
+			apiKey: 'AIzaSyDR6MQEKvMFKiYTS0uZZTA-YIKe2yRcfng',
+			libraries: ["places"]
 		}),
 		MaterialModule.forRoot(),
 		RouterModule.forRoot(appRoutes)

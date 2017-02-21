@@ -2,7 +2,7 @@
 	<form name="userForm" [formGroup]="form" (ngSubmit)="registerStep($event)">
 		<div layout layout-sm="column">
 			<md-input-container>
-				<input mdInput class="big-form" placeholder="Ville de l'étape" formControlName="city" [(ngModel)]="newStep.city" required flex/>
+				<input mdInput class="big-form" placeholder="Ville de l'étape" formControlName="city" [(ngModel)]="newStep.city" required flex autocorrect="off" autocapitalize="off" spellcheck="off" class="form-control" #search />
 				<md-hint *ngIf="!city.untouched && !city.valid && city.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">ville requise</md-hint>
 				<md-hint *ngIf="!city.untouched && !city.valid && city.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">2 caractères minimum</md-hint>
 			</md-input-container>

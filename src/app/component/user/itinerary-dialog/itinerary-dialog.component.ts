@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { MdDialog, MdDialogRef, MaterialModule } from '@angular/material';
 import { Itinerary } from '../../../model/itinerary';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ItineraryService } from '../../../service/itinerary.service';
 import { MdSnackBar } from '@angular/material';
+import { MapsAPILoader } from 'angular2-google-maps/core';
 
 @Component({
 	selector: 'itinerary-dialog',
@@ -15,12 +16,22 @@ export class ItineraryDialogComponent implements OnInit {
 	newItinerary: Itinerary = new Itinerary();
 	isUpdate: boolean = false;
 
+	@ViewChild("search")
+  	public searchElementRef: ElementRef;
+
 	name: FormControl;
 	country: FormControl;
 	description: FormControl;
 	form: FormGroup;
 
-	constructor(public snackBar: MdSnackBar, private fb: FormBuilder, public dialogRef: MdDialogRef<ItineraryDialogComponent>, private itineraryService: ItineraryService) {
+	constructor(		
+		private mapsAPILoader: MapsAPILoader, 
+		private ngZone: NgZone,
+		public snackBar: MdSnackBar, 
+		private fb: FormBuilder, 
+		public dialogRef: MdDialogRef<ItineraryDialogComponent>, 
+		private itineraryService: ItineraryService) 
+	{
 		this.name = new FormControl('', [Validators.required, Validators.minLength(3)]);
 		this.country = new FormControl('', [Validators.required]);
 		this.description = new FormControl('', [Validators.required, Validators.minLength(3)]);
@@ -33,6 +44,22 @@ export class ItineraryDialogComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		this.mapsAPILoader.load().then(() => {
+			let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+				types: ["geocode"]
+			});
+			autocomplete.addListener("place_changed", () => {
+				this.ngZone.run(() => {
+					//get the place result
+					let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+
+					//verify result
+					if (place.geometry === undefined || place.geometry === null) {
+						return;
+					}
+				});
+			});
+		});
 	}
 
 	successfullyCreated() {

@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { MdDialog, MdDialogRef, MaterialModule } from '@angular/material';
 import { ItineraryStep } from '../../../model/itinerary-step';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ItineraryService } from '../../../service/itinerary.service';
 import { MdSnackBar } from '@angular/material';
+import { MapsAPILoader } from 'angular2-google-maps/core';
 
 @Component({
 	selector: 'step-dialog',
@@ -14,12 +15,22 @@ export class StepDialogComponent implements OnInit {
 	newStep: ItineraryStep = new ItineraryStep();
 	isUpdate: boolean = false;
 
+	@ViewChild("search")
+  	public searchElementRef: ElementRef;
+
 	city: FormControl;
 	date: FormControl;
 	description: FormControl;
 	form: FormGroup;
 
-	constructor(public snackBar: MdSnackBar, private fb: FormBuilder, public dialogRef: MdDialogRef<StepDialogComponent>, private itineraryService: ItineraryService) {
+	constructor(
+		private mapsAPILoader: MapsAPILoader, 
+		private ngZone: NgZone,
+		public snackBar: MdSnackBar, 
+		private fb: FormBuilder, 
+		public dialogRef: MdDialogRef<StepDialogComponent>, 
+		private itineraryService: ItineraryService) 
+	{
 		this.city = new FormControl('', [Validators.required, Validators.minLength(2)]);
 		this.date = new FormControl('', [Validators.required]);
 		this.description = new FormControl('', [Validators.required, Validators.minLength(3)]);
@@ -32,6 +43,22 @@ export class StepDialogComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		this.mapsAPILoader.load().then(() => {
+			let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+				types: ["address"]
+			});
+			autocomplete.addListener("place_changed", () => {
+				this.ngZone.run(() => {
+					//get the place result
+					let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+
+					//verify result
+					if (place.geometry === undefined || place.geometry === null) {
+						return;
+					}
+				});
+			});
+		});
 	}
 
 	successfullyCreated() {
