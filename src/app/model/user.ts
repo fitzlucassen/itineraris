@@ -1,13 +1,11 @@
-import { Guid } from './Guid';
-
 export class User {
-    id: Guid;
-    pseudo: string;
+    id: number;
+    name: string;
     email: string;
     password: string;
+    date: string;
 
     constructor(values: Object = {}) {
-        this.id = new Guid();
         (<any>Object).assign(this, values);
     }
 }

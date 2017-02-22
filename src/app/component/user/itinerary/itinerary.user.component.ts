@@ -70,6 +70,10 @@ export class ItineraryUserComponent implements OnInit {
 		this.router.navigate(['compte/tableau-de-bord.html']);
 	}
 
+	signout(){
+		this.userService.signout(this.currentUser);
+	}
+
 	ngOnInit() {
 		this.route.params.subscribe(params => {
 			// Récupération des valeurs de l'URL

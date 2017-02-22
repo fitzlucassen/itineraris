@@ -70,6 +70,10 @@ export class DashboardUserComponent implements OnInit {
 		this.router.navigate(['compte/itinéraire/', id.str, encodeURI(name.toLocaleLowerCase().replace(' ', '-'))])
 	}
 
+	signout(){
+		this.userService.signout(this.currentUser);
+	}
+
 	ngOnInit() {
 	}
 }

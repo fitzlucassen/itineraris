@@ -2,7 +2,7 @@ import { Guid } from './Guid';
 
 export class Itinerary {
     id: Guid;
-    userId: Guid;
+    userId: number;
     name: string;
     country: string;
     description: string;

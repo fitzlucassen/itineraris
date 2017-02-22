@@ -133,7 +133,7 @@ export class ItineraryService {
 		var items: Array<Itinerary> = JSON.parse(localStorage.getItem('itineraries'));
 
 		if (items != null && items.length > 0) {
-			return items.filter(i => i.userId.str == user.id.str);
+			return items.filter(i => i.userId == user.id);
 		}
 
 		return null;

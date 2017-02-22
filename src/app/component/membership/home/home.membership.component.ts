@@ -10,14 +10,12 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 	styleUrls: ['./home.membership.component.css'],
 	providers: [UserService]
 })
-export class HomeMembershipComponent implements OnChanges {
+export class HomeMembershipComponent implements OnInit {
 	newUser: User = new User();
 
 	pseudo: FormControl;
 	password: FormControl;
 	form: FormGroup;
-
-	@Input() toRedirect: boolean;
 
 	constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {
 		this.pseudo = new FormControl('', [Validators.required, Validators.minLength(3)]);
@@ -29,8 +27,8 @@ export class HomeMembershipComponent implements OnChanges {
 		});
 	}
 
-	ngOnChanges(changes) {
-		this.router.navigate(['compte/tableau-de-bord.html'])
+	ngOnInit(){
+
 	}
 
 	signin() {
@@ -38,11 +36,18 @@ export class HomeMembershipComponent implements OnChanges {
 			this.userService
 				.signin(this.newUser.email, this.newUser.password)
 				.subscribe(
-				result => result.length > 0
-					? (this.toRedirect = true)
-					: alert('Désolé mais aucun compte n\'existe avec les identifiants suivants')
+					result => result != null
+						? this.successfullySignedIn(result)
+						: alert('Désolé mais aucun compte n\'existe avec les identifiants suivants'),
+					error => alert(error)					
 				);
 		}
+	}
+
+	successfullySignedIn(user:User){
+		this.userService.setCurrentUser(user);
+		this.router.navigate(['compte/tableau-de-bord.html']);
+		return false;
 	}
 
 	goToSignup() {

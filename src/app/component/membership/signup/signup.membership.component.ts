@@ -14,18 +14,18 @@ import { MdSnackBar } from '@angular/material';
 export class SignupMembershipComponent implements OnInit {
 	newUser: User = new User();
 
-	pseudo: FormControl;
+	name: FormControl;
 	email: FormControl;
 	password: FormControl;
 	form: FormGroup;
 
 	constructor(public snackBar: MdSnackBar, private fb: FormBuilder, private userService: UserService, private router: Router) {
-		this.pseudo = new FormControl('', [Validators.required, Validators.minLength(3)]);
+		this.name = new FormControl('', [Validators.required, Validators.minLength(3)]);
 		this.email = new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}')]);
 		this.password = new FormControl('', [Validators.required, Validators.minLength(3)]);
 
 		this.form = this.fb.group({
-			pseudo: this.pseudo,
+			name: this.name,
 			email: this.email,
 			password: this.password,
 		});
@@ -36,19 +36,17 @@ export class SignupMembershipComponent implements OnInit {
 
 	successfullySignedup() {
 		this.snackBar.open('Félicitation votre compte a bien été créé', 'Ok');
+		this.router.navigate(['compte/connexion.html']);
 	}
 
 	signup($event) {
 		if (this.form.dirty && this.form.valid) {
-			this.userService.signup(this.newUser);
-
-			this.successfullySignedup();
-
-			var that = this;
-			setTimeout(function(){
-				that.newUser = new User();
-				that.router.navigate(['compte/connexion.html']);
-			}, 500);
+			this.userService
+				.signup(this.newUser)
+				.subscribe(
+					id => id != null ? this.successfullySignedup() : function(){},
+					error => alert(error)	
+				);
 		}
 		return false;
 	}

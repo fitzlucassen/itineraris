@@ -14,6 +14,7 @@ import { DashboardUserComponent } from './component/user/dashboard/dashboard.use
 
 import { UserService } from './service/user.service';
 import { AuthGuard } from './auth-guard';
+import { NoAuthGuard } from './no-auth-guard';
 import { ItineraryDialogComponent } from './component/user/itinerary-dialog/itinerary-dialog.component';
 import { SearchPipe } from './pipe/search.pipe';
 import { ItineraryUserComponent } from './component/user/itinerary/itinerary.user.component';
@@ -25,6 +26,7 @@ const appRoutes: Routes = [
 	{
 		path: 'compte/connexion.html',
 		component: HomeMembershipComponent,
+		canActivate: [NoAuthGuard],
 		data: {
 			title: 'Itineraris - Connexion'
 		}
@@ -32,6 +34,7 @@ const appRoutes: Routes = [
 	{
 		path: 'compte/inscription.html',
 		component: SignupMembershipComponent,
+		canActivate: [NoAuthGuard],
 		data: {
 			title: 'Itineraris - Inscription'
 		}
@@ -90,7 +93,7 @@ const appRoutes: Routes = [
 		MaterialModule.forRoot(),
 		RouterModule.forRoot(appRoutes)
 	],
-	providers: [UserService, AuthGuard],
+	providers: [UserService, AuthGuard, NoAuthGuard],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }
