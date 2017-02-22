@@ -71,7 +71,7 @@ export class ItineraryUserComponent implements OnInit {
 	}
 
 	signout(){
-		this.userService.signout(this.currentUser);
+		this.userService.signout(this.currentUser, function(){window.location.href = '/';});
 	}
 
 	ngOnInit() {

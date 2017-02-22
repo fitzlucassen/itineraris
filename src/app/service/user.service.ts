@@ -48,8 +48,11 @@ export class UserService {
 			.map(this.extractData);
 	}
 
-	signout(user:User):UserService{
+	signout(user:User, callback:any):UserService{
 		localStorage.setItem('current_user', null);
+
+		callback();
+		
 		return this;
 	}
 
