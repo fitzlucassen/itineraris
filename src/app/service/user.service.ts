@@ -1,24 +1,31 @@
 import { Injectable } from '@angular/core';
 import { User } from '../model/user';
+import { environment } from '../../environments/environment';
+import { Http, Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class UserService {
-	constructor() { }
+	serviceUrl: string;
 
-	isSignedin(): boolean{
-		let c = localStorage.getItem('current_user');
-		return c != "" && c != null; 
+	constructor(private http: Http) {
+		this.serviceUrl = environment.apiUrl;
 	}
 
-	getCurrentUser():User{
+	isSignedin(): boolean {
+		let c = localStorage.getItem('current_user');
+		return c != "" && c != null;
+	}
+
+	getCurrentUser(): User {
 		let c = localStorage.getItem('current_user');
 		return JSON.parse(c);
 	}
 
 	signup(user: User): UserService {
 		var items = JSON.parse(localStorage.getItem('users'));
-		
-		if(items != null && items.length > 0){
+
+		if (items != null && items.length > 0) {
 			items.push(user);
 			localStorage.setItem('users', JSON.stringify(items));
 		}
@@ -28,15 +35,14 @@ export class UserService {
 		return this;
 	}
 
-	signin(emailOrPseudo: string, password: string): boolean {
-		var items = JSON.parse(localStorage.getItem('users'));
+	private extractData(res: Response) {
+		let body = res.json();
+		return body.result || {};
+	}
 
-		if (items != null && items.filter(u => u.password == password && (u.email == emailOrPseudo || u.pseudo == emailOrPseudo)).length > 0) {
-			var user:User = items.filter(u => u.password == password && (u.email == emailOrPseudo || u.pseudo == emailOrPseudo))[0];
-
-			localStorage.setItem('current_user', JSON.stringify(user)); 
-			return true;
-		}
-		return false;
+	signin(emailOrPseudo: string, password: string): Observable<any> {
+		return this.http
+			.get('http://' + this.serviceUrl + '/users/' + emailOrPseudo + '/' + password)
+			.map(this.extractData);
 	}
 }
