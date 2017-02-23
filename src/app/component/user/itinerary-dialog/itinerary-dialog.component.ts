@@ -15,6 +15,7 @@ import { MapsAPILoader } from 'angular2-google-maps/core';
 export class ItineraryDialogComponent implements OnInit {
 	newItinerary: Itinerary = new Itinerary();
 	isUpdate: boolean = false;
+	isLoading: boolean = false;
 
 	@ViewChild("search")
   	public searchElementRef: ElementRef;
@@ -64,28 +65,42 @@ export class ItineraryDialogComponent implements OnInit {
 
 	successfullyCreated() {
 		this.snackBar.open('Félicitation votre itinéraire a bien été créé', 'Ok');
+		this.isLoading = false;
+
+		var that = this;
+		setTimeout(function () {
+			that.newItinerary = new Itinerary();
+			that.dialogRef.close();
+		}, 500);
 	}
 
 	successfullyUpdated() {
 		this.snackBar.open('Félicitation votre itinéraire a bien été modifié', 'Ok');
+		this.isLoading = false;
+
+		var that = this;
+		setTimeout(function () {
+			that.newItinerary = new Itinerary();
+			that.dialogRef.close();
+		}, 500);
 	}
 
 	registerItinerary() {
 		if (this.form.dirty && this.form.valid) {
+			this.isLoading = true;
+
 			if (this.isUpdate) {
-				this.itineraryService.update(this.newItinerary);
-				this.successfullyUpdated();
+				this.itineraryService.update(this.newItinerary).subscribe(
+					id => id != null ? this.successfullyUpdated() : function(){},
+					error => alert(error)	
+				);
 			}
 			else {
-				this.itineraryService.create(this.newItinerary);
-				this.successfullyCreated();
+				this.itineraryService.create(this.newItinerary).subscribe(
+					id => id != null ? this.successfullyCreated() : function(){},
+					error => alert(error)	
+				);
 			}
-
-			var that = this;
-			setTimeout(function () {
-				that.newItinerary = new Itinerary();
-				that.dialogRef.close();
-			}, 500);
 		}
 		return false;
 	}

@@ -79,8 +79,16 @@ export class ItineraryUserComponent implements OnInit {
 			// Récupération des valeurs de l'URL
 			let id = params['id'];
 			let name = params['name'];
-			this.currentItinerary = this.itineraryService.getItineraryById(this.currentUser, id);
 			this.itinerarySteps = this.itineraryService.getItinerarySteps(this.currentItinerary.id);
+
+			this.itineraryService.getItineraryById(id).subscribe(
+				result => this.assignItinerary(result),
+				error => alert(error)
+			);
 		});
+	}
+
+	private assignItinerary(result:Itinerary){
+		this.currentItinerary = result;
 	}
 }

@@ -3,53 +3,69 @@ import { User } from '../model/user';
 import { Itinerary } from '../model/Itinerary';
 import { Guid } from '../model/Guid';
 import { ItineraryStep } from '../model/itinerary-step';
+import { environment } from '../../environments/environment';
+import { Http, Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+
+import 'rxjs/add/observable/throw';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class ItineraryService {
+	serviceUrl: string;
 
-	constructor() { }
-
-	create(itinerary: Itinerary): ItineraryService {
-		var items = JSON.parse(localStorage.getItem('itineraries'));
-
-		if (items != null && items.length > 0) {
-			items.push(itinerary);
-			localStorage.setItem('itineraries', JSON.stringify(items));
-		}
-		else {
-			localStorage.setItem('itineraries', JSON.stringify([itinerary]));
-		}
-		return this;
+	constructor(private http: Http) {
+		this.serviceUrl = environment.apiUrl;
 	}
 
-	update(itinerary: Itinerary): ItineraryService {
-		var items = JSON.parse(localStorage.getItem('itineraries'));
-
-		if (items != null && items.length > 0) {
-			var index = items.findIndex(s => s.id.str == itinerary.id.str);
-			items[index] = itinerary;
-			localStorage.setItem('itineraries', JSON.stringify(items));
-		}
-		else {
-			localStorage.setItem('itineraries', JSON.stringify([itinerary]));
-		}
-		return this;
+	create(itinerary: Itinerary): Observable<number> {
+		return this.http
+			.post('http://' + this.serviceUrl + '/itineraries', {
+				name: itinerary.name,
+				country: itinerary.country,
+				description: itinerary.description,
+				userId: itinerary.userId
+			})
+			.map(this.extractData)
+			.catch(this.handleError);
 	}
 
-	delete(id:Guid): ItineraryService{
-		var items = JSON.parse(localStorage.getItem('itineraries'));
-
-		if (items != null && items.length > 0) {
-			var index = items.findIndex(s => s.id.str == id.str);
-			items.splice(index, 1);
-			localStorage.setItem('itineraries', JSON.stringify(items));
-
-			this.deleteStepByItineraryId(id);
-		}
-		return this;
+	update(itinerary: Itinerary): Observable<any> {
+		return this.http
+			.put('http://' + this.serviceUrl + '/itineraries/' + itinerary.id, {
+				name: itinerary.name,
+				country: itinerary.country,
+				description: itinerary.description,
+			})
+			.map(this.extractData)
+			.catch(this.handleError);
 	}
 
-	createStep(step:ItineraryStep):ItineraryService{
+	delete(id: number): Observable<any> {
+		return this.http
+			.delete('http://' + this.serviceUrl + '/itineraries/' + id, {
+			})
+			.map(this.extractData)
+			.catch(this.handleError);
+	}
+
+	getUserItineraries(user: User): Observable<Array<Itinerary>> {
+		return this.http
+			.get('http://' + this.serviceUrl + '/itineraries/user/' + user.id)
+			.map(this.extractData)
+			.catch(this.handleError);
+	}
+
+	getItineraryById(id: string): Observable<Itinerary> {
+		return this.http
+			.get('http://' + this.serviceUrl + '/itineraries/' + id)
+			.map(this.extractData)
+			.catch(this.handleError);
+	}
+
+	createStep(step: ItineraryStep): ItineraryService {
 		var items = JSON.parse(localStorage.getItem('itineraries_steps'));
 
 		if (items != null && items.length > 0) {
@@ -63,7 +79,7 @@ export class ItineraryService {
 		return this;
 	}
 
-	updateStep(step:ItineraryStep):ItineraryService{
+	updateStep(step: ItineraryStep): ItineraryService {
 		var items: Array<ItineraryStep> = JSON.parse(localStorage.getItem('itineraries_steps'));
 
 		if (items != null && items.length > 0) {
@@ -77,7 +93,7 @@ export class ItineraryService {
 		return this;
 	}
 
-	deleteStep(id:Guid): ItineraryService{
+	deleteStep(id: Guid): ItineraryService {
 		var items = JSON.parse(localStorage.getItem('itineraries_steps'));
 
 		if (items != null && items.length > 0) {
@@ -88,38 +104,17 @@ export class ItineraryService {
 		return this;
 	}
 
-	deleteStepByItineraryId(id:Guid): ItineraryService{
+	getItinerarySteps(id: number): Array<ItineraryStep> {
 		var items: Array<ItineraryStep> = JSON.parse(localStorage.getItem('itineraries_steps'));
 
 		if (items != null && items.length > 0) {
-			let indexes: Array<Guid> = new Array<Guid>();
-
-			items.forEach(function(element, index){
-				if(element.itineraryId.str == id.str){
-					indexes.push(element.id);
-				}
-			});
-
-			indexes.forEach(function(element){
-				items.splice(items.findIndex(i => i.id.str == element.str), 1);
-			});
-			
-			localStorage.setItem('itineraries_steps', JSON.stringify(items));
-		}
-		return this;
-	}
-
-	getItinerarySteps(id:Guid): Array<ItineraryStep>{
-		var items: Array<ItineraryStep> = JSON.parse(localStorage.getItem('itineraries_steps'));
-
-		if (items != null && items.length > 0) {
-			return items.filter(i => i.itineraryId.str == id.str);
+			return items.filter(i => i.itineraryId == id);
 		}
 
 		return null;
 	}
 
-	getStepById(id:Guid):ItineraryStep{
+	getStepById(id: Guid): ItineraryStep {
 		var items: Array<ItineraryStep> = JSON.parse(localStorage.getItem('itineraries_steps'));
 
 		if (items != null && items.length > 0) {
@@ -129,23 +124,20 @@ export class ItineraryService {
 		return null;
 	}
 
-	getUserItineraries(user: User): Array<Itinerary> {
-		var items: Array<Itinerary> = JSON.parse(localStorage.getItem('itineraries'));
-
-		if (items != null && items.length > 0) {
-			return items.filter(i => i.userId == user.id);
-		}
-
-		return null;
+	private extractData(res: Response) {
+		let body = res.json();
+		return body.result;
 	}
-
-	getItineraryById(user: User, id:string): Itinerary {
-		var items: Array<Itinerary> = this.getUserItineraries(user);
-
-		if (items != null && items.length > 0) {
-			return items.filter(i => i.id.str == id)[0];
+	private handleError(error: Response | any) {
+		let errMsg: string;
+		if (error instanceof Response) {
+			const body = error.json() || '';
+			const err = body.message || JSON.stringify(body);
+			errMsg = `${error.status} - ${err}`;
+		} else {
+			errMsg = error.message ? error.message : error.toString();
 		}
 
-		return null;
+		return Observable.throw(errMsg);
 	}
 }

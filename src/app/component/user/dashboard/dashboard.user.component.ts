@@ -19,61 +19,93 @@ export class DashboardUserComponent implements OnInit {
 	currentUser: User;
 	itineraries: Array<Itinerary>;
 	dialogRef: MdDialogRef<ItineraryDialogComponent>;
-	showSearch:boolean;
-	search:string;
-	screenHeight:number;
+	showSearch: boolean;
+	search: string;
+	screenHeight: number;
+	isLoading: boolean = false;
 
-	constructor(public itineraryDialog: MdDialog, private userService: UserService, private itineraryService:ItineraryService, private router: Router) {
+	constructor(public itineraryDialog: MdDialog, private userService: UserService, private itineraryService: ItineraryService, private router: Router) {
 		this.currentUser = userService.getCurrentUser();
-		this.itineraries = itineraryService.getUserItineraries(this.currentUser);
 		this.showSearch = false;
 		this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
+
+		itineraryService.getUserItineraries(this.currentUser).subscribe(
+			result => this.assignItineraries(result),
+			error => alert(error)
+		);
 	}
 
 	openDialog() {
-		this.dialogRef = this.itineraryDialog.open(ItineraryDialogComponent, { 
+		this.dialogRef = this.itineraryDialog.open(ItineraryDialogComponent, {
 			disableClose: false,
 		});
 		this.dialogRef.componentInstance.newItinerary.userId = this.currentUser.id;
 
 		var that = this;
-		return this.dialogRef.afterClosed().subscribe(function(){
-			that.itineraries = that.itineraryService.getUserItineraries(that.currentUser);
+		return this.dialogRef.afterClosed().subscribe(function () {
+			that.itineraryService.getUserItineraries(that.currentUser).subscribe(
+				result => that.assignItineraries(result),
+				error => alert(error)
+			);
 		});
 	}
 
-	editItinerary(id:Guid){
+	editItinerary(id: string) {
 		this.dialogRef = this.itineraryDialog.open(ItineraryDialogComponent, {
 			disableClose: false,
 		});
-		this.dialogRef.componentInstance.newItinerary = this.itineraryService.getItineraryById(this.currentUser, id.str);
+		this.itineraryService.getItineraryById(id).subscribe(
+			result => this.assignItinerary(result),
+			error => alert(error)
+		);
+
 		this.dialogRef.componentInstance.isUpdate = true;
 
 		var that = this;
 		return this.dialogRef.afterClosed().subscribe(function () {
-			that.itineraries = that.itineraryService.getUserItineraries(that.currentUser);
+			that.itineraryService.getUserItineraries(that.currentUser).subscribe(
+				result => that.assignItineraries(result),
+				error => alert(error)
+			);
 		});
 	}
 
-	removeItinerary(id:Guid){
-		if(confirm('Êtes-vous sur de vouloir supprimer cet itinéraire ?')){
-			this.itineraryService.delete(id);
-			this.itineraries = this.itineraryService.getUserItineraries(this.currentUser);
+	removeItinerary(id: number) {
+		if (confirm('Êtes-vous sur de vouloir supprimer cet itinéraire ?')) {
+			this.isLoading = true;
+			this.itineraryService.delete(id).subscribe(
+				id => id != null ? this.successfullyRemove() : function () { }
+			);
 		}
 	}
 
-	toggleSearch(){
+	successfullyRemove() {
+		this.itineraryService.getUserItineraries(this.currentUser).subscribe(
+			result => this.assignItineraries(result),
+			error => alert(error)
+		);
+	}
+
+	toggleSearch() {
 		this.showSearch = !this.showSearch;
 	}
 
-	goToItinerary(name:string, id:Guid){
-		this.router.navigate(['compte/itinéraire/', id.str, encodeURI(name.toLocaleLowerCase().replace(' ', '-'))])
+	goToItinerary(name: string, id: number) {
+		this.router.navigate(['compte/itinéraire/', id, encodeURI(name.toLocaleLowerCase().replace(' ', '-'))])
 	}
 
-	signout(){
-		this.userService.signout(this.currentUser, function(){window.location.href = '/';});
+	signout() {
+		this.userService.signout(this.currentUser, function () { window.location.href = '/'; });
 	}
 
 	ngOnInit() {
+	}
+
+	private assignItinerary(result:Itinerary){
+		this.dialogRef.componentInstance.newItinerary = result;
+	}
+	private assignItineraries(result:Array<Itinerary>) {
+		this.itineraries = result;
+		this.isLoading = false;
 	}
 }

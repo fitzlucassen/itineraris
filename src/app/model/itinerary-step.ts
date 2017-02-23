@@ -5,7 +5,7 @@ export class ItineraryStep {
     city:string;
     date:Date;
     description:string;
-    itineraryId:Guid;
+    itineraryId:number;
 
     constructor(values: Object = {}) {
         this.id = new Guid();
