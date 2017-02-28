@@ -14,6 +14,7 @@ import { MapsAPILoader } from 'angular2-google-maps/core';
 export class StepDialogComponent implements OnInit {
 	newStep: ItineraryStep = new ItineraryStep();
 	isUpdate: boolean = false;
+	isLoading: boolean = false;
 
 	@ViewChild("search")
   	public searchElementRef: ElementRef;
@@ -61,31 +62,45 @@ export class StepDialogComponent implements OnInit {
 		});
 	}
 
-	successfullyCreated() {
-		this.snackBar.open('Félicitation votre étape a bien été créée', 'Ok');
-	}
-
-	successfullyUpdated() {
-		this.snackBar.open('Félicitation votre étape a bien été modifiée', 'Ok');
-	}
-
 	registerStep() {
 		if (this.form.dirty && this.form.valid) {
+			this.isLoading = true;
+
 			if (this.isUpdate) {
-				this.itineraryService.updateStep(this.newStep);
-				this.successfullyUpdated();
+				this.itineraryService.updateStep(this.newStep).subscribe(
+					id => id != null ? this.successfullyUpdated() : function(){},
+					error => alert(error)	
+				);
 			}
 			else {
-				this.itineraryService.createStep(this.newStep);
-				this.successfullyCreated();
+				this.itineraryService.createStep(this.newStep).subscribe(
+					id => id != null ? this.successfullyCreated() : function(){},
+					error => alert(error)	
+				);
 			}
-
-			var that = this;
-			setTimeout(function () {
-				that.newStep = new ItineraryStep();
-				that.dialogRef.close();
-			}, 500);
 		}
 		return false;
+	}
+
+	private successfullyCreated() {
+		this.isLoading = false;
+		this.snackBar.open('Félicitation votre étape a bien été créée', 'Ok');
+
+		var that = this;
+		setTimeout(function () {
+			that.newStep = new ItineraryStep();
+			that.dialogRef.close();
+		}, 500);
+	}
+
+	private successfullyUpdated() {
+		this.isLoading = false;
+		this.snackBar.open('Félicitation votre étape a bien été modifiée', 'Ok');
+
+		var that = this;
+		setTimeout(function () {
+			that.newStep = new ItineraryStep();
+			that.dialogRef.close();
+		}, 500);
 	}
 }

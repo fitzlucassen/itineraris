@@ -42,27 +42,37 @@ export class ItineraryUserComponent implements OnInit {
 
 		var that = this;
 		return this.dialogRef.afterClosed().subscribe(function () {
-			that.itinerarySteps = that.itineraryService.getItinerarySteps(that.currentItinerary.id);
+			that.itineraryService.getItinerarySteps(that.currentItinerary.id).subscribe(
+				result => that.assignItinerarySteps(result),
+				error => alert(error)
+			);
 		});
 	}
 
-	editStep(id: Guid) {
+	editStep(id: string) {
 		this.dialogRef = this.itineraryDialog.open(StepDialogComponent, {
 			disableClose: false,
 		});
-		this.dialogRef.componentInstance.newStep = this.itineraryService.getStepById(id);
+		this.itineraryService.getStepById(id).subscribe(
+			result => result != null ? this.assignItineraryStep(result) : function(){},
+			error => alert(error)
+		);
 		this.dialogRef.componentInstance.isUpdate = true;
 
 		var that = this;
 		return this.dialogRef.afterClosed().subscribe(function () {
-			that.itinerarySteps = that.itineraryService.getItinerarySteps(that.currentItinerary.id);
+			that.itineraryService.getItinerarySteps(that.currentItinerary.id).subscribe(
+				result => that.assignItinerarySteps(result),
+				error => alert(error)
+			);
 		});
 	}
 
-	removeStep(id: Guid) {
+	removeStep(id: number) {
 		if (confirm('Êtes-vous sur de vouloir supprimer cette étape ?')) {
-			this.itineraryService.deleteStep(id);
-			this.itinerarySteps = this.itineraryService.getItinerarySteps(this.currentItinerary.id);
+			this.itineraryService.deleteStep(id).subscribe(
+				id => id != null ? this.successfullyRemoved() : function () { }
+			);
 		}
 	}
 
@@ -79,16 +89,40 @@ export class ItineraryUserComponent implements OnInit {
 			// Récupération des valeurs de l'URL
 			let id = params['id'];
 			let name = params['name'];
-			this.itinerarySteps = this.itineraryService.getItinerarySteps(this.currentItinerary.id);
+
+			this.currentItinerary = new Itinerary();
+
+			var that = this;
+			this.itineraryService.getItinerarySteps(id).subscribe(
+				result => that.assignItinerarySteps(result),
+				error => alert(error)
+			);
 
 			this.itineraryService.getItineraryById(id).subscribe(
-				result => this.assignItinerary(result),
+				result => that.assignItinerary(result),
 				error => alert(error)
 			);
 		});
 	}
 
+	private successfullyRemoved(){
+		var that = this;
+		this.itineraryService.getItinerarySteps(this.currentItinerary.id).subscribe(
+			result => that.assignItinerarySteps(result),
+			error => alert(error)
+		);
+	}
 	private assignItinerary(result:Itinerary){
 		this.currentItinerary = result;
+	}
+	private assignItinerarySteps(result:Array<ItineraryStep>){
+		this.itinerarySteps = result;
+	}
+	private assignItineraryStep(step:ItineraryStep){
+		var d = step.date.split('T')[0].split('-');
+
+		step.date = d[0] + '-' + d[1] + '-' + d[2];
+
+		this.dialogRef.componentInstance.newStep = step;
 	}
 }

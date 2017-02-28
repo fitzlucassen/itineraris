@@ -63,28 +63,6 @@ export class ItineraryDialogComponent implements OnInit {
 		});
 	}
 
-	successfullyCreated() {
-		this.snackBar.open('Félicitation votre itinéraire a bien été créé', 'Ok');
-		this.isLoading = false;
-
-		var that = this;
-		setTimeout(function () {
-			that.newItinerary = new Itinerary();
-			that.dialogRef.close();
-		}, 500);
-	}
-
-	successfullyUpdated() {
-		this.snackBar.open('Félicitation votre itinéraire a bien été modifié', 'Ok');
-		this.isLoading = false;
-
-		var that = this;
-		setTimeout(function () {
-			that.newItinerary = new Itinerary();
-			that.dialogRef.close();
-		}, 500);
-	}
-
 	registerItinerary() {
 		if (this.form.dirty && this.form.valid) {
 			this.isLoading = true;
@@ -103,5 +81,27 @@ export class ItineraryDialogComponent implements OnInit {
 			}
 		}
 		return false;
+	}
+
+	private successfullyCreated() {
+		this.snackBar.open('Félicitation votre itinéraire a bien été créé', 'Ok');
+		this.isLoading = false;
+
+		var that = this;
+		setTimeout(function () {
+			that.newItinerary = new Itinerary();
+			that.dialogRef.close();
+		}, 500);
+	}
+
+	private successfullyUpdated() {
+		this.snackBar.open('Félicitation votre itinéraire a bien été modifié', 'Ok');
+		this.isLoading = false;
+
+		var that = this;
+		setTimeout(function () {
+			that.newItinerary = new Itinerary();
+			that.dialogRef.close();
+		}, 500);
 	}
 }

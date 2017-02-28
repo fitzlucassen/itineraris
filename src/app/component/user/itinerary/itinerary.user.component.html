@@ -2,7 +2,7 @@
 	<button md-icon-button (click)="start.toggle()">
         <md-icon>menu</md-icon>
     </button> &nbsp; &nbsp;
-	<span>Itineraris - Itinéraire</span>
+	<span>Itineraris - Ajoutez des étapes à votre itinéraire</span>
 </md-toolbar>
 
 <md-sidenav-container class="left-navigation" [ngStyle]="{'height': screenHeight + 'px'}">
@@ -61,7 +61,7 @@
 				<md-list-item class="md-2-line" *ngFor="let step of itinerarySteps | SearchStepPipe : search" role="link">
 					<md-icon md-list-avatar aria-label="{{step.city}}">directions_walk</md-icon>
 					<a md-line href="javascript: void(0);" (click)="editStep(step.id)"><b>{{step.city}}</b></a>
-					<a md-line href="javascript: void(0);" (click)="editStep(step.id)">{{step.date}}</a>
+					<a md-line href="javascript: void(0);" (click)="editStep(step.id)">{{step.date.substr(0, step.date.indexOf('T'))}}</a>
 					<div>
 						<md-icon class="little-icon" (click)="editStep(step.id)">mode_edit</md-icon>
 						<br/>

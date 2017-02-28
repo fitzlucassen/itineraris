@@ -21,6 +21,8 @@
 			<md-hint *ngIf="!password.untouched && !password.valid && password.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">3 caractères minimum</md-hint>
 		</md-input-container>
 		<br/>
+		<md-spinner *ngIf="isLoading"></md-spinner>
+		<br/>
 		<button md-mini-fab><md-icon>check</md-icon></button>
 	</form>
 </div>

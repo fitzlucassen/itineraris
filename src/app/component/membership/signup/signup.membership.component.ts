@@ -13,6 +13,7 @@ import { MdSnackBar } from '@angular/material';
 })
 export class SignupMembershipComponent implements OnInit {
 	newUser: User = new User();
+	isLoading: boolean = false;
 
 	name: FormControl;
 	email: FormControl;
@@ -34,13 +35,9 @@ export class SignupMembershipComponent implements OnInit {
 	ngOnInit() {
 	}
 
-	successfullySignedup() {
-		this.snackBar.open('Félicitation votre compte a bien été créé', 'Ok');
-		this.router.navigate(['compte/connexion.html']);
-	}
-
 	signup($event) {
 		if (this.form.dirty && this.form.valid) {
+			this.isLoading = true;
 			this.userService
 				.signup(this.newUser)
 				.subscribe(
@@ -49,5 +46,11 @@ export class SignupMembershipComponent implements OnInit {
 				);
 		}
 		return false;
+	}
+
+	private successfullySignedup() {
+		this.isLoading = false;
+		this.snackBar.open('Félicitation votre compte a bien été créé', 'Ok');
+		this.router.navigate(['compte/connexion.html']);
 	}
 }

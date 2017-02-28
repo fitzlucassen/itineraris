@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User } from '../model/user';
 import { Itinerary } from '../model/Itinerary';
-import { Guid } from '../model/Guid';
 import { ItineraryStep } from '../model/itinerary-step';
 import { environment } from '../../environments/environment';
 import { Http, Response } from '@angular/http';
@@ -65,63 +64,49 @@ export class ItineraryService {
 			.catch(this.handleError);
 	}
 
-	createStep(step: ItineraryStep): ItineraryService {
-		var items = JSON.parse(localStorage.getItem('itineraries_steps'));
-
-		if (items != null && items.length > 0) {
-			items.push(step);
-			localStorage.setItem('itineraries_steps', JSON.stringify(items));
-		}
-		else {
-			localStorage.setItem('itineraries_steps', JSON.stringify([step]));
-		}
-
-		return this;
+	createStep(step: ItineraryStep): Observable<number> {
+		return this.http
+			.post('http://' + this.serviceUrl + '/steps', {
+				city: step.city,
+				date: step.date,
+				description: step.description,
+				itineraryId: step.itineraryId
+			})
+			.map(this.extractData)
+			.catch(this.handleError);
 	}
 
-	updateStep(step: ItineraryStep): ItineraryService {
-		var items: Array<ItineraryStep> = JSON.parse(localStorage.getItem('itineraries_steps'));
-
-		if (items != null && items.length > 0) {
-			var index = items.findIndex(s => s.id.str == step.id.str);
-			items[index] = step;
-			localStorage.setItem('itineraries_steps', JSON.stringify(items));
-		}
-		else {
-			localStorage.setItem('itineraries_steps', JSON.stringify([step]));
-		}
-		return this;
+	updateStep(step: ItineraryStep): Observable<any> {
+		return this.http
+			.put('http://' + this.serviceUrl + '/steps/' + step.id, {
+				city: step.city,
+				date: step.date,
+				description: step.description,
+			})
+			.map(this.extractData)
+			.catch(this.handleError);
 	}
 
-	deleteStep(id: Guid): ItineraryService {
-		var items = JSON.parse(localStorage.getItem('itineraries_steps'));
-
-		if (items != null && items.length > 0) {
-			var index = items.findIndex(s => s.id.str == id.str);
-			items.splice(index, 1);
-			localStorage.setItem('itineraries_steps', JSON.stringify(items));
-		}
-		return this;
+	deleteStep(id: number): Observable<any> {
+		return this.http
+			.delete('http://' + this.serviceUrl + '/steps/' + id, {
+			})
+			.map(this.extractData)
+			.catch(this.handleError);
 	}
 
-	getItinerarySteps(id: number): Array<ItineraryStep> {
-		var items: Array<ItineraryStep> = JSON.parse(localStorage.getItem('itineraries_steps'));
-
-		if (items != null && items.length > 0) {
-			return items.filter(i => i.itineraryId == id);
-		}
-
-		return null;
+	getItinerarySteps(itineraryId: number): Observable<Array<ItineraryStep>> {
+		return this.http
+			.get('http://' + this.serviceUrl + '/steps/itinerary/' + itineraryId)
+			.map(this.extractData)
+			.catch(this.handleError);
 	}
 
-	getStepById(id: Guid): ItineraryStep {
-		var items: Array<ItineraryStep> = JSON.parse(localStorage.getItem('itineraries_steps'));
-
-		if (items != null && items.length > 0) {
-			return items.filter(i => i.id.str == id.str)[0];
-		}
-
-		return null;
+	getStepById(id: string): Observable<ItineraryStep> {
+		return this.http
+			.get('http://' + this.serviceUrl + '/steps/' + id)
+			.map(this.extractData)
+			.catch(this.handleError);
 	}
 
 	private extractData(res: Response) {

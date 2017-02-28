@@ -1,14 +1,11 @@
-import { Guid } from './Guid';
-
 export class ItineraryStep {
-    id:Guid;
+    id:number;
     city:string;
-    date:Date;
+    date:string;
     description:string;
     itineraryId:number;
 
     constructor(values: Object = {}) {
-        this.id = new Guid();
         (<any>Object).assign(this, values);
     }
 }

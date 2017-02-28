@@ -74,16 +74,9 @@ export class DashboardUserComponent implements OnInit {
 		if (confirm('Êtes-vous sur de vouloir supprimer cet itinéraire ?')) {
 			this.isLoading = true;
 			this.itineraryService.delete(id).subscribe(
-				id => id != null ? this.successfullyRemove() : function () { }
+				id => id != null ? this.successfullyRemoved() : function () { }
 			);
 		}
-	}
-
-	successfullyRemove() {
-		this.itineraryService.getUserItineraries(this.currentUser).subscribe(
-			result => this.assignItineraries(result),
-			error => alert(error)
-		);
 	}
 
 	toggleSearch() {
@@ -100,7 +93,13 @@ export class DashboardUserComponent implements OnInit {
 
 	ngOnInit() {
 	}
-
+	
+	private successfullyRemoved() {
+		this.itineraryService.getUserItineraries(this.currentUser).subscribe(
+			result => this.assignItineraries(result),
+			error => alert(error)
+		);
+	}
 	private assignItinerary(result:Itinerary){
 		this.dialogRef.componentInstance.newItinerary = result;
 	}
