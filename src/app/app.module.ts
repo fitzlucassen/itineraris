@@ -21,6 +21,7 @@ import { ItineraryUserComponent } from './component/user/itinerary/itinerary.use
 import { StepDialogComponent } from './component/user/step-dialog/step-dialog.component';
 import { SearchStepPipe } from './pipe/search-step.pipe';
 import { HomeComponent } from './component/home/home/home.component';
+import { UploadFileComponent } from './component/upload-file/upload-file.component';
 
 const appRoutes: Routes = [
 	{
@@ -75,7 +76,8 @@ const appRoutes: Routes = [
 		ItineraryUserComponent,
 		StepDialogComponent,
 		SearchStepPipe,
-		HomeComponent
+		HomeComponent,
+		UploadFileComponent
 	],
 	entryComponents: [
 		ItineraryDialogComponent,

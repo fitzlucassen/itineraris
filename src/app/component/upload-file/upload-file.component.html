@@ -1,0 +1,6 @@
+<input #fileInput id="fileInput" type="file" class="ng-hide" (change)="uploadChange($event)">
+<button md-raised-button #uploadButton id="uploadButton" aria-label="attach_file" (click)="triggerUpload($event)">Photos</button>
+
+<md-input-container md-no-float>
+	<input mdInput #textInput id="textInput" ng-model="fileName" type="text" placeholder="Aucun fichier ajouté" ng-readonly="true" (click)="triggerUpload($event)">
+</md-input-container>

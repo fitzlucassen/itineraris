@@ -17,6 +17,8 @@
 			<md-hint *ngIf="!description.untouched && !description.valid && description.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">3 caractères minimum</md-hint>
 		</md-input-container>
 		<br/>
+		<app-upload-file></app-upload-file>
+		<br/>
 		<md-spinner *ngIf="isLoading"></md-spinner>
 		<br/>
 		<button md-raised-button>VALIDER</button>

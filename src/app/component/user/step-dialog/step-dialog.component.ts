@@ -5,11 +5,13 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { ItineraryService } from '../../../service/itinerary.service';
 import { MdSnackBar } from '@angular/material';
 import { MapsAPILoader } from 'angular2-google-maps/core';
+import { UploadFileComponent } from '../../upload-file/upload-file.component';
 
 @Component({
 	selector: 'step-dialog',
 	templateUrl: './step-dialog.component.html',
-	styleUrls: ['./step-dialog.component.css']
+	styleUrls: ['./step-dialog.component.css'],
+	providers: [UploadFileComponent]
 })
 export class StepDialogComponent implements OnInit {
 	newStep: ItineraryStep = new ItineraryStep();
@@ -22,6 +24,7 @@ export class StepDialogComponent implements OnInit {
 	city: FormControl;
 	date: FormControl;
 	description: FormControl;
+	images: FormControl;
 	form: FormGroup;
 
 	constructor(
@@ -35,11 +38,13 @@ export class StepDialogComponent implements OnInit {
 		this.city = new FormControl('', [Validators.required, Validators.minLength(2)]);
 		this.date = new FormControl('', [Validators.required]);
 		this.description = new FormControl('', [Validators.required, Validators.minLength(3)]);
+		this.images = new FormControl('', []);
 
 		this.form = this.fb.group({
 			city: this.city,
 			date: this.date,
 			description: this.description,
+			images: this.images
 		});
 	}
 
