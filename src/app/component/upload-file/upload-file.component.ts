@@ -1,28 +1,38 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
+import { ItineraryService } from '../../service/itinerary.service';
 
 @Component({
 	selector: 'app-upload-file',
 	templateUrl: './upload-file.component.html',
-	styleUrls: ['./upload-file.component.css']
+	styleUrls: ['./upload-file.component.css'],
+	providers: [ItineraryService]
+
 })
 export class UploadFileComponent implements OnInit {
-	@ViewChild('fileInput') fileInput:ElementRef;
+	@ViewChild('fileInput') fileInput: ElementRef;
+	@Input() stepId: number;
 
-	constructor() {
+	isLoading:boolean = false;
+
+	constructor(private itineraryService: ItineraryService) {
 	}
 
-	triggerUpload($event){
+	triggerUpload($event) {
 		this.fileInput.nativeElement.click()
 	}
 
-	uploadChange($event){
+	uploadChange($event) {
 		var files = $event.target.files;
-		if (files[0]) {
-			$event.fileName = files[0].name;
-		} else {
-			$event.fileName = null;
-		}
-		$event.$apply();
+
+		this.isLoading = true;
+		var that = this;
+		this.itineraryService.uploadImages(this.stepId, files).then((result) => {
+			that.isLoading = false;
+
+			console.log(result);
+        }, (error) => {
+            alert(error);
+		});
 	}
 
 	ngOnInit() {

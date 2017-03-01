@@ -1,4 +1,7 @@
-<input #fileInput id="fileInput" type="file" class="ng-hide" (change)="uploadChange($event)">
+<md-spinner *ngIf="isLoading"></md-spinner>
+<br/>
+
+<input #fileInput id="fileInput" name="uploads" type="file" class="ng-hide" (change)="uploadChange($event)">
 <button md-raised-button #uploadButton id="uploadButton" aria-label="attach_file" (click)="triggerUpload($event)">Photos</button>
 
 <md-input-container md-no-float>

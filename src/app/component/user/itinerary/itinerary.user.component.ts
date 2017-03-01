@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Itinerary } from '../../../model/itinerary';
 import { ItineraryStep } from '../../../model/itinerary-step';
 import { User } from '../../../model/user';
-import { Guid } from '../../../model/guid';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ItineraryService } from '../../../service/itinerary.service';
 import { UserService } from '../../../service/user.service';

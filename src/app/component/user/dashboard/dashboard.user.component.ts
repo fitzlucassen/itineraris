@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../service/user.service';
 import { ItineraryService } from '../../../service/itinerary.service';
 import { User } from '../../../model/user';
-import { Guid } from '../../../model/guid';
 import { Itinerary } from '../../../model/itinerary';
 import { ItineraryDialogComponent } from '../itinerary-dialog/itinerary-dialog.component'
 import { MdDialog, MdDialogRef } from '@angular/material';
