@@ -1,9 +1,28 @@
-<md-spinner *ngIf="isLoading"></md-spinner>
-<br/>
-
-<input #fileInput id="fileInput" name="uploads" type="file" class="ng-hide" (change)="uploadChange($event)">
+<input #fileInput id="fileInput" name="uploads" type="file" class="ng-hide" multiple (change)="uploadChange($event)">
 <button md-raised-button #uploadButton id="uploadButton" aria-label="attach_file" (click)="triggerUpload($event)">Photos</button>
 
 <md-input-container md-no-float>
-	<input mdInput #textInput id="textInput" ng-model="fileName" type="text" placeholder="Aucun fichier ajouté" ng-readonly="true" (click)="triggerUpload($event)">
+	<input mdInput #textInput id="textInput" ng-model="fileName" type="text" placeholder="Aucun fichier ajouté" ng-readonly="true"
+		(click)="triggerUpload($event)">
 </md-input-container>
+
+<br/>
+<md-spinner *ngIf="isLoading"></md-spinner>
+<br/>
+
+<md-list>
+	<md-list-item *ngFor="let image of images">
+		<img md-list-avatar src="{{image.url}}" alt="Image uploadée">
+		<h3 md-line *ngIf="image.caption != null"> {{image.caption}} </h3>
+
+		<h3 md-line *ngIf="image.caption == null">
+			<md-input-container md-no-float>
+				<input mdInput #captionImage id="captionImage" ng-model="image.caption" type="text" placeholder="Légende de la photo" >
+			</md-input-container>
+		</h3>
+
+		<p md-line>
+			<span> {{image.date}} </span>
+		</p>
+	</md-list-item>
+</md-list>

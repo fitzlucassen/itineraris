@@ -5,6 +5,7 @@ import { ItineraryStep } from '../model/itinerary-step';
 import { environment } from '../../environments/environment';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { Picture } from '../model/picture';
 
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/map';
@@ -109,8 +110,18 @@ export class ItineraryService {
 			.catch(this.handleError);
 	}
 
-	uploadImages(stepId:number, files: any) {
-		return this.makeFileRequest('http://' + this.serviceUrl + '/steps/' + stepId + '/images', [], files);
+	uploadImages(stepId:number, files: any):Promise<Array<any>> {
+		if(stepId != null)
+			return this.makeFileRequest('http://' + this.serviceUrl + '/steps/' + stepId + '/images', [], files);
+		else
+			return this.makeFileRequest('http://' + this.serviceUrl + '/steps/images', [], files);
+	}
+
+	getStepPictures(stepId:number): Observable<Array<Picture>>{
+		return this.http
+			.get('http://' + this.serviceUrl + '/steps/' + stepId + '/images')
+			.map(this.extractData)
+			.catch(this.handleError);
 	}
 
 	private makeFileRequest(url: string, params: Array<string>, files: Array<File>) {
