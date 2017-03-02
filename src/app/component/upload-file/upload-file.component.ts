@@ -12,10 +12,10 @@ import { Picture } from '../../model/picture';
 export class UploadFileComponent implements OnInit, OnChanges {
 	@ViewChild('fileInput') fileInput: ElementRef;
 	@Input() stepId: number;
+	@Input() images: Array<Picture> = [];
 
 	isLoading: boolean = false;
 	serviceUrl: string;
-	images: Array<Picture> = [];
 
 	constructor(private itineraryService: ItineraryService) {
 		this.serviceUrl = environment.apiUrl;
@@ -41,10 +41,12 @@ export class UploadFileComponent implements OnInit, OnChanges {
 		this.itineraryService.uploadImages(this.stepId, files).then((result) => {
 			that.isLoading = false;
 
-			result.forEach(function (element) {
+			result.result.forEach(function (element) {
 				that.images.push(new Picture({
 					stepId: that.stepId,
-					url: 'http://' + that.serviceUrl + '/' + element.filename,
+					url: 'http://' + that.serviceUrl + '/' + element.url,
+					id: element.id,
+					date: element.date
 				}))
 			});
 		}, (error) => {
@@ -69,6 +71,7 @@ export class UploadFileComponent implements OnInit, OnChanges {
 		var that = this;
 		pictures.forEach(function (element) {
 			that.images.push(new Picture({
+				id: element.id,
 				stepId: that.stepId,
 				url: 'http://' + that.serviceUrl + '/' + element.url,
 				caption: element.caption,

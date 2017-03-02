@@ -110,12 +110,19 @@ export class ItineraryService {
 			.catch(this.handleError);
 	}
 
-	uploadImages(stepId:number, files: any):Promise<Array<any>> {
+	uploadImages(stepId:number, files: any):Promise<any> {
 		if(stepId != null)
 			return this.makeFileRequest('http://' + this.serviceUrl + '/steps/' + stepId + '/images', [], files);
 		else
 			return this.makeFileRequest('http://' + this.serviceUrl + '/steps/images', [], files);
 	}
+
+	updateImages(images: Array<Picture>): Observable<Array<Picture>>{
+		return this.http
+			.put('http://' + this.serviceUrl + '/steps/images', {pictures: images})
+			.map(this.extractData)
+			.catch(this.handleError);
+	}	
 
 	getStepPictures(stepId:number): Observable<Array<Picture>>{
 		return this.http

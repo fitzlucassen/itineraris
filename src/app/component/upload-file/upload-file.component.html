@@ -13,11 +13,9 @@
 <md-list>
 	<md-list-item *ngFor="let image of images">
 		<img md-list-avatar src="{{image.url}}" alt="Image uploadée">
-		<h3 md-line *ngIf="image.caption != null"> {{image.caption}} </h3>
-
-		<h3 md-line *ngIf="image.caption == null">
+		<h3 md-line>
 			<md-input-container md-no-float>
-				<input mdInput #captionImage id="captionImage" ng-model="image.caption" type="text" placeholder="Légende de la photo" >
+				<input mdInput #captionImage id="captionImage" [(ngModel)]="image.caption" type="text" placeholder="Légende de la photo" >
 			</md-input-container>
 		</h3>
 

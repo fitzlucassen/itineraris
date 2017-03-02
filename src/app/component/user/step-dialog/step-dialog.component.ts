@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { Component, OnInit, OnChanges, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { MdDialog, MdDialogRef, MaterialModule } from '@angular/material';
 import { ItineraryStep } from '../../../model/itinerary-step';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
@@ -6,6 +6,7 @@ import { ItineraryService } from '../../../service/itinerary.service';
 import { MdSnackBar } from '@angular/material';
 import { MapsAPILoader } from 'angular2-google-maps/core';
 import { UploadFileComponent } from '../../upload-file/upload-file.component';
+import { Picture } from '../../../model/picture';
 
 @Component({
 	selector: 'step-dialog',
@@ -13,10 +14,11 @@ import { UploadFileComponent } from '../../upload-file/upload-file.component';
 	styleUrls: ['./step-dialog.component.css'],
 	providers: [UploadFileComponent]
 })
-export class StepDialogComponent implements OnInit {
+export class StepDialogComponent implements OnInit, OnChanges {
 	newStep: ItineraryStep = new ItineraryStep();
 	isUpdate: boolean = false;
 	isLoading: boolean = false;
+	images: Array<Picture> = [];
 
 	@ViewChild("search")
   	public searchElementRef: ElementRef;
@@ -24,7 +26,6 @@ export class StepDialogComponent implements OnInit {
 	city: FormControl;
 	date: FormControl;
 	description: FormControl;
-	images: FormControl;
 	form: FormGroup;
 
 	constructor(
@@ -38,13 +39,11 @@ export class StepDialogComponent implements OnInit {
 		this.city = new FormControl('', [Validators.required, Validators.minLength(2)]);
 		this.date = new FormControl('', [Validators.required]);
 		this.description = new FormControl('', [Validators.required, Validators.minLength(3)]);
-		this.images = new FormControl('', []);
 
 		this.form = this.fb.group({
 			city: this.city,
 			date: this.date,
 			description: this.description,
-			images: this.images
 		});
 	}
 
@@ -67,19 +66,23 @@ export class StepDialogComponent implements OnInit {
 		});
 	}
 
+	ngOnChanges(e){
+		console.log(e);
+	}
+
 	registerStep() {
-		if (this.form.dirty && this.form.valid) {
+		if ((this.form.dirty || this.images.length > 0) && this.form.valid) {
 			this.isLoading = true;
 
 			if (this.isUpdate) {
 				this.itineraryService.updateStep(this.newStep).subscribe(
-					id => id != null ? this.successfullyUpdated() : function(){},
+					id => id != null ? this.updateImages(true) : function(){},
 					error => alert(error)	
 				);
 			}
 			else {
 				this.itineraryService.createStep(this.newStep).subscribe(
-					id => id != null ? this.successfullyCreated() : function(){},
+					id => id != null ? this.updateImages(false) : function(){},
 					error => alert(error)	
 				);
 			}
@@ -87,6 +90,22 @@ export class StepDialogComponent implements OnInit {
 		return false;
 	}
 
+	private updateImages(updated: boolean){
+		var that = this;
+
+		if(this.images.length > 0){
+			this.itineraryService.updateImages(this.images).subscribe(
+				id => updated ? that.successfullyUpdated() : that.successfullyCreated(),
+				error => alert(error)
+			);
+		}
+		else {
+			if(updated)
+				this.successfullyUpdated();
+			else
+				this.successfullyCreated();
+		}
+	}
 	private successfullyCreated() {
 		this.isLoading = false;
 		this.snackBar.open('Félicitation votre étape a bien été créée', 'Ok');
@@ -97,7 +116,6 @@ export class StepDialogComponent implements OnInit {
 			that.dialogRef.close();
 		}, 500);
 	}
-
 	private successfullyUpdated() {
 		this.isLoading = false;
 		this.snackBar.open('Félicitation votre étape a bien été modifiée', 'Ok');
