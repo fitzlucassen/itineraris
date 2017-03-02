@@ -22,5 +22,8 @@
 		<p md-line>
 			<span> {{image.date}} </span>
 		</p>
+		<div>
+			<md-icon class="little-icon" (click)="removePicture(image.id)">delete</md-icon>
+		</div>
 	</md-list-item>
 </md-list>

@@ -65,7 +65,7 @@ export class ItineraryService {
 			.catch(this.handleError);
 	}
 
-	createStep(step: ItineraryStep): Observable<number> {
+	createStep(step: ItineraryStep): Observable<any> {
 		return this.http
 			.post('http://' + this.serviceUrl + '/steps', {
 				city: step.city,
@@ -131,6 +131,14 @@ export class ItineraryService {
 			.catch(this.handleError);
 	}
 
+	deletePicture(id: number): Observable<any> {
+		return this.http
+			.delete('http://' + this.serviceUrl + '/steps/images/' + id, {
+			})
+			.map(this.extractData)
+			.catch(this.handleError);
+	}
+
 	private makeFileRequest(url: string, params: Array<string>, files: Array<File>) {
 		return new Promise((resolve, reject) => {
 			var formData: any = new FormData();
@@ -152,7 +160,6 @@ export class ItineraryService {
 			xhr.send(formData);
 		});
 	}
-
 	private extractData(res: Response) {
 		let body = res.json();
 		return body.result;

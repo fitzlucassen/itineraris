@@ -54,6 +54,14 @@ export class UploadFileComponent implements OnInit, OnChanges {
 		});
 	}
 
+	removePicture(imageId:number){
+		var that = this;
+		this.itineraryService.deletePicture(imageId).subscribe(
+			result => that.successfullyRemoved(imageId),
+			error => alert(error)
+		);
+	}
+
 	ngOnInit() {
 	}
 
@@ -67,6 +75,9 @@ export class UploadFileComponent implements OnInit, OnChanges {
 		}
 	}
 
+	private successfullyRemoved(id){
+		this.images = this.images.filter(i => i.id != id);
+	}
 	private assignStepPictures(pictures: Array<Picture>) {
 		var that = this;
 		pictures.forEach(function (element) {

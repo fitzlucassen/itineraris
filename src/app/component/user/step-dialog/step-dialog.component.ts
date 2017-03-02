@@ -76,13 +76,13 @@ export class StepDialogComponent implements OnInit, OnChanges {
 
 			if (this.isUpdate) {
 				this.itineraryService.updateStep(this.newStep).subscribe(
-					id => id != null ? this.updateImages(true) : function(){},
+					id => id != null ? this.updateImages(true, -1) : function(){},
 					error => alert(error)	
 				);
 			}
 			else {
 				this.itineraryService.createStep(this.newStep).subscribe(
-					id => id != null ? this.updateImages(false) : function(){},
+					id => id != null ? this.updateImages(false, id.id) : function(){},
 					error => alert(error)	
 				);
 			}
@@ -90,10 +90,12 @@ export class StepDialogComponent implements OnInit, OnChanges {
 		return false;
 	}
 
-	private updateImages(updated: boolean){
+	private updateImages(updated: boolean, stepId: number){
 		var that = this;
 
 		if(this.images.length > 0){
+			this.images.map(i => i.stepId = stepId);
+
 			this.itineraryService.updateImages(this.images).subscribe(
 				id => updated ? that.successfullyUpdated() : that.successfullyCreated(),
 				error => alert(error)
