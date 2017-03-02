@@ -94,7 +94,10 @@ export class StepDialogComponent implements OnInit, OnChanges {
 		var that = this;
 
 		if(this.images.length > 0){
-			this.images.map(i => i.stepId = stepId);
+			if(stepId != -1)
+				this.images.map(i => i.stepId = stepId);
+
+			this.images.map(i => (i.caption = (i.caption == null ? '' : i.caption)));
 
 			this.itineraryService.updateImages(this.images).subscribe(
 				id => updated ? that.successfullyUpdated() : that.successfullyCreated(),
