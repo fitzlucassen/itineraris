@@ -26,7 +26,7 @@ export class MapComponent implements OnInit {
 	infoWindows: Array<google.maps.InfoWindow> = [];
 	markers: Array<google.maps.Marker> = [];
 
-	infoWindowTemplate: string = '<div id="custom-infowindow"><b>TITLE</b><br/><i>Le DATE</i><br/><br/>DESCRIPTION<br/><br/>PICTURES</div>'
+	infoWindowTemplate: string = '<div id="iw-container"><b class="iw-title">TITLE</b><div class="iw-content"><i class="iw-subTitle">Le DATE</i><br/><br/>DESCRIPTION<br/><br/>PICTURES</div><div class="iw-bottom-gradient"></div></div>'
 
 	constructor(private mapsAPILoader: MapsAPILoader, private itineraryService: ItineraryService) { }
 
