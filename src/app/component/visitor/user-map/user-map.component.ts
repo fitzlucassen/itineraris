@@ -57,11 +57,13 @@ export class UserMapComponent implements OnInit {
 
 		this.map.origin = {
 			latitude: this.steps[0].lat,
-			longitude: this.steps[0].lng
+			longitude: this.steps[0].lng,
+			object: this.steps[0]
 		};
 		this.map.destination = {
 			latitude: this.steps[this.steps.length - 1].lat,
-			longitude: this.steps[this.steps.length - 1].lng
+			longitude: this.steps[this.steps.length - 1].lng,
+			object: this.steps[this.steps.length - 1]
 		};
 		var waypoints = this.steps;
 		waypoints = waypoints.slice(1, waypoints.length - 1);

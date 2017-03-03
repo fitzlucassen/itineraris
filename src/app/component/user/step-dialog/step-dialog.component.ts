@@ -52,7 +52,7 @@ export class StepDialogComponent implements OnInit, OnChanges {
 
 		this.mapsAPILoader.load().then(() => {
 			let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-				types: ["address"]
+				types: ["geocode"]
 			});
 			autocomplete.addListener("place_changed", () => {
 				this.ngZone.run(() => {
