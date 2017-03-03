@@ -13,12 +13,12 @@ export class MapComponent implements OnInit {
 	@Input() origin = {
 		latitude: 0,
 		longitude: 0,
-		object: null
+		object: new ItineraryStep()
 	};
 	@Input() destination = {
 		latitude: 0,
 		longitude: 0,
-		object: null
+		object: new ItineraryStep()
 	};
 	@Input() waypoints: Array<ItineraryStep> = [];
 
@@ -80,14 +80,12 @@ export class MapComponent implements OnInit {
 		var that = this;
 
 		// Create a marker at the first step of the itinerary
-		if (waypts.length > 0) {
-			var photos = this.itineraryService.getStepPictures(this.origin.object.id).subscribe(
-				result => that.createInfoWindowForStep(result, this.origin.object),
-				error => alert(error)
-			);
-		}
+		var photos = this.itineraryService.getStepPictures(this.origin.object.id).subscribe(
+			result => that.createInfoWindowForStep(result, this.origin.object),
+			error => alert(error)
+		);
 		// Create a marker at the last step of the itinerary
-		if (waypts.length > 1) {
+		if (waypts.length > 0) {
 			var photos = this.itineraryService.getStepPictures(this.destination.object.id).subscribe(
 				result => that.createInfoWindowForStep(result, this.destination.object),
 				error => alert(error)
@@ -125,8 +123,8 @@ export class MapComponent implements OnInit {
 			.replace('DATE', origin.date.split('T')[0])
 			.replace('PICTURES', '<ul>');
 
-		pictures.forEach(function(element){
-			content += '<li><img src="http://localhost:3000/' + element.url + '" alt="' + element.caption + '" title="' + element.caption + '" /></li>'
+		pictures.forEach(function (element) {
+			content += '<li style="list-style:none;"><img src="http://localhost:3000/' + element.url + '" alt="' + element.caption + '" title="' + element.caption + '" width="150px"/></li>'
 		});
 		content += '</ul>';
 

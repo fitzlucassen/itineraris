@@ -22,7 +22,7 @@ export class UserMapComponent implements OnInit {
 	zoom: number = 3;
 
 	@ViewChild(MapComponent)
-  	public map: MapComponent;
+	public map: MapComponent;
 
 	constructor(
 		public route: ActivatedRoute,
@@ -55,19 +55,25 @@ export class UserMapComponent implements OnInit {
 	private assignItinerarySteps(result: Array<ItineraryStep>) {
 		this.steps = result;
 
-		this.map.origin = {
-			latitude: this.steps[0].lat,
-			longitude: this.steps[0].lng,
-			object: this.steps[0]
-		};
-		this.map.destination = {
-			latitude: this.steps[this.steps.length - 1].lat,
-			longitude: this.steps[this.steps.length - 1].lng,
-			object: this.steps[this.steps.length - 1]
-		};
-		var waypoints = this.steps;
-		waypoints = waypoints.slice(1, waypoints.length - 1);
-		this.map.waypoints = waypoints;
+		if (this.steps.length > 0) {
+			this.map.origin = {
+				latitude: this.steps[0].lat,
+				longitude: this.steps[0].lng,
+				object: this.steps[0]
+			};
+		}
+		if (this.steps.length > 1) {
+			this.map.destination = {
+				latitude: this.steps[this.steps.length - 1].lat,
+				longitude: this.steps[this.steps.length - 1].lng,
+				object: this.steps[this.steps.length - 1]
+			};
+		}
+		if (this.steps.length > 2) {
+			var waypoints = this.steps;
+			waypoints = waypoints.slice(1, waypoints.length - 1);
+			this.map.waypoints = waypoints;
+		}
 		this.map.updateDirections();
 	}
 }
