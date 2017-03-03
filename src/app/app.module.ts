@@ -23,8 +23,7 @@ import { SearchStepPipe } from './pipe/search-step.pipe';
 import { HomeComponent } from './component/home/home/home.component';
 import { UploadFileComponent } from './component/upload-file/upload-file.component';
 import { UserMapComponent } from './component/visitor/user-map/user-map.component';
-import { DirectionsMapDirectiveDirective } from './directive/directions-map-directive.directive';
-import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core/services/google-maps-api-wrapper';
+import { MapComponent } from './component/visitor/map/map.component';
 
 const appRoutes: Routes = [
 	/***********/
@@ -99,7 +98,7 @@ const appRoutes: Routes = [
 		HomeComponent,
 		UploadFileComponent,
 		UserMapComponent,
-		DirectionsMapDirectiveDirective
+		MapComponent,
 	],
 	entryComponents: [
 		ItineraryDialogComponent,
@@ -117,7 +116,7 @@ const appRoutes: Routes = [
 		MaterialModule.forRoot(),
 		RouterModule.forRoot(appRoutes)
 	],
-	providers: [UserService, AuthGuard, NoAuthGuard, GoogleMapsAPIWrapper],
+	providers: [UserService, AuthGuard, NoAuthGuard],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }
