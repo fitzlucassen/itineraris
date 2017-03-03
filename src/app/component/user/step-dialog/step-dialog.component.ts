@@ -48,6 +48,8 @@ export class StepDialogComponent implements OnInit, OnChanges {
 	}
 
 	ngOnInit() {
+		var that = this;
+
 		this.mapsAPILoader.load().then(() => {
 			let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
 				types: ["address"]
@@ -61,6 +63,8 @@ export class StepDialogComponent implements OnInit, OnChanges {
 					if (place.geometry === undefined || place.geometry === null) {
 						return;
 					}
+					that.newStep.lat = place.geometry.location.lat();
+					that.newStep.lng = place.geometry.location.lng();
 				});
 			});
 		});

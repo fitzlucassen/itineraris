@@ -22,8 +22,14 @@ import { StepDialogComponent } from './component/user/step-dialog/step-dialog.co
 import { SearchStepPipe } from './pipe/search-step.pipe';
 import { HomeComponent } from './component/home/home/home.component';
 import { UploadFileComponent } from './component/upload-file/upload-file.component';
+import { UserMapComponent } from './component/visitor/user-map/user-map.component';
+import { DirectionsMapDirectiveDirective } from './directive/directions-map-directive.directive';
+import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core/services/google-maps-api-wrapper';
 
 const appRoutes: Routes = [
+	/***********/
+	// MEMBERSHIP
+	/***********/
 	{
 		path: 'compte/connexion.html',
 		component: HomeMembershipComponent,
@@ -40,6 +46,9 @@ const appRoutes: Routes = [
 			title: 'Itineraris - Inscription'
 		}
 	},
+	/***********/
+	// ACCOUNT
+	/***********/
 	{
 		path: 'compte/tableau-de-bord.html',
 		component: DashboardUserComponent,
@@ -56,6 +65,17 @@ const appRoutes: Routes = [
 			title: 'Itineraris - Itinéraire'
 		}
 	},
+	/***********/
+	// VISITOR
+	/***********/
+	{
+		path: ':nameuser/:id/:name',
+		component: UserMapComponent,
+		data: {
+			title: ':name de :nameuser'
+		}
+	},
+
 	{
 		path: '',
 		component: HomeComponent,
@@ -77,7 +97,9 @@ const appRoutes: Routes = [
 		StepDialogComponent,
 		SearchStepPipe,
 		HomeComponent,
-		UploadFileComponent
+		UploadFileComponent,
+		UserMapComponent,
+		DirectionsMapDirectiveDirective
 	],
 	entryComponents: [
 		ItineraryDialogComponent,
@@ -95,7 +117,7 @@ const appRoutes: Routes = [
 		MaterialModule.forRoot(),
 		RouterModule.forRoot(appRoutes)
 	],
-	providers: [UserService, AuthGuard, NoAuthGuard],
+	providers: [UserService, AuthGuard, NoAuthGuard, GoogleMapsAPIWrapper],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }

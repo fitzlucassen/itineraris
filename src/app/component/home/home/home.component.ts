@@ -17,4 +17,9 @@ export class HomeComponent implements OnInit {
 		this.router.navigate(['compte/connexion.html']);
 		return false;
 	}
+
+	navigateToVisitor(){
+		this.router.navigate(['titou/1/voyage-au-perou']);
+		return false;
+	}
 }

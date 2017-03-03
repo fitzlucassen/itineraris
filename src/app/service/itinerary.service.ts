@@ -71,7 +71,9 @@ export class ItineraryService {
 				city: step.city,
 				date: step.date,
 				description: step.description,
-				itineraryId: step.itineraryId
+				itineraryId: step.itineraryId,
+				lat: step.lat,
+				lng: step.lng
 			})
 			.map(this.extractData)
 			.catch(this.handleError);
@@ -83,6 +85,8 @@ export class ItineraryService {
 				city: step.city,
 				date: step.date,
 				description: step.description,
+				lat: step.lat,
+				lng: step.lng
 			})
 			.map(this.extractData)
 			.catch(this.handleError);
