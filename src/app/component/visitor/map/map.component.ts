@@ -3,6 +3,7 @@ import { MapsAPILoader } from 'angular2-google-maps/core';
 import { ItineraryStep } from '../../../model/itinerary-step';
 import { Picture } from '../../../model/picture';
 import { ItineraryService } from '../../../service/itinerary.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
 	selector: 'app-map',
@@ -22,6 +23,7 @@ export class MapComponent implements OnInit {
 	};
 	@Input() waypoints: Array<ItineraryStep> = [];
 
+	serviceUrl: string;
 	map: google.maps.Map = null;
 	infoWindows: Array<google.maps.InfoWindow> = [];
 	markers: Array<google.maps.Marker> = [];
@@ -31,6 +33,8 @@ export class MapComponent implements OnInit {
 	constructor(private mapsAPILoader: MapsAPILoader, private itineraryService: ItineraryService) { }
 
 	ngOnInit() {
+		this.serviceUrl = environment.apiUrl;
+
 		// Load the map at the last step of the itinerary
 		this.updateDirections();
 	}
@@ -114,8 +118,9 @@ export class MapComponent implements OnInit {
 			.replace('DATE', origin.date.split('T')[0])
 			.replace('PICTURES', '<ul>');
 
+		var that = this;
 		pictures.forEach(function (element) {
-			content += '<li style="list-style:none;"><img src="http://localhost:3000/' + element.url + '" alt="' + element.caption + '" title="' + element.caption + '" width="150px"/></li>'
+			content += '<li style="list-style:none;"><img src="http://' + that.serviceUrl + '/' + element.url + '" alt="' + element.caption + '" title="' + element.caption + '" width="150px"/></li>'
 		});
 		content += '</ul>';
 
@@ -128,7 +133,7 @@ export class MapComponent implements OnInit {
 		var marker = new google.maps.Marker({
 			position: location,
 			map: map,
-			icon: 'http://localhost:4200/assets/icon.png',
+			icon: '/assets/icon.png',
 			clickable: true,
 			title: title,
 		});
