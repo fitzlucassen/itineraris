@@ -118,7 +118,7 @@ export class MapComponent implements OnInit {
 			.replace('DATE', origin.date.split('T')[0]);
 
 		var that = this;
-		var picturesHtml = '<ul>';
+		var picturesHtml = '<ul style="padding: 0;">';
 		pictures.forEach(function (element) {
 			picturesHtml += '<li style="list-style:none;"><img src="http://' + that.serviceUrl + '/' + element.url + '" alt="' + element.caption + '" title="' + element.caption + '" width="150px"/></li>'
 		});
@@ -155,6 +155,13 @@ export class MapComponent implements OnInit {
 			that.infoWindows.forEach(function (element) { element.close(); });
 
 			infoWindow.open(that.map, marker);
+
+			var preElement: any = document.getElementsByClassName('gm-style-iw')[0].previousElementSibling;
+			var nextElement: any = document.getElementsByClassName('gm-style-iw')[0].nextElementSibling;
+
+			preElement.children[1].style.display = 'none';
+			preElement.children[3].style.display = 'none';
+			nextElement.className = 'iw-close';
 		});
 	}
 }

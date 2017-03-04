@@ -75,3 +75,11 @@ app-root .tempDiv{
 		max-height: initial !important;
 		max-width: initial !important;
 	}
+	.iw-close{
+		opacity: 1;
+		right: 38px;
+		top: 3px;
+		border: 7px solid #48b5e9;
+		border-radius: 13px;
+		box-shadow: 0 0 5px #3990B9;
+	}
