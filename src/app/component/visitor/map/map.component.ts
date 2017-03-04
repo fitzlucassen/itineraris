@@ -115,14 +115,15 @@ export class MapComponent implements OnInit {
 		var content = this.infoWindowTemplate
 			.replace('TITLE', origin.city)
 			.replace('DESCRIPTION', origin.description)
-			.replace('DATE', origin.date.split('T')[0])
-			.replace('PICTURES', '<ul>');
+			.replace('DATE', origin.date.split('T')[0]);
 
 		var that = this;
+		var picturesHtml = '<ul>';
 		pictures.forEach(function (element) {
-			content += '<li style="list-style:none;"><img src="http://' + that.serviceUrl + '/' + element.url + '" alt="' + element.caption + '" title="' + element.caption + '" width="150px"/></li>'
+			picturesHtml += '<li style="list-style:none;"><img src="http://' + that.serviceUrl + '/' + element.url + '" alt="' + element.caption + '" title="' + element.caption + '" width="150px"/></li>'
 		});
-		content += '</ul>';
+		picturesHtml += '</ul>';
+		content = content.replace('PICTURES', picturesHtml);
 
 		var marker = this.createMarker({ lat: origin.lat, lng: origin.lng }, this.map, origin.city);
 

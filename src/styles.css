@@ -41,3 +41,37 @@ app-root .tempDiv{
 .md-toolbar-tools .md-input-placeholder{
 	color: white !important;
 }
+
+    #iw-container .iw-title {
+		display: block;
+        font-family: 'Open Sans Condensed', sans-serif;
+        font-size: 22px;
+        font-weight: 400;
+        padding: 10px;
+        background-color: #48b5e9;
+        color: white;
+        margin: 1px;
+        border-radius: 2px 2px 0 0;
+    }
+
+	#iw-container .iw-content{
+		padding: 10px;
+	}
+
+    .gm-style-iw {
+        width: 350px !important;
+        top: 15px !important;
+		left: 50% !important;
+		transform: translateX(-50%);
+
+        background-color: #fff;
+        box-shadow: 0 1px 6px rgba(178, 178, 178, 0.6);
+        border: 1px solid rgba(72, 181, 233, 0.6);
+        border-radius: 2px 2px 0 0;
+    }
+	.gm-style-iw > div {
+		display: block !important;
+		overflow: auto !important;
+		max-height: initial !important;
+		max-width: initial !important;
+	}
