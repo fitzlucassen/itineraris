@@ -84,7 +84,9 @@ export class ItineraryDialogComponent implements OnInit {
 	}
 
 	private successfullyCreated() {
-		this.snackBar.open('Félicitation votre itinéraire a bien été créé', 'Ok');
+		this.snackBar.open('Félicitation votre itinéraire a bien été créé', 'Ok', {
+			duration: 3000
+		});
 		this.isLoading = false;
 
 		var that = this;
@@ -95,7 +97,9 @@ export class ItineraryDialogComponent implements OnInit {
 	}
 
 	private successfullyUpdated() {
-		this.snackBar.open('Félicitation votre itinéraire a bien été modifié', 'Ok');
+		this.snackBar.open('Félicitation votre itinéraire a bien été modifié', 'Ok', {
+			duration: 3000
+		});
 		this.isLoading = false;
 
 		var that = this;

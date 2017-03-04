@@ -31,39 +31,29 @@ export class MapComponent implements OnInit {
 	constructor(private mapsAPILoader: MapsAPILoader, private itineraryService: ItineraryService) { }
 
 	ngOnInit() {
-		var that = this;
-
 		// Load the map at the last step of the itinerary
-		this.mapsAPILoader.load().then(() => {
-			var directionsService = new google.maps.DirectionsService;
-			var directionsDisplay = new google.maps.DirectionsRenderer;
-
-			that.map = new google.maps.Map(document.getElementById('map'), {
-				zoom: 7,
-				center: { lat: that.destination.latitude, lng: that.destination.longitude }
-			});
-			directionsDisplay.setMap(that.map);
-			that.calculateAndDisplayRoute(directionsService, directionsDisplay);
-		});
+		this.updateDirections();
 	}
 
 	updateDirections() {
 		var that = this;
 
-		this.mapsAPILoader.load().then(() => {
-			var directionsService = new google.maps.DirectionsService;
-			var directionsDisplay = new google.maps.DirectionsRenderer;
+		if (this.origin.object.id != null && this.origin.object.id > 0) {
+			this.mapsAPILoader.load().then(() => {
+				var directionsService = new google.maps.DirectionsService;
+				var directionsDisplay = new google.maps.DirectionsRenderer;
 
-			that.map = new google.maps.Map(document.getElementById('map'), {
-				zoom: 7,
-				center: { lat: that.destination.latitude, lng: that.destination.longitude }
+				that.map = new google.maps.Map(document.getElementById('map'), {
+					zoom: 7,
+					center: { lat: that.origin.latitude, lng: that.origin.longitude }
+				});
+				directionsDisplay.setMap(that.map);
+				directionsDisplay.setOptions({
+					suppressMarkers: true,
+				});
+				that.calculateAndDisplayRoute(directionsService, directionsDisplay);
 			});
-			directionsDisplay.setMap(that.map);
-			directionsDisplay.setOptions({
-				suppressMarkers: true,
-			});
-			that.calculateAndDisplayRoute(directionsService, directionsDisplay);
-		});
+		}
 	}
 
 	private calculateAndDisplayRoute(directionsService, directionsDisplay) {
@@ -84,36 +74,37 @@ export class MapComponent implements OnInit {
 			result => that.createInfoWindowForStep(result, this.origin.object),
 			error => alert(error)
 		);
-		// Create a marker at the last step of the itinerary
-		if (waypts.length > 0) {
+		// Create a marker at the last step of the itinerary if exists
+		if (this.destination.object.id != null && this.destination.object.id > 0) {
 			var photos = this.itineraryService.getStepPictures(this.destination.object.id).subscribe(
 				result => that.createInfoWindowForStep(result, this.destination.object),
 				error => alert(error)
 			);
+
+			// So if there are at least two steps we can trace a route
+			directionsService.route({
+				origin: { lat: this.origin.latitude, lng: this.origin.longitude },
+				destination: { lat: this.destination.latitude, lng: this.destination.longitude },
+				waypoints: waypts,
+				travelMode: 'DRIVING',
+			}, function (response, status) {
+				if (status === 'OK') {
+					directionsDisplay.setDirections(response);
+					var _route = response.routes[0];
+
+					_route.legs.forEach(function (element, index) {
+						if (waypts[index] != null) {
+							that.itineraryService.getStepPictures(waypts[index].location.id).subscribe(
+								result => that.createInfoWindowForStep(result, waypts[index].location),
+								error => alert(error)
+							);
+						}
+					});
+				} else {
+					window.alert('Directions request failed due to ' + status);
+				}
+			});
 		}
-
-		directionsService.route({
-			origin: { lat: this.origin.latitude, lng: this.origin.longitude },
-			destination: { lat: this.destination.latitude, lng: this.destination.longitude },
-			waypoints: waypts,
-			travelMode: 'DRIVING',
-		}, function (response, status) {
-			if (status === 'OK') {
-				directionsDisplay.setDirections(response);
-				var _route = response.routes[0];
-
-				_route.legs.forEach(function (element, index) {
-					if (waypts[index] != null) {
-						that.itineraryService.getStepPictures(waypts[index].location.id).subscribe(
-							result => that.createInfoWindowForStep(result, waypts[index].location),
-							error => alert(error)
-						);
-					}
-				});
-			} else {
-				window.alert('Directions request failed due to ' + status);
-			}
-		});
 	}
 
 	private createInfoWindowForStep(pictures: Array<Picture>, origin: ItineraryStep) {

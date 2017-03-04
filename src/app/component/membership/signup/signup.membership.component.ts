@@ -50,7 +50,9 @@ export class SignupMembershipComponent implements OnInit {
 
 	private successfullySignedup() {
 		this.isLoading = false;
-		this.snackBar.open('Félicitation votre compte a bien été créé', 'Ok');
+		this.snackBar.open('Félicitation votre compte a bien été créé', 'Ok', {
+			duration: 3000
+		});
 		this.router.navigate(['compte/connexion.html']);
 	}
 }

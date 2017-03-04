@@ -117,7 +117,9 @@ export class StepDialogComponent implements OnInit, OnChanges {
 	}
 	private successfullyCreated() {
 		this.isLoading = false;
-		this.snackBar.open('Félicitation votre étape a bien été créée', 'Ok');
+		this.snackBar.open('Félicitation votre étape a bien été créée', 'Ok', {
+			duration: 3000
+		});
 
 		var that = this;
 		setTimeout(function () {
@@ -127,7 +129,9 @@ export class StepDialogComponent implements OnInit, OnChanges {
 	}
 	private successfullyUpdated() {
 		this.isLoading = false;
-		this.snackBar.open('Félicitation votre étape a bien été modifiée', 'Ok');
+		this.snackBar.open('Félicitation votre étape a bien été modifiée', 'Ok', {
+			duration: 3000
+		});
 
 		var that = this;
 		setTimeout(function () {
