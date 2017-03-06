@@ -24,6 +24,8 @@ import { HomeComponent } from './component/home/home/home.component';
 import { UploadFileComponent } from './component/upload-file/upload-file.component';
 import { UserMapComponent } from './component/visitor/user-map/user-map.component';
 import { MapComponent } from './component/visitor/map/map.component';
+import { HomeVisitorComponent } from './component/visitor/home/home.visitor.component';
+import { SearchItineraryPipe } from './pipe/search-itinerary.pipe';
 
 const appRoutes: Routes = [
 	/***********/
@@ -68,13 +70,19 @@ const appRoutes: Routes = [
 	// VISITOR
 	/***********/
 	{
+		path: 'itineraires.html',
+		component: HomeVisitorComponent,
+		data: {
+			title: 'Trouvez un itinéraire'
+		}
+	},
+	{
 		path: ':nameuser/:id/:name',
 		component: UserMapComponent,
 		data: {
 			title: ':name de :nameuser'
 		}
 	},
-
 	{
 		path: '',
 		component: HomeComponent,
@@ -99,6 +107,8 @@ const appRoutes: Routes = [
 		UploadFileComponent,
 		UserMapComponent,
 		MapComponent,
+		HomeVisitorComponent,
+		SearchItineraryPipe,
 	],
 	entryComponents: [
 		ItineraryDialogComponent,

@@ -58,6 +58,13 @@ export class ItineraryService {
 			.catch(this.handleError);
 	}
 
+	getItineraries(): Observable<Array<Itinerary>> {
+		return this.http
+			.get('http://' + this.serviceUrl + '/itineraries')
+			.map(this.extractData)
+			.catch(this.handleError);
+	}
+
 	getItineraryById(id: string): Observable<Itinerary> {
 		return this.http
 			.get('http://' + this.serviceUrl + '/itineraries/' + id)

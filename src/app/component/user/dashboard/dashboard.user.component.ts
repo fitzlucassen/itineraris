@@ -3,9 +3,9 @@ import { UserService } from '../../../service/user.service';
 import { ItineraryService } from '../../../service/itinerary.service';
 import { User } from '../../../model/user';
 import { Itinerary } from '../../../model/itinerary';
-import { ItineraryDialogComponent } from '../itinerary-dialog/itinerary-dialog.component'
+import { ItineraryDialogComponent } from '../itinerary-dialog/itinerary-dialog.component';
 import { MdDialog, MdDialogRef } from '@angular/material';
-import { SearchPipe } from '../../../pipe/search.pipe'
+import { SearchPipe } from '../../../pipe/search.pipe';
 import { Router, CanActivate } from '@angular/router';
 
 @Component({

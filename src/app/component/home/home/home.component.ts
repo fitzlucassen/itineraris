@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
 	}
 
 	navigateToVisitor(){
-		this.router.navigate(['titou/1/voyage-au-perou']);
+		this.router.navigate(['itineraires.html']);
 		return false;
 	}
 }
