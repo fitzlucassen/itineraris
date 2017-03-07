@@ -124,7 +124,7 @@ const appRoutes: Routes = [
 			libraries: ["places"]
 		}),
 		MaterialModule.forRoot(),
-		RouterModule.forRoot(appRoutes)
+		RouterModule.forRoot(appRoutes, {useHash: true})
 	],
 	providers: [UserService, AuthGuard, NoAuthGuard],
 	bootstrap: [AppComponent]
