@@ -97,4 +97,7 @@ app-root .tempDiv{
 		margin: auto;
 		display: block;
 	}
+	.only-responsive{
+		display: none;
+	}
 }

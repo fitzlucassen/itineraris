@@ -8,13 +8,13 @@
 			<md-hint *ngIf="!name.untouched && !name.valid && name.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">3 caractères minimum</md-hint>
 		</md-input-container>
 
-		<br/>
+		<br class="only-responsive"/>
 		<md-input-container >
 			<input mdInput class="big-form" placeholder="E-mail" required type="email" formControlName="email" [(ngModel)]="newUser.email"/>
 			<md-hint *ngIf="!email.untouched && !email.valid && email.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">e-mail requis</md-hint>
 			<md-hint *ngIf="!email.untouched && !email.valid && email.errors.pattern" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">email must be like aaa@yyy.zzz</md-hint>
 		</md-input-container>
-		<br/>
+		<br class="only-responsive"/>
 		<md-input-container >
 			<input mdInput class="big-form" placeholder="Mot de passe" required type="password" formControlName="password" [(ngModel)]="newUser.password"/>
 			<md-hint *ngIf="!password.untouched && !password.valid && password.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">mot de passe requis</md-hint>
