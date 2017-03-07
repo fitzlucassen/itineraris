@@ -1,1 +1,16 @@
-<app-map></app-map>
+<md-toolbar color="primary">
+    <button md-icon-button (click)="start.toggle()">
+        <md-icon>menu</md-icon>
+    </button> &nbsp; &nbsp;
+    <span>Itineraris - Voici l'itinéraire de {{title}}</span>
+</md-toolbar>
+
+<md-sidenav-container class="left-navigation" [ngStyle]="{'height': screenHeight + 'px'}">
+    <md-sidenav #start mode="side" opened="false">
+        <h1>Réagissez au voyage de <span>{{title}}</span></h1>
+        <br/>
+        <div class="fb-comments" [attr.data-href]="currentUrl" data-width="300" data-numposts="10"></div>
+    </md-sidenav>
+
+    <app-map></app-map>
+</md-sidenav-container>

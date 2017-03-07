@@ -17,9 +17,9 @@ export class UserMapComponent implements OnInit {
 	itinerary: Itinerary;
 	steps: Array<ItineraryStep>;
 
-	lat: number = 18.5284128;
-	lng: number = 13.9502671;
-	zoom: number = 3;
+	title: string;
+	screenHeight: number;
+	currentUrl: string;
 
 	@ViewChild(MapComponent)
 	public map: MapComponent;
@@ -27,14 +27,19 @@ export class UserMapComponent implements OnInit {
 	constructor(
 		public route: ActivatedRoute,
 		private userService: UserService,
-		private itineraryService: ItineraryService) { }
+		private itineraryService: ItineraryService) {
+		this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
+		this.currentUrl = window.location.href;
+	}
 
 	ngOnInit() {
 		this.route.params.subscribe(params => {
 			// Récupération des valeurs de l'URL
 			let itineraryId = params['id'];
 			let itineraryName = params['name'];
-			let userName = params['username'];
+			let userName = params['nameuser'];
+
+			this.title = userName;
 
 			var that = this;
 			this.itineraryService.getItinerarySteps(itineraryId).subscribe(

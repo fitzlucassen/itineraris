@@ -83,3 +83,7 @@ app-root .tempDiv{
 		border-radius: 13px;
 		box-shadow: 0 0 5px #3990B9;
 	}
+
+.fb-comments > span, .fb-comments iframe{
+	width: 300px !important;
+}
