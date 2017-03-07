@@ -60,3 +60,19 @@
 			#membership-container .c3 [md-mini-fab] i, #membership-container .c3 [md-mini-fab] md-icon {
 				line-height: 32px;
 			}
+
+
+@media screen and (max-width: 950px) {
+	#membership-container .c3{
+		display: block;
+		width: 95%;
+		height: auto;
+	}
+	#membership-container .c3 .separator{
+		display: none;
+	}
+	#membership-container .c3 h2.big-title{
+		font-size: 30px;
+		margin-bottom: 5%;
+	}
+}

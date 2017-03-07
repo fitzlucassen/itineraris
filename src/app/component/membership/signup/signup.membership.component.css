@@ -31,3 +31,9 @@ md-spinner{
     width: 40px;
     height: 40px;
 }
+
+@media screen and (max-width: 950px) {
+	#membership-container h1.big-title{
+		font-size: 30px;
+	}
+}

@@ -87,3 +87,14 @@ app-root .tempDiv{
 .fb-comments > span, .fb-comments iframe{
 	width: 300px !important;
 }
+
+@media screen and (max-width: 950px) {
+	app-membership-home, app-membership-signup{
+		position: static;
+		top: 0;
+		transform: none;
+		width: 95%;
+		margin: auto;
+		display: block;
+	}
+}
