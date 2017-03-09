@@ -81,11 +81,8 @@ export class UserMapComponent implements OnInit {
 				longitude: this.steps[this.steps.length - 1].lng,
 				object: this.steps[this.steps.length - 1]
 			};
-		}
-		if (this.steps.length > 2) {
-			var waypoints = this.steps;
-			waypoints = waypoints.slice(1, waypoints.length - 1);
-			this.map.waypoints = waypoints;
+
+			this.map.waypoints = this.steps;
 		}
 		this.map.updateDirections();
 	}

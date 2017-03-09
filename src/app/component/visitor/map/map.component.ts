@@ -55,60 +55,149 @@ export class MapComponent implements OnInit {
 				directionsDisplay.setOptions({
 					suppressMarkers: true,
 				});
-				that.calculateAndDisplayRoute(directionsService, directionsDisplay);
+
+				// Create a marker at the first step of the itinerary
+				var photos = this.itineraryService.getStepPictures(this.origin.object.id).subscribe(
+					result => that.createInfoWindowForStep(result, this.origin.object),
+					error => alert(error)
+				);
+				// Create a marker at the last step of the itinerary if exists
+				if (this.destination.object.id != null && this.destination.object.id > 0) {
+					var photos = this.itineraryService.getStepPictures(this.destination.object.id).subscribe(
+						result => that.createInfoWindowForStep(result, this.destination.object),
+						error => alert(error)
+					);
+				}
+
+				// If too much steps, batch by group of ten
+				var batches = this.getBatches(this.waypoints);
+				// to hold the counter and the results themselves as they come back, to later sort
+				var unsortedResults = [{}];
+				var directionsResultsReturned = {number: 0};
+
+				// Trace route for each batch of steps
+				for (var k = 0; k < batches.length; k++) {
+					var lastIndex = batches[k].length - 1;
+					var start = batches[k][0].location;
+					var end = batches[k][lastIndex].location;
+
+					// trim first and last entry from array
+					var waypts = [];
+					waypts = batches[k];
+					waypts.splice(0, 1);
+					waypts.splice(waypts.length - 1, 1);
+
+					// create the request in google maps format
+					var request = {
+						origin: start,
+						destination: end,
+						waypoints: waypts,
+						travelMode: google.maps.TravelMode.DRIVING
+					};
+
+					// Execute the calculation with a counter to sort later
+					(function (kk) {
+						that.calculateAndDisplayRoute(directionsService, directionsDisplay, request, batches.length, kk, unsortedResults, directionsResultsReturned);
+					})(k);
+				}
 			});
 		}
 	}
 
-	private calculateAndDisplayRoute(directionsService, directionsDisplay) {
-		var waypts = [];
-		var that = this;
+	private getBatches(stops: Array<ItineraryStep>): Array<any> {
+		var batches = [];
+		var itemsPerBatch = 10; // google API max = 10 - 1 start, 1 stop, and 8 waypoints
+		var itemsCounter = 0;
+		var wayptsExist = stops.length > 0;
 
-		for (var i = 0; i < this.waypoints.length; i++) {
-			waypts.push({
-				location: that.waypoints[i],
-				stopover: true
-			});
+		while (wayptsExist) {
+			var subBatch = [];
+			var subitemsCounter = 0;
+
+			for (var j = itemsCounter; j < stops.length; j++) {
+				subitemsCounter++;
+				subBatch.push({
+					location: stops[j],
+					stopover: true
+				});
+				if (subitemsCounter == itemsPerBatch)
+					break;
+			}
+
+			itemsCounter += subitemsCounter;
+			batches.push(subBatch);
+			wayptsExist = itemsCounter < stops.length;
+			// If it runs again there are still points. Minus 1 before continuing to
+			// start up with end of previous tour leg
+			itemsCounter--;
 		}
 
+		return batches;
+	}
+
+	private calculateAndDisplayRoute(directionsService, directionsDisplay, request, batchesLength, counter, unsortedResults, directionsResultsReturned) {
 		var that = this;
+		var waypts = request.waypoints;
 
-		// Create a marker at the first step of the itinerary
-		var photos = this.itineraryService.getStepPictures(this.origin.object.id).subscribe(
-			result => that.createInfoWindowForStep(result, this.origin.object),
-			error => alert(error)
-		);
-		// Create a marker at the last step of the itinerary if exists
-		if (this.destination.object.id != null && this.destination.object.id > 0) {
-			var photos = this.itineraryService.getStepPictures(this.destination.object.id).subscribe(
-				result => that.createInfoWindowForStep(result, this.destination.object),
-				error => alert(error)
-			);
+		directionsService.route(request, function (response, status) {
+			if (status === 'OK') {
+				// Push the result with the order number
+				unsortedResults.push({ order: counter, result: response });
+				directionsResultsReturned.number++;
 
-			// So if there are at least two steps we can trace a route
-			directionsService.route({
-				origin: { lat: this.origin.latitude, lng: this.origin.longitude },
-				destination: { lat: this.destination.latitude, lng: this.destination.longitude },
-				waypoints: waypts,
-				travelMode: 'DRIVING',
-			}, function (response, status) {
-				if (status === 'OK') {
-					directionsDisplay.setDirections(response);
-					var _route = response.routes[0];
+				// If it's the last result, trace routes
+				if (directionsResultsReturned.number == batchesLength) {
+					// sort the array
+					unsortedResults.sort(function (a, b) { return parseFloat(a.order) - parseFloat(b.order); });
 
-					_route.legs.forEach(function (element, index) {
-						if (waypts[index] != null) {
-							that.itineraryService.getStepPictures(waypts[index].location.id).subscribe(
-								result => that.createInfoWindowForStep(result, waypts[index].location),
+					// browse it to trace routes
+					var count = 0;
+					var combinedResult;
+
+					for (var key in unsortedResults) {
+						if (unsortedResults[key].result !== null) {
+							if (unsortedResults.hasOwnProperty(key)) {
+								combinedResult = that.getGoogleMapsRoute(combinedResult, key, unsortedResults, count);
+								count++;
+							}
+						}
+					}
+
+					directionsDisplay.setDirections(combinedResult);
+					var legs = combinedResult.routes[0].legs;
+
+					legs.forEach(function (element, index) {
+						if (that.waypoints[index] != null) {
+							that.itineraryService.getStepPictures(that.waypoints[index].id).subscribe(
+								result => that.createInfoWindowForStep(result, that.waypoints[index]),
 								error => alert(error)
 							);
 						}
 					});
-				} else {
-					window.alert('Directions request failed due to ' + status);
 				}
-			});
+			} else {
+				window.alert('Directions request failed due to ' + status);
+			}
+		});
+	}
+
+	private getGoogleMapsRoute(combinedResults, key, unsortedResults, count) {
+		if (count === 0) {// first results. new up the combinedResults object
+			if (unsortedResults[key].result)
+				combinedResults = unsortedResults[key].result;
+			else
+				combinedResults = unsortedResults[1 + (key * 1)].result;
 		}
+		else {
+			// only building up legs, overview_path, and bounds in my consolidated object. This is not a complete
+			// directionResults object, but enough to draw a path on the map, which is all I need
+			combinedResults.routes[0].legs = combinedResults.routes[0].legs.concat(unsortedResults[key].result.routes[0].legs);
+			combinedResults.routes[0].overview_path = combinedResults.routes[0].overview_path.concat(unsortedResults[key].result.routes[0].overview_path);
+
+			combinedResults.routes[0].bounds = combinedResults.routes[0].bounds.extend(unsortedResults[key].result.routes[0].bounds.getNorthEast());
+			combinedResults.routes[0].bounds = combinedResults.routes[0].bounds.extend(unsortedResults[key].result.routes[0].bounds.getSouthWest());
+		}
+		return combinedResults;
 	}
 
 	private createInfoWindowForStep(pictures: Array<Picture>, origin: ItineraryStep) {
