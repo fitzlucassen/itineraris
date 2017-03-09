@@ -27,7 +27,8 @@ export class UserMapComponent implements OnInit {
 	constructor(
 		public route: ActivatedRoute,
 		private userService: UserService,
-		private itineraryService: ItineraryService) {
+		private itineraryService: ItineraryService, 
+		private router: Router) {
 		this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
 		this.currentUrl = window.location.href;
 	}

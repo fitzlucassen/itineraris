@@ -1,27 +1,49 @@
-<h1>
-	Itinerar<span>is</span>
-</h1>
+<md-toolbar color="primary">
+	<button md-icon-button (click)="start.toggle()">
+        <md-icon>menu</md-icon>
+    </button> &nbsp; &nbsp;
+	<span>Rechercher un itinéraire</span>
+</md-toolbar>
 
-<div class="md-padding">
-	<h2>Vous cherchez l'<span>itinéraire d'un proche</span> ?<br/>Vous souhaitez vous inspirer d'un <span>itinéraire existant</span>		? C'est ici !</h2>
-
-	<form name="userForm" [formGroup]="form" (ngSubmit)="searchItineraries($event)">
-		<md-input-container>
-			<input #search mdInput type="text" class="big-form" placeholder="Nom de l'itinéraire, nom de l'utilisateur, pays de l'itinéraire..."
-			 formControlName="search" [(ngModel)]="searchText" required flex/>
-		</md-input-container>
-	</form>
-
-	<md-card style="text-align: left;">
-		<md-nav-list flex>
-			<md-list-item class="md-2-line" *ngFor="let itinerary of itineraries | SearchItineraryPipe: searchText" role="link">
-				<md-icon md-list-avatar aria-label="{{itinerary.name}}">airplanemode_active</md-icon>
-				<a md-line href="javascript: void(0);" (click)="navigateToItinerary(itinerary)"><b>{{itinerary.name}} <i>- {{itinerary.country}}</i></b></a>
-				<a md-line href="javascript: void(0);" (click)="navigateToItinerary(itinerary)">{{itinerary.date.substr(0, itinerary.date.indexOf('T'))}}</a>
+<md-sidenav-container class="left-navigation" [ngStyle]="{'height': screenHeight + 'px'}">
+	<md-sidenav #start mode="side" opened="false">
+		<md-nav-list>
+			<md-list-item>
+				<md-icon md-list-avatar aria-label="Accueil">home</md-icon>
+				<a md-line href="/#/">Accueil</a>
 			</md-list-item>
-			<md-list-item *ngIf="(itineraries | SearchItineraryPipe: searchText).length === 0">
-				<a md-line href="javascript: void(0);">Aucun résultat...</a>
+			<md-list-item>
+				<md-icon md-list-avatar aria-label="Espace membre">person</md-icon>
+				<a md-line href="/#/compte/connexion.html">Espace membre</a>
 			</md-list-item>
 		</md-nav-list>
-	</md-card>
-</div>
+	</md-sidenav>
+
+	<h1>
+		Itinerar<span>is</span>
+	</h1>
+
+	<div class="md-padding">
+		<h2>Vous cherchez l'<span>itinéraire d'un proche</span> ?<br/>Vous souhaitez vous inspirer d'un <span>itinéraire existant</span> ? C'est ici !</h2>
+
+		<form name="userForm" [formGroup]="form" (ngSubmit)="searchItineraries($event)">
+			<md-input-container>
+				<input #search mdInput type="text" class="big-form" placeholder="Nom de l'itinéraire, nom de l'utilisateur, pays de l'itinéraire..."
+				 formControlName="search" [(ngModel)]="searchText" required flex/>
+			</md-input-container>
+		</form>
+
+		<md-card style="text-align: left;">
+			<md-nav-list flex>
+				<md-list-item class="md-2-line" *ngFor="let itinerary of itineraries | SearchItineraryPipe: searchText" role="link">
+					<md-icon md-list-avatar aria-label="{{itinerary.name}}">airplanemode_active</md-icon>
+					<a md-line href="/#/{{replaceAll(itinerary.user.name.toLowerCase(), ' ', '-')}}/{{itinerary.id}}/{{replaceAll(itinerary.name.toLowerCase(), ' ', '-')}}"><b>{{itinerary.name}} <i>- {{itinerary.country}}</i></b></a>
+					<a md-line href="/#/">{{itinerary.date.substr(0, itinerary.date.indexOf('T'))}}</a>
+				</md-list-item>
+				<md-list-item *ngIf="(itineraries | SearchItineraryPipe: searchText).length === 0">
+					<a md-line href="javascript: void(0);">Aucun résultat...</a>
+				</md-list-item>
+			</md-nav-list>
+		</md-card>
+	</div>
+</md-sidenav-container>

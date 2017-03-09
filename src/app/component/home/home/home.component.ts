@@ -12,14 +12,4 @@ export class HomeComponent implements OnInit {
 
 	ngOnInit() {
 	}
-
-	navigateToMembership() {
-		this.router.navigate(['compte/connexion.html']);
-		return false;
-	}
-
-	navigateToVisitor(){
-		this.router.navigate(['itineraires.html']);
-		return false;
-	}
 }

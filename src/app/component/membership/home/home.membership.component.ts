@@ -28,7 +28,6 @@ export class HomeMembershipComponent implements OnInit {
 	}
 
 	ngOnInit(){
-
 	}
 
 	signin() {

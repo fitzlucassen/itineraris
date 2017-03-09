@@ -31,8 +31,8 @@ export class HomeVisitorComponent implements OnInit {
 		);
 	}
 
-	navigateToItinerary(itinerary: Itinerary){
-		this.router.navigate(['/', encodeURI(itinerary.user.name.toLocaleLowerCase().replace(' ', '-')), itinerary.id, encodeURI(itinerary.name.toLocaleLowerCase().replace(' ', '-'))]);
+	replaceAll(str:string, replace:string, value:string):string{
+		return str.replace(new RegExp(replace, 'g'), value);
 	}
 
 	ngOnInit() {

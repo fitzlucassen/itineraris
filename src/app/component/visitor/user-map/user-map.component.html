@@ -9,6 +9,23 @@
 
 <md-sidenav-container class="left-navigation" [ngStyle]="{'height': screenHeight + 'px'}">
     <md-sidenav #start mode="side" opened="false">
+        <md-nav-list>
+            <md-list-item>
+                <md-icon md-list-avatar aria-label="Accueil">home</md-icon>
+                <a md-line href="/#/">Accueil</a>
+            </md-list-item>
+            <md-list-item>
+                <md-icon md-list-avatar aria-label="Espace membre">person</md-icon>
+                <a md-line href="/#/compte/connexion.html">Espace membre</a>
+            </md-list-item>
+            <md-list-item>
+                <md-icon md-list-avatar aria-label="Recherche">search</md-icon>
+                <a md-line href="/#/itineraires.html">Recherche</a>
+            </md-list-item>
+
+            <md-divider></md-divider>
+        </md-nav-list>
+        <br/>
         <h1>Réagissez au voyage de <span>{{title}}</span></h1>
         <br/>
         <div class="fb-comments" [attr.data-href]="currentUrl" data-width="300" data-numposts="10"></div>

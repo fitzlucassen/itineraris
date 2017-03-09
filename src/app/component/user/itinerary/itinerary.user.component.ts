@@ -22,6 +22,7 @@ export class ItineraryUserComponent implements OnInit {
 	showSearch: boolean;
 	search: string;
 	screenHeight: number;
+	mapUrl: string;
 
 	constructor(public itineraryDialog: MdDialog, public route: ActivatedRoute, private itineraryService: ItineraryService, private userService: UserService, private router: Router) {
 		this.currentUser = userService.getCurrentUser();
@@ -75,8 +76,8 @@ export class ItineraryUserComponent implements OnInit {
 		}
 	}
 
-	goToDashboard() {
-		this.router.navigate(['compte/tableau-de-bord.html']);
+	replaceAll(str:string, replace:string, value:string):string{
+		return str.replace(new RegExp(replace, 'g'), value);
 	}
 
 	signout(){
@@ -113,6 +114,11 @@ export class ItineraryUserComponent implements OnInit {
 	}
 	private assignItinerary(result:Itinerary){
 		this.currentItinerary = result;
+
+		this.mapUrl = 
+			encodeURI(this.replaceAll(this.currentUser.name.toLocaleLowerCase(), ' ', '-')) + '/' + 
+			this.currentItinerary.id + '/' + 
+			encodeURI(this.replaceAll(this.currentItinerary.name.toLocaleLowerCase(), ' ', '-'));
 	}
 	private assignItinerarySteps(result:Array<ItineraryStep>){
 		this.itinerarySteps = result;

@@ -82,8 +82,8 @@ export class DashboardUserComponent implements OnInit {
 		this.showSearch = !this.showSearch;
 	}
 
-	goToItinerary(name: string, id: number) {
-		this.router.navigate(['compte/itinéraire/', id, encodeURI(name.toLocaleLowerCase().replace(' ', '-'))])
+	replaceAll(str:string, replace:string, value:string):string{
+		return str.replace(new RegExp(replace, 'g'), value);
 	}
 
 	signout() {
