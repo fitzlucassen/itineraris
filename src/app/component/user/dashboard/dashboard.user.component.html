@@ -1,8 +1,8 @@
 <md-toolbar color="primary">
-	<button md-icon-button (click)="start.toggle()">
+	<button md-icon-button (click)="start.toggle();next.close();">
         <md-icon>menu</md-icon>
     </button> &nbsp; &nbsp;
-	<span>Itineraris - Créez puis gérez vos itinéraires</span>
+	<span>Tableau de bord</span>
 </md-toolbar>
 
 <md-sidenav-container class="left-navigation" [ngStyle]="{'height': screenHeight + 'px'}">
@@ -25,7 +25,7 @@
 			</md-list-item>
 			<md-list-item>
 				<md-icon md-list-avatar aria-label="Voir les itinéraires">remove_red_eye</md-icon>
-				<a md-line href="javascript: void(0);" (click)="next.toggle()">Voir les itinéraires</a>
+				<a md-line href="javascript: void(0);" (click)="next.toggle();start.toggle();">Voir les itinéraires</a>
 			</md-list-item>
 
 			<md-divider></md-divider>

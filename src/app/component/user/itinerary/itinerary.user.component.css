@@ -98,3 +98,9 @@ md-toolbar.md-whiteframe-z1 {
             right: 10%;
             cursor: pointer;
         }
+
+@media screen and (max-width: 950px) {
+	h1.big-title{
+		font-size: 30px;
+	}
+}

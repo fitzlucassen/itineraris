@@ -1,8 +1,10 @@
+<div id="fb-root"></div>
+
 <md-toolbar color="primary">
     <button md-icon-button (click)="start.toggle()">
         <md-icon>menu</md-icon>
     </button> &nbsp; &nbsp;
-    <span>Itineraris - Voici l'itinéraire de {{title}}</span>
+    <span>Itinéraire de {{title}}</span>
 </md-toolbar>
 
 <md-sidenav-container class="left-navigation" [ngStyle]="{'height': screenHeight + 'px'}">
@@ -14,4 +16,3 @@
 
     <app-map></app-map>
 </md-sidenav-container>
-<div id="fb-root"></div>
