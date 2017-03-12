@@ -29,6 +29,7 @@ export class MapComponent implements OnInit {
 	markers: Array<google.maps.Marker> = [];
 
 	infoWindowTemplate: string = '<div id="iw-container"><b class="iw-title">TITLE</b><div class="iw-content"><i class="iw-subTitle">Le DATE</i><br/><br/>DESCRIPTION<br/><br/>PICTURES</div><div class="iw-bottom-gradient"></div></div>'
+	infoWindowImgTemplate: string = '<li style="list-style:none;display: inline-block;margin-right: 5px;"><a href="http://URL1" data-lightbox="image" data-title="CAPTION1"><img class="ui bordered small image" src="http://URL2" alt="CAPTION2" title="CAPTION3" width="100px"/></a></li>';
 
 	constructor(private mapsAPILoader: MapsAPILoader, private itineraryService: ItineraryService) { }
 
@@ -209,7 +210,12 @@ export class MapComponent implements OnInit {
 		var that = this;
 		var picturesHtml = '<ul style="padding: 0;">';
 		pictures.forEach(function (element) {
-			picturesHtml += '<li style="list-style:none;"><img src="http://' + that.serviceUrl + '/' + element.url + '" alt="' + element.caption + '" title="' + element.caption + '" width="150px"/></li>'
+			picturesHtml += that.infoWindowImgTemplate
+				.replace('URL1', that.serviceUrl + '/' + element.url)
+				.replace('URL2', that.serviceUrl + '/' + element.url)
+				.replace('CAPTION1', element.caption)
+				.replace('CAPTION3', element.caption)
+				.replace('CAPTION2', element.caption);
 		});
 		picturesHtml += '</ul>';
 		content = content.replace('PICTURES', picturesHtml);
