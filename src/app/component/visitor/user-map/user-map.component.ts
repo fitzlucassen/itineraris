@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, NgZone, Renderer } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../../service/user.service';
 import { ItineraryService } from '../../../service/itinerary.service';
@@ -13,7 +13,7 @@ import { MapComponent } from '../map/map.component';
 	styleUrls: ['./user-map.component.css'],
 	providers: [ItineraryService, UserService, MapComponent],
 })
-export class UserMapComponent implements OnInit {
+export class UserMapComponent implements OnInit, OnDestroy {
 	itinerary: Itinerary;
 	steps: Array<ItineraryStep>;
 
@@ -23,12 +23,15 @@ export class UserMapComponent implements OnInit {
 
 	@ViewChild(MapComponent)
 	public map: MapComponent;
+	@ViewChild('toAppend')
+	public sidenav:ElementRef;
 
 	constructor(
 		public route: ActivatedRoute,
 		private userService: UserService,
-		private itineraryService: ItineraryService, 
-		private router: Router) {
+		private itineraryService: ItineraryService,
+		private router: Router,
+		private renderer: Renderer) {
 		this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
 		this.currentUrl = window.location.href;
 	}
@@ -53,14 +56,22 @@ export class UserMapComponent implements OnInit {
 				error => alert(error)
 			);
 
+			this.renderer.setElementProperty(this.sidenav.nativeElement, 'innerHTML', '<div id="fb-root"></div><div class="fb-comments" data-href="' + this.currentUrl + '" data-numposts="10"></div>');
+
 			(function (d, s, id) {
 				var js, fjs = d.getElementsByTagName(s)[0];
-				if (d.getElementById(id)) return;
+				if (d.getElementById(id) && window['FB']) {
+					window['FB'].XFBML.parse(); //Instead of returning, lets call parse()
+				}
 				js = d.createElement(s); js.id = id;
 				js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.8&appId=265963237186602";
 				fjs.parentNode.insertBefore(js, fjs);
 			}(document, 'script', 'facebook-jssdk'));
 		});
+	}
+
+	ngOnDestroy() {
+		delete window['FB'];
 	}
 
 	private assignItinerary(result: Itinerary) {

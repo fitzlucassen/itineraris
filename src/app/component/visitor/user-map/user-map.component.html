@@ -28,7 +28,8 @@
         <br/>
         <h1>Réagissez au voyage de <span>{{title}}</span></h1>
         <br/>
-        <div class="fb-comments" [attr.data-href]="currentUrl" data-width="300" data-numposts="10"></div>
+        <div #toAppend>
+        </div>
     </md-sidenav>
 
     <app-map></app-map>
