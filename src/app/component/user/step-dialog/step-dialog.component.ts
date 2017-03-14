@@ -59,6 +59,8 @@ export class StepDialogComponent implements OnInit, OnChanges {
 					//get the place result
 					let place: google.maps.places.PlaceResult = autocomplete.getPlace();
 
+					that.city.setValue(place.name);
+
 					//verify result
 					if (place.geometry === undefined || place.geometry === null) {
 						return;

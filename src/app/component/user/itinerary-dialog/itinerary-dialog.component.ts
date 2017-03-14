@@ -45,6 +45,8 @@ export class ItineraryDialogComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		var that = this;
+
 		this.mapsAPILoader.load().then(() => {
 			let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
 				types: ["geocode"]
@@ -53,6 +55,8 @@ export class ItineraryDialogComponent implements OnInit {
 				this.ngZone.run(() => {
 					//get the place result
 					let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+					
+					that.country.setValue(place.name);
 
 					//verify result
 					if (place.geometry === undefined || place.geometry === null) {
