@@ -1,0 +1,22 @@
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+	<url>
+		<loc>http://itineraris.thibaultdulon.com/</loc>
+		<changefreq>weekly</changefreq>
+		<priority>1.00</priority>
+	</url>
+	<url>
+		<loc>http://itineraris.thibaultdulon.com/#/compte/connexion.html</loc>
+		<changefreq>weekly</changefreq>
+		<priority>0.90</priority>
+	</url>
+	<url>
+		<loc>http://itineraris.thibaultdulon.com/#/compte/inscription.html</loc>
+		<changefreq>weekly</changefreq>
+		<priority>0.90</priority>
+	</url>
+	<url>
+		<loc>http://itineraris.thibaultdulon.com/#/itineraires.html</loc>
+		<changefreq>weekly</changefreq>
+		<priority>0.80</priority>
+	</url>
+</urlset>
