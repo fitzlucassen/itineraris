@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MetaService } from 'ng2-meta';
 
 @Component({
 	selector: 'app-root',
@@ -11,6 +12,10 @@ export class AppComponent implements OnInit {
 	lat: number = 18.5284128;
 	lng: number = 13.9502671;
 	zoom: number = 3;
+
+	constructor(private metaService: MetaService){
+
+	}
 
 	ngOnInit() {
 		//set current position

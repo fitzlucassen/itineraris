@@ -6,6 +6,7 @@ import { User } from '../../../model/user';
 import { Itinerary } from '../../../model/itinerary';
 import { ItineraryStep } from '../../../model/itinerary-step';
 import { MapComponent } from '../map/map.component';
+import { MetaService } from 'ng2-meta';
 
 @Component({
 	selector: 'app-user-map',
@@ -27,6 +28,7 @@ export class UserMapComponent implements OnInit, OnDestroy {
 	public sidenav:ElementRef;
 
 	constructor(
+		private metaService: MetaService,
 		public route: ActivatedRoute,
 		private userService: UserService,
 		private itineraryService: ItineraryService,
@@ -44,6 +46,8 @@ export class UserMapComponent implements OnInit, OnDestroy {
 			let userName = params['nameuser'];
 
 			this.title = userName;
+
+			this.metaService.setTitle('Itinéraire de voyage de ' + userName);
 
 			var that = this;
 			this.itineraryService.getItinerarySteps(itineraryId).subscribe(

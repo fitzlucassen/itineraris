@@ -27,6 +27,8 @@ import { MapComponent } from './component/visitor/map/map.component';
 import { HomeVisitorComponent } from './component/visitor/home/home.visitor.component';
 import { SearchItineraryPipe } from './pipe/search-itinerary.pipe';
 
+import { MetaModule } from 'ng2-meta';
+
 const appRoutes: Routes = [
 	/***********/
 	// MEMBERSHIP
@@ -36,7 +38,10 @@ const appRoutes: Routes = [
 		component: HomeMembershipComponent,
 		canActivate: [NoAuthGuard],
 		data: {
-			title: 'Itineraris - Connexion'
+			meta: {
+				title: 'Itineraris - Connexion',
+				description: 'Connectez-vous à votre compte et créez vos itinéraires de voyages'
+			}
 		}
 	},
 	{
@@ -44,7 +49,10 @@ const appRoutes: Routes = [
 		component: SignupMembershipComponent,
 		canActivate: [NoAuthGuard],
 		data: {
-			title: 'Itineraris - Inscription'
+			meta: {
+				title: 'Itineraris - Inscription',
+				description: 'Inscrivez-vous afin de créer vos itinéraires de voyages'
+			}
 		}
 	},
 	/***********/
@@ -55,7 +63,10 @@ const appRoutes: Routes = [
 		component: DashboardUserComponent,
 		canActivate: [AuthGuard],
 		data: {
-			title: 'Itineraris - Dashboard'
+			meta: {
+				title: 'Itineraris - Dashboard',
+				description: 'Votre tableau de bord, gérez vos itinéraires de voyages'
+			}
 		}
 	},
 	{
@@ -63,7 +74,10 @@ const appRoutes: Routes = [
 		component: ItineraryUserComponent,
 		canActivate: [AuthGuard],
 		data: {
-			title: 'Itineraris - Itinéraire'
+			meta: {
+				title: 'Itineraris - Gérer l\'itinéraire',
+				description: 'Gérer votre itinéraire en ajoutant une ou plusieurs étapes'
+			}
 		}
 	},
 	/***********/
@@ -73,21 +87,30 @@ const appRoutes: Routes = [
 		path: 'itineraires.html',
 		component: HomeVisitorComponent,
 		data: {
-			title: 'Trouvez un itinéraire'
+			meta: {
+				title: 'Trouvez un itinéraire de voyage',
+				description: 'Recherchez un itinéraire de voyage'
+			}
 		}
 	},
 	{
 		path: ':nameuser/:id/:name',
 		component: UserMapComponent,
 		data: {
-			title: ':name de :nameuser'
+			meta: {
+				title: 'Itinéraire de voyage',
+				description: 'Visualisation de l\'itinéraire de voyage'
+			}
 		}
 	},
 	{
 		path: '',
 		component: HomeComponent,
 		data: {
-			title: 'Itineraris'
+			meta: {
+				title: 'Vos itinéraires voyages - Itineraris',
+				description: 'Créez vos itinéraires de voyages et tenez informé vos proches'
+			}
 		}
 	}
 ];
@@ -124,7 +147,8 @@ const appRoutes: Routes = [
 			libraries: ["places"]
 		}),
 		MaterialModule.forRoot(),
-		RouterModule.forRoot(appRoutes, {useHash: true})
+		RouterModule.forRoot(appRoutes, { useHash: true }),
+		MetaModule.forRoot()
 	],
 	providers: [UserService, AuthGuard, NoAuthGuard],
 	bootstrap: [AppComponent]
