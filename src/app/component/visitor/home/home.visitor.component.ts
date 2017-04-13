@@ -38,7 +38,11 @@ export class HomeVisitorComponent implements OnInit {
 	ngOnInit() {
 	}
 
-	private assignItineraries(result){
-		this.itineraries = result;
+	private assignItineraries(result:Array<Itinerary>){
+		this.itineraries = result.sort(this.sorter);
+	}
+
+	private sorter(element1:Itinerary, element2:Itinerary) {
+		return element1.nbStep > element2.nbStep ? 0 : 1;
 	}
 }

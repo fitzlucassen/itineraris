@@ -7,6 +7,7 @@ import { Itinerary } from '../../../model/itinerary';
 import { ItineraryStep } from '../../../model/itinerary-step';
 import { MapComponent } from '../map/map.component';
 import { MetaService } from 'ng2-meta';
+import { ShareButtonsModule } from 'ng2-sharebuttons';
 
 @Component({
 	selector: 'app-user-map',
@@ -21,11 +22,12 @@ export class UserMapComponent implements OnInit, OnDestroy {
 	title: string;
 	screenHeight: number;
 	currentUrl: string;
+	totalShare: number = 0;
 
 	@ViewChild(MapComponent)
 	public map: MapComponent;
 	@ViewChild('toAppend')
-	public sidenav:ElementRef;
+	public sidenav: ElementRef;
 
 	constructor(
 		private metaService: MetaService,
@@ -76,6 +78,10 @@ export class UserMapComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy() {
 		delete window['FB'];
+	}
+
+	sumCounts(count) {
+		this.totalShare += count;
 	}
 
 	private assignItinerary(result: Itinerary) {

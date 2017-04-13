@@ -28,6 +28,7 @@ import { HomeVisitorComponent } from './component/visitor/home/home.visitor.comp
 import { SearchItineraryPipe } from './pipe/search-itinerary.pipe';
 
 import { MetaModule } from 'ng2-meta';
+import {ShareButtonsModule} from 'ng2-sharebuttons';
 
 const appRoutes: Routes = [
 	/***********/
@@ -148,7 +149,8 @@ const appRoutes: Routes = [
 		}),
 		MaterialModule.forRoot(),
 		RouterModule.forRoot(appRoutes, { useHash: true }),
-		MetaModule.forRoot()
+		MetaModule.forRoot(),
+		ShareButtonsModule.forRoot()
 	],
 	providers: [UserService, AuthGuard, NoAuthGuard],
 	bootstrap: [AppComponent]

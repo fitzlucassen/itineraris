@@ -7,7 +7,8 @@ export class Itinerary {
     country: string;
     description: string;
     user: User;
-
+    nbStep: number;
+    
     constructor(values: Object = {}) {
         (<any>Object).assign(this, values);
     }

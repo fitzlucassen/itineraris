@@ -25,7 +25,14 @@
 
             <md-divider></md-divider>
         </md-nav-list>
+       
+        <h2>Partagez le voyage de <span>{{title}}</span></h2>
+        <share-buttons class="withCount" [whatsApp]="false" [reddit]="false" [stumbleUpOn]="false" [tumblr]="false" [pinterest]="false" [showCount]="true" (count)="sumCounts($event)"></share-buttons>
+        <md-nav-list>
+            <md-divider></md-divider>
+        </md-nav-list>
         <br/>
+        
         <h1>Réagissez au voyage de <span>{{title}}</span></h1>
         <br/>
         <div #toAppend>
