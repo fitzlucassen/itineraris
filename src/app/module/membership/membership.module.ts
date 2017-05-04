@@ -16,7 +16,6 @@ import { ItineraryUserComponent } from '../../component/user/itinerary/itinerary
 
 import { SearchPipe } from '../../pipe/search.pipe';
 import { SearchStepPipe } from '../../pipe/search-step.pipe';
-import { SearchItineraryPipe } from '../../pipe/search-itinerary.pipe';
 
 import { AuthGuard } from '../../auth-guard';
 import { NoAuthGuard } from '../../no-auth-guard';
@@ -34,7 +33,6 @@ import { routing } from '../../membership.routing';
 		StepDialogComponent,
 		SearchStepPipe,
 		UploadFileComponent,
-		SearchItineraryPipe,
 	],
 	entryComponents: [
 		ItineraryDialogComponent,
@@ -45,10 +43,6 @@ import { routing } from '../../membership.routing';
 		FormsModule,
 		CommonModule,
 		HttpModule,
-		AgmCoreModule.forRoot({
-			apiKey: 'AIzaSyDR6MQEKvMFKiYTS0uZZTA-YIKe2yRcfng',
-			libraries: ["places"]
-		}),
 		MaterialModule.forRoot(),
 		routing
 	]

@@ -9,6 +9,9 @@ import { AgmCoreModule } from 'angular2-google-maps/core';
 import { HomeVisitorComponent } from '../../component/visitor/home/home.visitor.component';
 import { UserMapComponent } from '../../component/visitor/user-map/user-map.component';
 import { MapComponent } from '../../component/visitor/map/map.component';
+import { SearchItineraryPipe } from '../../pipe/search-itinerary.pipe';
+
+import { ShareButtonsModule } from 'ng2-sharebuttons';
 
 import { routing } from '../../visitor.routing';
 
@@ -19,17 +22,15 @@ import { routing } from '../../visitor.routing';
 		FormsModule,
 		CommonModule,
 		HttpModule,
-		AgmCoreModule.forRoot({
-			apiKey: 'AIzaSyDR6MQEKvMFKiYTS0uZZTA-YIKe2yRcfng',
-			libraries: ["places"]
-		}),
 		MaterialModule.forRoot(),
+		ShareButtonsModule.forRoot(),
 		routing
 	],
 	declarations: [
 		UserMapComponent,
 		MapComponent,
 		HomeVisitorComponent,
+		SearchItineraryPipe
 	]
 })
 export class VisitorModule { }

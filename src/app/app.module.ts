@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -25,6 +26,7 @@ import { ShareButtonsModule } from 'ng2-sharebuttons';
 	],
 	imports: [
 		BrowserModule,
+		BrowserAnimationsModule,
 		ReactiveFormsModule,
 		FormsModule,
 		HttpModule,
@@ -35,7 +37,6 @@ import { ShareButtonsModule } from 'ng2-sharebuttons';
 		MaterialModule.forRoot(),
 		routing,
 		// MetaModule.forRoot(),
-		ShareButtonsModule.forRoot()
 	],
 	providers: [UserService, AuthGuard, NoAuthGuard],
 	bootstrap: [AppComponent]
