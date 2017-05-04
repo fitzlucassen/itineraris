@@ -34,7 +34,7 @@ import { ShareButtonsModule } from 'ng2-sharebuttons';
 		}),
 		MaterialModule.forRoot(),
 		routing,
-		MetaModule.forRoot(),
+		// MetaModule.forRoot(),
 		ShareButtonsModule.forRoot()
 	],
 	providers: [UserService, AuthGuard, NoAuthGuard],

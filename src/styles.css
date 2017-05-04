@@ -1,4 +1,4 @@
-@import '~@angular/material/core/theming/prebuilt/indigo-pink.css';
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
 @font-face {
     font-family: 'lato-light';

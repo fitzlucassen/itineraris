@@ -30,7 +30,7 @@ export class UserMapComponent implements OnInit, OnDestroy {
 	public sidenav: ElementRef;
 
 	constructor(
-		private metaService: MetaService,
+		// private metaService: MetaService,
 		public route: ActivatedRoute,
 		private userService: UserService,
 		private itineraryService: ItineraryService,
@@ -49,9 +49,9 @@ export class UserMapComponent implements OnInit, OnDestroy {
 
 			this.title = userName;
 
-			setTimeout(() => {
-				this.metaService.setTitle('Itinéraire de voyage de ' + userName);
-			});
+			// setTimeout(() => {
+			// 	this.metaService.setTitle('Itinéraire de voyage de ' + userName);
+			// });
 
 			var that = this;
 			this.itineraryService.getItinerarySteps(itineraryId).subscribe(
