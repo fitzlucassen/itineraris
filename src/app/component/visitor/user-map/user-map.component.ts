@@ -6,7 +6,6 @@ import { User } from '../../../model/user';
 import { Itinerary } from '../../../model/itinerary';
 import { ItineraryStep } from '../../../model/itinerary-step';
 import { MapComponent } from '../map/map.component';
-import { MetaService } from 'ng2-meta';
 import { ShareButtonsModule } from 'ng2-sharebuttons';
 
 @Component({
@@ -30,7 +29,6 @@ export class UserMapComponent implements OnInit, OnDestroy {
 	public sidenav: ElementRef;
 
 	constructor(
-		// private metaService: MetaService,
 		public route: ActivatedRoute,
 		private userService: UserService,
 		private itineraryService: ItineraryService,

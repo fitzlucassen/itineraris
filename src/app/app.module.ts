@@ -16,7 +16,6 @@ import { NoAuthGuard } from './no-auth-guard';
 import { HomeComponent } from './component/home/home/home.component';
 import { routing } from './app.routing';
 
-import { MetaModule } from 'ng2-meta';
 import { ShareButtonsModule } from 'ng2-sharebuttons';
 
 @NgModule({
@@ -35,8 +34,7 @@ import { ShareButtonsModule } from 'ng2-sharebuttons';
 			libraries: ["places"]
 		}),
 		MaterialModule.forRoot(),
-		routing,
-		// MetaModule.forRoot(),
+		routing
 	],
 	providers: [UserService, AuthGuard, NoAuthGuard],
 	bootstrap: [AppComponent]
