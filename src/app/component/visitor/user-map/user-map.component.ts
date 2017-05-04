@@ -49,7 +49,9 @@ export class UserMapComponent implements OnInit, OnDestroy {
 
 			this.title = userName;
 
-			this.metaService.setTitle('Itinéraire de voyage de ' + userName);
+			setTimeout(() => {
+				this.metaService.setTitle('Itinéraire de voyage de ' + userName);
+			});
 
 			var that = this;
 			this.itineraryService.getItinerarySteps(itineraryId).subscribe(
