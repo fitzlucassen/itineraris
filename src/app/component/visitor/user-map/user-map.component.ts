@@ -1,11 +1,14 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, NgZone, Renderer } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Meta } from '@angular/platform-browser';
+
 import { UserService } from '../../../service/user.service';
 import { ItineraryService } from '../../../service/itinerary.service';
 import { User } from '../../../model/user';
 import { Itinerary } from '../../../model/itinerary';
 import { ItineraryStep } from '../../../model/itinerary-step';
 import { MapComponent } from '../map/map.component';
+
 import { ShareButtonsModule } from 'ng2-sharebuttons';
 
 @Component({
@@ -33,7 +36,12 @@ export class UserMapComponent implements OnInit, OnDestroy {
 		private userService: UserService,
 		private itineraryService: ItineraryService,
 		private router: Router,
-		private renderer: Renderer) {
+		private renderer: Renderer, private metaService: Meta) {
+		this.metaService.updateTag({ content: "Itinéraire de voyage" }, "name='title'");
+		this.metaService.updateTag({ content: "Itinéraire de voyage" }, "name='og:title'");
+		this.metaService.updateTag({ content: "Visualisation de l\'itinéraire de voyage" }, "name='description'");
+		this.metaService.updateTag({ content: "Visualisation de l\'itinéraire de voyage" }, "name='og:description'");
+
 		this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
 		this.currentUrl = window.location.href;
 	}
@@ -47,9 +55,8 @@ export class UserMapComponent implements OnInit, OnDestroy {
 
 			this.title = userName;
 
-			// setTimeout(() => {
-			// 	this.metaService.setTitle('Itinéraire de voyage de ' + userName);
-			// });
+			this.metaService.updateTag({ content: "Itinéraire de voyage de " + userName }, "name='title'");
+			this.metaService.updateTag({ content: "Itinéraire de voyage de " + userName }, "name='og:title'");
 
 			var that = this;
 			this.itineraryService.getItinerarySteps(itineraryId).subscribe(

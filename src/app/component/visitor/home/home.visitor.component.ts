@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Meta } from '@angular/platform-browser';
+
 import { ItineraryService } from '../../../service/itinerary.service';
 import { Itinerary } from '../../../model/itinerary';
 import { SearchItineraryPipe } from '../../../pipe/search-itinerary.pipe';
-import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-home',
@@ -18,7 +20,12 @@ export class HomeVisitorComponent implements OnInit {
 
 	itineraries: Array<Itinerary> = [];
 
-	constructor(private fb: FormBuilder, private itineraryService: ItineraryService, private router: Router) {
+	constructor(private fb: FormBuilder, private itineraryService: ItineraryService, private router: Router, private metaService: Meta) { 
+		this.metaService.updateTag({content: "Trouvez un itinéraire de voyage"}, "name='title'");
+		this.metaService.updateTag({content: "Trouvez un itinéraire de voyage"}, "name='og:title'");
+		this.metaService.updateTag({content: "Recherchez un itinéraire de voyage"}, "name='description'");
+		this.metaService.updateTag({content: "Recherchez un itinéraire de voyage"}, "name='og:description'");
+
 		this.search = new FormControl('', [Validators.required]);
 		this.form = this.fb.group({
 			search: this.search,

@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { MdDialog, MdDialogRef } from '@angular/material';
+import { Router, CanActivate } from '@angular/router';
+import { Meta } from '@angular/platform-browser';
+
 import { UserService } from '../../../service/user.service';
 import { ItineraryService } from '../../../service/itinerary.service';
 import { User } from '../../../model/user';
 import { Itinerary } from '../../../model/itinerary';
 import { ItineraryDialogComponent } from '../itinerary-dialog/itinerary-dialog.component';
-import { MdDialog, MdDialogRef } from '@angular/material';
 import { SearchPipe } from '../../../pipe/search.pipe';
-import { Router, CanActivate } from '@angular/router';
 
 @Component({
 	selector: 'app-user-dashboard',
@@ -23,7 +25,12 @@ export class DashboardUserComponent implements OnInit {
 	screenHeight: number;
 	isLoading: boolean = false;
 
-	constructor(public itineraryDialog: MdDialog, private userService: UserService, private itineraryService: ItineraryService, private router: Router) {
+	constructor(public itineraryDialog: MdDialog, private userService: UserService, private itineraryService: ItineraryService, private router: Router, private metaService: Meta) { 
+		this.metaService.updateTag({content: "Itineraris - Dashboard"}, "name='title'");
+		this.metaService.updateTag({content: "Itineraris - Dashboard"}, "name='og:title'");
+		this.metaService.updateTag({content: "Votre tableau de bord, gérez vos itinéraires de voyages"}, "name='description'");
+		this.metaService.updateTag({content: "Votre tableau de bord, gérez vos itinéraires de voyages"}, "name='og:description'");
+
 		this.currentUser = userService.getCurrentUser();
 		this.showSearch = false;
 		this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;

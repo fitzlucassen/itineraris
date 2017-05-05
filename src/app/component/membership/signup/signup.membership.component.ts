@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Meta } from '@angular/platform-browser';
+import { MdSnackBar } from '@angular/material';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+
 import { User } from '../../../model/user';
 import { UserService } from '../../../service/user.service';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { MdSnackBar } from '@angular/material';
 
 @Component({
 	selector: 'app-membership-signup',
@@ -20,7 +22,12 @@ export class SignupMembershipComponent implements OnInit {
 	password: FormControl;
 	form: FormGroup;
 
-	constructor(public snackBar: MdSnackBar, private fb: FormBuilder, private userService: UserService, private router: Router) {
+	constructor(public snackBar: MdSnackBar, private fb: FormBuilder, private userService: UserService, private router: Router, private metaService: Meta) { 
+		this.metaService.updateTag({content: "Itineraris - Inscription"}, "name='title'");
+		this.metaService.updateTag({content: "Itineraris - Inscription"}, "name='og:title'");
+		this.metaService.updateTag({content: "Inscrivez-vous afin de créer vos itinéraires de voyages"}, "name='description'");
+		this.metaService.updateTag({content: "Inscrivez-vous afin de créer vos itinéraires de voyages"}, "name='og:description'");
+
 		this.name = new FormControl('', [Validators.required, Validators.minLength(3)]);
 		this.email = new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}')]);
 		this.password = new FormControl('', [Validators.required, Validators.minLength(3)]);
