@@ -20,17 +20,17 @@ export class HomeVisitorComponent implements OnInit {
 
 	itineraries: Array<Itinerary> = [];
 
-	constructor(private fb: FormBuilder, private itineraryService: ItineraryService, private router: Router, private metaService: Meta) { 
-		this.metaService.updateTag({content: "Trouvez un itinéraire de voyage"}, "name='title'");
-		this.metaService.updateTag({content: "Trouvez un itinéraire de voyage"}, "name='og:title'");
-		this.metaService.updateTag({content: "Recherchez un itinéraire de voyage"}, "name='description'");
-		this.metaService.updateTag({content: "Recherchez un itinéraire de voyage"}, "name='og:description'");
+	constructor(private fb: FormBuilder, private itineraryService: ItineraryService, private router: Router, private metaService: Meta) {
+		this.metaService.updateTag({ content: "Trouvez un itinéraire de voyage" }, "name='title'");
+		this.metaService.updateTag({ content: "Trouvez un itinéraire de voyage" }, "name='og:title'");
+		this.metaService.updateTag({ content: "Recherchez un itinéraire de voyage" }, "name='description'");
+		this.metaService.updateTag({ content: "Recherchez un itinéraire de voyage" }, "name='og:description'");
 
 		this.search = new FormControl('', [Validators.required]);
 		this.form = this.fb.group({
 			search: this.search,
 		});
-		
+
 		var that = this;
 		this.itineraryService.getItineraries().subscribe(
 			result => that.assignItineraries(result),
@@ -38,18 +38,24 @@ export class HomeVisitorComponent implements OnInit {
 		);
 	}
 
-	replaceAll(str:string, replace:string, value:string):string{
+	replaceAll(str: string, replace: string, value: string): string {
 		return str.replace(new RegExp(replace, 'g'), value);
 	}
 
 	ngOnInit() {
 	}
 
-	private assignItineraries(result:Array<Itinerary>){
+	private assignItineraries(result: Array<Itinerary>) {
 		this.itineraries = result.sort(this.sorter);
 	}
 
-	private sorter(element1:Itinerary, element2:Itinerary) {
-		return element1.nbStep > element2.nbStep ? 0 : 1;
+	private sorter(a: Itinerary, b: Itinerary) {
+		if (a.nbStep < b.nbStep) {
+			return 1;
+		} else if (a.nbStep > b.nbStep) {
+			return -1;
+		} else {
+			return 0;
+		}
 	}
 }
