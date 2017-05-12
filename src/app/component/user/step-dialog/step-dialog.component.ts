@@ -26,6 +26,7 @@ export class StepDialogComponent implements OnInit, OnChanges {
 	city: FormControl;
 	date: FormControl;
 	description: FormControl;
+	type: FormControl;
 	form: FormGroup;
 
 	constructor(
@@ -39,11 +40,13 @@ export class StepDialogComponent implements OnInit, OnChanges {
 		this.city = new FormControl('', [Validators.required, Validators.minLength(2)]);
 		this.date = new FormControl('', [Validators.required]);
 		this.description = new FormControl('', [Validators.required, Validators.minLength(3)]);
+		this.type = new FormControl('', [Validators.required]);
 
 		this.form = this.fb.group({
 			city: this.city,
 			date: this.date,
 			description: this.description,
+			type: this.type
 		});
 	}
 

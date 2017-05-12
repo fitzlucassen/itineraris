@@ -17,6 +17,14 @@
 			<md-hint *ngIf="!description.untouched && !description.valid && description.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">3 caractères minimum</md-hint>
 		</md-input-container>
 		<br/>
+		<br/>
+		<md-select placeholder="Type de transport" formControlName="type" [(ngModel)]="newStep.type" required flex>
+			<md-option value="DRIVING">Terrestre (Voiture/Bus/Train...etc.)</md-option>
+			<md-option value="WALKING">Pedestre (à pied)</md-option>
+			<md-option value="FLIGHT">Autre (Avion/Bateau...etc.)</md-option>
+		</md-select>
+		<br/>
+		<br/>
 		<app-upload-file [stepId]="newStep.id" [images]="images"></app-upload-file>
 		<br/>
 		<md-spinner *ngIf="isLoading"></md-spinner>

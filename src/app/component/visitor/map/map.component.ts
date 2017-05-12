@@ -74,10 +74,12 @@ export class MapComponent implements OnInit {
 				var batches = this.getBatches(this.waypoints);
 				// to hold the counter and the results themselves as they come back, to later sort
 				var unsortedResults = [{}];
-				var directionsResultsReturned = {number: 0};
+				var directionsResultsReturned = { number: 0 };
 
 				// Trace route for each batch of steps
 				for (var k = 0; k < batches.length; k++) {
+					var mode = batches[k][0].mode;
+
 					var lastIndex = batches[k].length - 1;
 					var start = batches[k][0].location;
 					var end = batches[k][lastIndex].location;
@@ -93,13 +95,13 @@ export class MapComponent implements OnInit {
 						origin: start,
 						destination: end,
 						waypoints: waypts,
-						travelMode: google.maps.TravelMode.DRIVING
+						travelMode: end.type
 					};
 
 					// Execute the calculation with a counter to sort later
-					(function (kk) {
-						that.calculateAndDisplayRoute(directionsService, directionsDisplay, request, batches.length, kk, unsortedResults, directionsResultsReturned);
-					})(k);
+					(function (kk, mode) {
+						that.calculateAndDisplayRoute(directionsService, directionsDisplay, request, mode, batches.length, kk, unsortedResults, directionsResultsReturned);
+					})(k, mode);
 				}
 			});
 		}
@@ -113,73 +115,132 @@ export class MapComponent implements OnInit {
 
 		while (wayptsExist) {
 			var subBatch = [];
+			var flightBatch = [];
 			var subitemsCounter = 0;
 
-			for (var j = itemsCounter; j < stops.length; j++) {
+			for (var j = itemsCounter; j < stops.length; j++) {				
+				if(stops[j].type == 'FLIGHT'){
+					flightBatch.push({
+						location: stops[j-1],
+						stopover: true,
+						mode: "flight"
+					});
+					flightBatch.push({
+						location: stops[j],
+						stopover: true,
+						mode: "flight"
+					});
+				}
+
 				subitemsCounter++;
-				subBatch.push({
-					location: stops[j],
-					stopover: true
-				});
-				if (subitemsCounter == itemsPerBatch)
+
+				if(stops[j].type != 'FLIGHT') {
+					if(j > 0 && stops[j-1].type == 'FLIGHT'){
+						subBatch.push({
+							location: stops[j-1],
+							stopover: true,
+							mode: "normal"
+						});	
+					}
+					subBatch.push({
+						location: stops[j],
+						stopover: true,
+						mode: "normal"
+					});
+				}
+				if (subitemsCounter == itemsPerBatch || flightBatch.length > 0)
 					break;
 			}
 
 			itemsCounter += subitemsCounter;
 			batches.push(subBatch);
+
 			wayptsExist = itemsCounter < stops.length;
-			// If it runs again there are still points. Minus 1 before continuing to
-			// start up with end of previous tour leg
-			itemsCounter--;
+			if(flightBatch.length > 0){
+				batches.push(flightBatch);
+			}
+			else {
+				// If it runs again there are still points. Minus 1 before continuing to
+				// start up with end of previous tour leg
+				itemsCounter--;
+			}
 		}
 
 		return batches;
 	}
 
-	private calculateAndDisplayRoute(directionsService, directionsDisplay, request, batchesLength, counter, unsortedResults, directionsResultsReturned) {
+	private calculateAndDisplayRoute(directionsService, directionsDisplay, request, mode, batchesLength, counter, unsortedResults, directionsResultsReturned) {
 		var that = this;
 		var waypts = request.waypoints;
 
-		directionsService.route(request, function (response, status) {
-			if (status === 'OK') {
-				// Push the result with the order number
-				unsortedResults.push({ order: counter, result: response });
-				directionsResultsReturned.number++;
+		if(mode == 'flight'){
+			var line = new google.maps.Polyline({
+				strokeColor: '#3f51b5',
+				strokeOpacity: 1.0,
+				strokeWeight: 3,
+				geodesic: true,
+				map: that.map
+			});
 
-				// If it's the last result, trace routes
-				if (directionsResultsReturned.number == batchesLength) {
-					// sort the array
-					unsortedResults.sort(function (a, b) { return parseFloat(a.order) - parseFloat(b.order); });
+			var path = [request.origin, request.destination];
+			line.setPath(path);
 
-					// browse it to trace routes
-					var count = 0;
-					var combinedResult;
+			that.itineraryService.getStepPictures(request.origin.id).subscribe(
+				result => that.createInfoWindowForStep(result, request.origin),
+				error => alert(error)
+			);
+			that.itineraryService.getStepPictures(request.destination.id).subscribe(
+				result => that.createInfoWindowForStep(result, request.destination),
+				error => alert(error)
+			);
+			directionsResultsReturned.number++;
+		}
+		else {
+			request.waypoints.forEach(function(element){
+				delete element.mode;
+			});
 
-					for (var key in unsortedResults) {
-						if (unsortedResults[key].result !== null) {
-							if (unsortedResults.hasOwnProperty(key)) {
-								combinedResult = that.getGoogleMapsRoute(combinedResult, key, unsortedResults, count);
-								count++;
+			directionsService.route(request, function (response, status) {
+				if (status === 'OK') {
+					// Push the result with the order number
+					unsortedResults.push({ order: counter, result: response });
+					directionsResultsReturned.number++;
+
+					// If it's the last result, trace routes
+					if (directionsResultsReturned.number == batchesLength) {
+						// sort the array
+						unsortedResults.sort(function (a, b) { return parseFloat(a.order) - parseFloat(b.order); });
+
+						// browse it to trace routes
+						var count = 0;
+						var combinedResult;
+
+						for (var key in unsortedResults) {
+							if (unsortedResults[key].result !== null) {
+								if (unsortedResults.hasOwnProperty(key)) {
+									combinedResult = that.getGoogleMapsRoute(combinedResult, key, unsortedResults, count);
+									count++;
+								}
 							}
 						}
+
+						directionsDisplay.setDirections(combinedResult);
+						var legs = combinedResult.routes[0].legs;
+
+						legs.forEach(function (element, index) {
+							if (that.waypoints[index] != null) {
+								that.itineraryService.getStepPictures(that.waypoints[index].id).subscribe(
+									result => that.createInfoWindowForStep(result, that.waypoints[index]),
+									error => alert(error)
+								);
+							}
+						});
 					}
-
-					directionsDisplay.setDirections(combinedResult);
-					var legs = combinedResult.routes[0].legs;
-
-					legs.forEach(function (element, index) {
-						if (that.waypoints[index] != null) {
-							that.itineraryService.getStepPictures(that.waypoints[index].id).subscribe(
-								result => that.createInfoWindowForStep(result, that.waypoints[index]),
-								error => alert(error)
-							);
-						}
-					});
+				} else {
+					window.alert('Directions request failed due to ' + status);
 				}
-			} else {
-				window.alert('Directions request failed due to ' + status);
-			}
-		});
+			});
+		}
 	}
 
 	private getGoogleMapsRoute(combinedResults, key, unsortedResults, count) {

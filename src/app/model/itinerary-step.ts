@@ -6,6 +6,7 @@ export class ItineraryStep {
     itineraryId:number;
     lat:number;
     lng: number;
+    type:string;
 
     constructor(values: Object = {}) {
         (<any>Object).assign(this, values);
