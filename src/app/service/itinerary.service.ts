@@ -81,7 +81,7 @@ export class ItineraryService {
 				itineraryId: step.itineraryId,
 				lat: step.lat,
 				lng: step.lng,
-				type: step.type
+				type: step.type != null ? step.type : 'DRIVING'
 			})
 			.map(this.extractData)
 			.catch(this.handleError);

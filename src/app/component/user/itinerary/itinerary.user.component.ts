@@ -47,6 +47,9 @@ export class ItineraryUserComponent implements OnInit {
 		});
 		this.dialogRef.componentInstance.newStep.itineraryId = this.currentItinerary.id;
 
+		if(this.itinerarySteps.length == 0)
+			this.dialogRef.componentInstance.type.disable();
+
 		var that = this;
 		return this.dialogRef.afterClosed().subscribe(function () {
 			that.itineraryService.getItinerarySteps(that.currentItinerary.id).subscribe(
