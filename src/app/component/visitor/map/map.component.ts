@@ -153,7 +153,9 @@ export class MapComponent implements OnInit {
 			}
 
 			itemsCounter += subitemsCounter;
-			batches.push(subBatch);
+
+			if(subBatch.length > 0)
+				batches.push(subBatch);
 
 			wayptsExist = itemsCounter < stops.length;
 			if(flightBatch.length > 0){
@@ -227,10 +229,12 @@ export class MapComponent implements OnInit {
 						directionsDisplay.setDirections(combinedResult);
 						var legs = combinedResult.routes[0].legs;
 
+						var tmpWaypoints = that.waypoints.filter(w => w.type != 'FLIGHT');
+
 						legs.forEach(function (element, index) {
-							if (that.waypoints[index] != null) {
-								that.itineraryService.getStepPictures(that.waypoints[index].id).subscribe(
-									result => that.createInfoWindowForStep(result, that.waypoints[index]),
+							if (tmpWaypoints[index] != null) {
+								that.itineraryService.getStepPictures(tmpWaypoints[index].id).subscribe(
+									result => that.createInfoWindowForStep(result, tmpWaypoints[index]),
 									error => alert(error)
 								);
 							}
