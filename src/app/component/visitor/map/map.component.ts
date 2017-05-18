@@ -29,7 +29,7 @@ export class MapComponent implements OnInit {
 	markers: Array<google.maps.Marker> = [];
 
 	infoWindowTemplate: string = '<div id="iw-container"><b class="iw-title">TITLE</b><div class="iw-content"><i class="iw-subTitle">Le DATE</i><br/><br/>DESCRIPTION<br/><br/>PICTURES</div><div class="iw-bottom-gradient"></div></div>'
-	infoWindowImgTemplate: string = '<li style="list-style:none;display: inline-block;margin-right: 5px;"><a href="http://URL1" data-lightbox="image" data-title="CAPTION1"><img class="ui bordered small image" src="http://URL2" alt="CAPTION2" title="CAPTION3" width="100px"/></a></li>';
+	infoWindowImgTemplate: string = '<li style="list-style:none;display: inline-block;margin-right: 5px;"><a href="http://URL1" data-lightbox="image" data-title="CAPTION1"><img class="ui bordered small image" src="http://URL2" alt="CAPTION2" title="CAPTION3" width="100px" height="100px"/></a></li>';
 
 	constructor(private mapsAPILoader: MapsAPILoader, private itineraryService: ItineraryService) { }
 
