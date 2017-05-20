@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, NgZone, Renderer } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Meta } from '@angular/platform-browser';
+import { Meta, Title } from '@angular/platform-browser';
 
 import { UserService } from '../../../service/user.service';
 import { ItineraryService } from '../../../service/itinerary.service';
@@ -36,9 +36,8 @@ export class UserMapComponent implements OnInit, OnDestroy {
 		private userService: UserService,
 		private itineraryService: ItineraryService,
 		private router: Router,
-		private renderer: Renderer, private metaService: Meta) {
-		this.metaService.updateTag({ content: "Itinéraire de voyage" }, "name='title'");
-		this.metaService.updateTag({ content: "Itinéraire de voyage" }, "name='og:title'");
+		private renderer: Renderer, private metaService: Meta, private titleService: Title) {
+		this.titleService.setTitle('Itinéraire de voyage');
 		this.metaService.updateTag({ content: "Visualisation de l\'itinéraire de voyage" }, "name='description'");
 		this.metaService.updateTag({ content: "Visualisation de l\'itinéraire de voyage" }, "name='og:description'");
 
@@ -55,7 +54,7 @@ export class UserMapComponent implements OnInit, OnDestroy {
 
 			this.title = userName;
 
-			this.metaService.updateTag({ content: "Itinéraire de voyage de " + userName }, "name='title'");
+			this.titleService.setTitle('Itinéraire de voyage de ' + userName);
 			this.metaService.updateTag({ content: "Itinéraire de voyage de " + userName }, "name='og:title'");
 
 			var that = this;

@@ -1,5 +1,5 @@
 <div class="md-padding">
-	<form name="userForm" [formGroup]="form" (ngSubmit)="registerItinerary($event)">
+	<form name="userForm" [formGroup]="form" (ngSubmit)="registerItinerary()">
 		<div layout layout-sm="column">
 			<md-input-container flex>
 				<input mdInput class="big-form" placeholder="Nom de l'itinéraire" formControlName="name" [(ngModel)]="newItinerary.name" required/>

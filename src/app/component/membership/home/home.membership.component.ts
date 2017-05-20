@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
-import { Meta } from '@angular/platform-browser';
+import { Meta, Title } from '@angular/platform-browser';
 
 import { User } from '../../../model/user';
 import { UserService } from '../../../service/user.service';
@@ -19,8 +19,8 @@ export class HomeMembershipComponent implements OnInit {
 	password: FormControl;
 	form: FormGroup;
 
-	constructor(private fb: FormBuilder, private userService: UserService, private router: Router, private metaService: Meta) { 
-		this.metaService.updateTag({content: "Itineraris - Connexion"}, "name='title'");
+	constructor(private fb: FormBuilder, private userService: UserService, private router: Router, private metaService: Meta, private titleService: Title) {
+		this.titleService.setTitle('Itineraris - Connexion');
 		this.metaService.updateTag({content: "Itineraris - Connexion"}, "name='og:title'");
 		this.metaService.updateTag({content: "Connectez-vous à votre compte et créez vos itinéraires de voyages"}, "name='description'");
 		this.metaService.updateTag({content: "Connectez-vous à votre compte et créez vos itinéraires de voyages"}, "name='og:description'");

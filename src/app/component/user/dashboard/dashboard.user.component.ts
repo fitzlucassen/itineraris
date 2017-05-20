@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { Router, CanActivate } from '@angular/router';
-import { Meta } from '@angular/platform-browser';
+import { Meta, Title } from '@angular/platform-browser';
 
 import { UserService } from '../../../service/user.service';
 import { ItineraryService } from '../../../service/itinerary.service';
@@ -25,8 +25,8 @@ export class DashboardUserComponent implements OnInit {
 	screenHeight: number;
 	isLoading: boolean = false;
 
-	constructor(public itineraryDialog: MdDialog, private userService: UserService, private itineraryService: ItineraryService, private router: Router, private metaService: Meta) { 
-		this.metaService.updateTag({content: "Itineraris - Dashboard"}, "name='title'");
+	constructor(public itineraryDialog: MdDialog, private userService: UserService, private itineraryService: ItineraryService, private router: Router, private metaService: Meta, private titleService: Title) {
+		this.titleService.setTitle('Itineraris - Dashboard');
 		this.metaService.updateTag({content: "Itineraris - Dashboard"}, "name='og:title'");
 		this.metaService.updateTag({content: "Votre tableau de bord, gérez vos itinéraires de voyages"}, "name='description'");
 		this.metaService.updateTag({content: "Votre tableau de bord, gérez vos itinéraires de voyages"}, "name='og:description'");

@@ -26,10 +26,9 @@
 	<div class="md-padding">
 		<h2>Vous cherchez l'<span>itinéraire d'un proche</span> ?<br/>Vous souhaitez vous inspirer d'un <span>itinéraire existant</span> ? C'est ici !</h2>
 
-		<form name="userForm" [formGroup]="form" (ngSubmit)="searchItineraries($event)">
+		<form name="userForm" [formGroup]="form">
 			<md-input-container>
-				<input #search mdInput type="text" class="big-form" placeholder="Nom de l'itinéraire, nom de l'utilisateur, pays de l'itinéraire..."
-				 formControlName="search" [(ngModel)]="searchText" required flex/>
+				<input #search mdInput type="text" class="big-form" placeholder="Nom de l'itinéraire, nom de l'utilisateur, pays de l'itinéraire..." formControlName="search" [(ngModel)]="searchText" required flex/>
 			</md-input-container>
 		</form>
 

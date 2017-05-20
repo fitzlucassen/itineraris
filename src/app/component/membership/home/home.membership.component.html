@@ -2,7 +2,7 @@
 	<div class="c3">
 		<h2 class="big-title">Connectez-vous</h2>
 
-		<form [formGroup]="form" (ngSubmit)="signin($event)">
+		<form [formGroup]="form" (ngSubmit)="signin()">
 			<md-input-container >
 				<input mdInput class="big-form" required formControlName="pseudo" placeholder="Pseudo ou e-mail" [(ngModel)]="newUser.email"/>
 				<md-hint *ngIf="!pseudo.untouched && !pseudo.valid && pseudo.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">pseudo ou e-mail est requis</md-hint>

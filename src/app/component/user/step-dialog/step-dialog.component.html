@@ -1,5 +1,5 @@
 <div class="md-padding">
-	<form name="userForm" [formGroup]="form" (ngSubmit)="registerStep($event)">
+	<form name="userForm" [formGroup]="form" (ngSubmit)="registerStep()">
 		<div layout layout-sm="column">
 			<md-input-container>
 				<input mdInput class="big-form" placeholder="Ville de l'étape" formControlName="city" [(ngModel)]="newStep.city" required flex autocorrect="off" autocapitalize="off" spellcheck="off" class="form-control" #search />

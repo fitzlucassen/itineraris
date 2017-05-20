@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Meta } from '@angular/platform-browser';
+import { Meta, Title } from '@angular/platform-browser';
 import { MdSnackBar } from '@angular/material';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
@@ -22,8 +22,8 @@ export class SignupMembershipComponent implements OnInit {
 	password: FormControl;
 	form: FormGroup;
 
-	constructor(public snackBar: MdSnackBar, private fb: FormBuilder, private userService: UserService, private router: Router, private metaService: Meta) { 
-		this.metaService.updateTag({content: "Itineraris - Inscription"}, "name='title'");
+	constructor(public snackBar: MdSnackBar, private fb: FormBuilder, private userService: UserService, private router: Router, private metaService: Meta, private titleService: Title) {
+		this.titleService.setTitle('Itineraris - Inscription');
 		this.metaService.updateTag({content: "Itineraris - Inscription"}, "name='og:title'");
 		this.metaService.updateTag({content: "Inscrivez-vous afin de créer vos itinéraires de voyages"}, "name='description'");
 		this.metaService.updateTag({content: "Inscrivez-vous afin de créer vos itinéraires de voyages"}, "name='og:description'");

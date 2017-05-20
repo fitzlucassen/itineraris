@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MdDialog, MdDialogRef } from '@angular/material';
-import { Meta } from '@angular/platform-browser';
+import { Meta, Title } from '@angular/platform-browser';
 
 import { Itinerary } from '../../../model/itinerary';
 import { ItineraryStep } from '../../../model/itinerary-step';
@@ -26,8 +26,8 @@ export class ItineraryUserComponent implements OnInit {
 	screenHeight: number;
 	mapUrl: string;
 
-	constructor(public itineraryDialog: MdDialog, public route: ActivatedRoute, private itineraryService: ItineraryService, private userService: UserService, private router: Router, private metaService: Meta) { 
-		this.metaService.updateTag({content: "Itineraris - Gérer l\'itinéraire"}, "name='title'");
+	constructor(public itineraryDialog: MdDialog, public route: ActivatedRoute, private itineraryService: ItineraryService, private userService: UserService, private router: Router, private metaService: Meta, private titleService: Title) {
+		this.titleService.setTitle('Itineraris -  Gérer l\'itinéraire');
 		this.metaService.updateTag({content: "Itineraris - Gérer l\'itinéraire"}, "name='og:title'");
 		this.metaService.updateTag({content: "Gérer votre itinéraire en ajoutant une ou plusieurs étapes"}, "name='description'");
 		this.metaService.updateTag({content: "Gérer votre itinéraire en ajoutant une ou plusieurs étapes"}, "name='og:description'");
