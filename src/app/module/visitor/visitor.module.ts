@@ -22,7 +22,7 @@ import { routing } from '../../visitor.routing';
 		FormsModule,
 		CommonModule,
 		HttpModule,
-		MaterialModule.forRoot(),
+		MaterialModule,
 		ShareButtonsModule.forRoot(),
 		routing
 	],

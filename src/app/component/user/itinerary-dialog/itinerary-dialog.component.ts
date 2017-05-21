@@ -6,6 +6,8 @@ import { ItineraryService } from '../../../service/itinerary.service';
 import { MdSnackBar } from '@angular/material';
 import { MapsAPILoader } from 'angular2-google-maps/core';
 
+declare var google: any;
+
 @Component({
 	selector: 'itinerary-dialog',
 	templateUrl: './itinerary-dialog.component.html',
@@ -54,7 +56,7 @@ export class ItineraryDialogComponent implements OnInit {
 			autocomplete.addListener("place_changed", () => {
 				this.ngZone.run(() => {
 					//get the place result
-					let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+					let place: any = autocomplete.getPlace();
 					
 					that.country.setValue(place.name);
 

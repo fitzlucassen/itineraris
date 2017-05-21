@@ -33,7 +33,7 @@ import { ShareButtonsModule } from 'ng2-sharebuttons';
 			apiKey: 'AIzaSyDR6MQEKvMFKiYTS0uZZTA-YIKe2yRcfng',
 			libraries: ["places"]
 		}),
-		MaterialModule.forRoot(),
+		MaterialModule,
 		routing
 	],
 	providers: [UserService, AuthGuard, NoAuthGuard],

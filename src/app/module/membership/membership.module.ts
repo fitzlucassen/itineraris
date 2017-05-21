@@ -43,7 +43,7 @@ import { routing } from '../../membership.routing';
 		FormsModule,
 		CommonModule,
 		HttpModule,
-		MaterialModule.forRoot(),
+		MaterialModule,
 		routing
 	]
 })

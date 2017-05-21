@@ -8,6 +8,8 @@ import { MapsAPILoader } from 'angular2-google-maps/core';
 import { UploadFileComponent } from '../../upload-file/upload-file.component';
 import { Picture } from '../../../model/picture';
 
+declare var google: any;
+
 @Component({
 	selector: 'step-dialog',
 	templateUrl: './step-dialog.component.html',
@@ -60,7 +62,7 @@ export class StepDialogComponent implements OnInit, OnChanges {
 			autocomplete.addListener("place_changed", () => {
 				this.ngZone.run(() => {
 					//get the place result
-					let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+					let place: any = autocomplete.getPlace();
 
 					that.city.setValue(place.name);
 

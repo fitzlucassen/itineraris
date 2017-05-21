@@ -5,6 +5,8 @@ import { Picture } from '../../../model/picture';
 import { ItineraryService } from '../../../service/itinerary.service';
 import { environment } from '../../../../environments/environment';
 
+declare var google: any;
+
 @Component({
 	selector: 'app-map',
 	templateUrl: './map.component.html',
@@ -24,9 +26,9 @@ export class MapComponent implements OnInit {
 	@Input() waypoints: Array<ItineraryStep> = [];
 
 	serviceUrl: string;
-	map: google.maps.Map = null;
-	infoWindows: Array<google.maps.InfoWindow> = [];
-	markers: Array<google.maps.Marker> = [];
+	map: any = null;
+	infoWindows: Array<any> = [];
+	markers: Array<any> = [];
 
 	infoWindowTemplate: string = '<div id="iw-container"><b class="iw-title">TITLE</b><div class="iw-content"><i class="iw-subTitle">Le DATE</i><br/><br/>DESCRIPTION<br/><br/>PICTURES</div><div class="iw-bottom-gradient"></div></div>'
 	infoWindowImgTemplate: string = '<li style="list-style:none;display: inline-block;margin-right: 5px;"><a href="http://URL1" data-lightbox="image" data-title="CAPTION1"><img class="ui bordered small image" src="http://URL2" alt="CAPTION2" title="CAPTION3" width="100px" height="100px"/></a></li>';
@@ -290,7 +292,7 @@ export class MapComponent implements OnInit {
 		this.attachClickEvent(marker, { lat: origin.lat, lng: origin.lng }, content);
 	}
 
-	private createMarker(location: any, map: google.maps.Map, title: string) {
+	private createMarker(location: any, map: any, title: string) {
 		var marker = new google.maps.Marker({
 			position: location,
 			map: map,
@@ -302,7 +304,7 @@ export class MapComponent implements OnInit {
 
 		return marker;
 	}
-	private attachClickEvent(marker: google.maps.Marker, location: any, content: string) {
+	private attachClickEvent(marker: any, location: any, content: string) {
 		var that = this;
 
 		google.maps.event.addListener(marker, 'click', function (e) {
