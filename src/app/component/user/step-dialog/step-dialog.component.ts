@@ -4,7 +4,7 @@ import { ItineraryStep } from '../../../model/itinerary-step';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ItineraryService } from '../../../service/itinerary.service';
 import { MdSnackBar } from '@angular/material';
-import { MapsAPILoader } from 'angular2-google-maps/core';
+import { MapsAPILoader } from '@agm/core';
 import { UploadFileComponent } from '../../upload-file/upload-file.component';
 import { Picture } from '../../../model/picture';
 

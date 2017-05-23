@@ -27,7 +27,7 @@
     "@angular/router": "^4.1.3",
     "@types/node": "^6.0.73",
     "angular-router-loader": "^0.6.0",
-    "angular2-google-maps": "^0.16.0",
+    "@agm/core": "^1.0.0-beta.0",
     "core-js": "^2.4.1",
     "jquery": "^3.1.1",
     "karma-chrome-launcher": "^2.1.1",

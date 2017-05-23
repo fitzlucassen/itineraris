@@ -1,11 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { AppComponent } from './app.component';
-import { AgmCoreModule } from 'angular2-google-maps/core';
+import { AgmCoreModule } from '@agm/core';
 import { MaterialModule } from '@angular/material';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -13,6 +12,7 @@ import { UserService } from './service/user.service';
 import { AuthGuard } from './auth-guard';
 import { NoAuthGuard } from './no-auth-guard';
 
+import { AppComponent } from './app.component';
 import { HomeComponent } from './component/home/home/home.component';
 import { routing } from './app.routing';
 

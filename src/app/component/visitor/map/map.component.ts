@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { MapsAPILoader } from 'angular2-google-maps/core';
+import { MapsAPILoader } from '@agm/core';
 import { ItineraryStep } from '../../../model/itinerary-step';
 import { Picture } from '../../../model/picture';
 import { ItineraryService } from '../../../service/itinerary.service';
