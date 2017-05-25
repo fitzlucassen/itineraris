@@ -1,11 +1,11 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { HomeComponent } from './component/home/home/home.component';
+import { HomeComponent } from '../component/home/home/home.component';
 
 const appRoutes: Routes = [
-	{ path: 'visiteur', loadChildren: './module/visitor/visitor.module#VisitorModule' },
-	{ path: 'compte', loadChildren: './module/membership/membership.module#MembershipModule' },
+	{ path: 'visiteur', loadChildren: '../module/visitor/visitor.module#VisitorModule' },
+	{ path: 'compte', loadChildren: '../module/membership/membership.module#MembershipModule' },
 	{
 		path: '',
 		component: HomeComponent,

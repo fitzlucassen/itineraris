@@ -9,12 +9,12 @@ import { MaterialModule } from '@angular/material';
 import { RouterModule, Routes } from '@angular/router';
 
 import { UserService } from './service/user.service';
-import { AuthGuard } from './auth-guard';
-import { NoAuthGuard } from './no-auth-guard';
+import { AuthGuard } from './guard/auth-guard';
+import { NoAuthGuard } from './guard/no-auth-guard';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './component/home/home/home.component';
-import { routing } from './app.routing';
+import { routing } from './routing/app.routing';
 
 import { ShareButtonsModule } from 'ng2-sharebuttons';
 

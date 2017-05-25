@@ -1,13 +1,13 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { HomeMembershipComponent } from './component/membership/home/home.membership.component';
-import { SignupMembershipComponent } from './component/membership/signup/signup.membership.component';
-import { DashboardUserComponent } from './component/user/dashboard/dashboard.user.component';
-import { ItineraryUserComponent } from './component/user/itinerary/itinerary.user.component';
+import { HomeMembershipComponent } from '../component/membership/home/home.membership.component';
+import { SignupMembershipComponent } from '../component/membership/signup/signup.membership.component';
+import { DashboardUserComponent } from '../component/user/dashboard/dashboard.user.component';
+import { ItineraryUserComponent } from '../component/user/itinerary/itinerary.user.component';
 
-import { AuthGuard } from './auth-guard';
-import { NoAuthGuard } from './no-auth-guard';
+import { AuthGuard } from '../guard/auth-guard';
+import { NoAuthGuard } from '../guard/no-auth-guard';
 
 const appRoutes: Routes = [
 	/***********/

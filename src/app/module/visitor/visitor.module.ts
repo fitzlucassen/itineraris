@@ -13,7 +13,7 @@ import { SearchItineraryPipe } from '../../pipe/search-itinerary.pipe';
 
 import { ShareButtonsModule } from 'ng2-sharebuttons';
 
-import { routing } from '../../visitor.routing';
+import { routing } from '../../routing/visitor.routing';
 
 @NgModule({
 	imports: [

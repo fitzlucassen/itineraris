@@ -1,8 +1,8 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { HomeVisitorComponent } from './component/visitor/home/home.visitor.component';
-import { UserMapComponent } from './component/visitor/user-map/user-map.component';
+import { HomeVisitorComponent } from '../component/visitor/home/home.visitor.component';
+import { UserMapComponent } from '../component/visitor/user-map/user-map.component';
 
 const appRoutes: Routes = [
 	{

@@ -17,10 +17,10 @@ import { ItineraryUserComponent } from '../../component/user/itinerary/itinerary
 import { SearchPipe } from '../../pipe/search.pipe';
 import { SearchStepPipe } from '../../pipe/search-step.pipe';
 
-import { AuthGuard } from '../../auth-guard';
-import { NoAuthGuard } from '../../no-auth-guard';
+import { AuthGuard } from '../../guard/auth-guard';
+import { NoAuthGuard } from '../../guard/no-auth-guard';
 
-import { routing } from '../../membership.routing';
+import { routing } from '../../routing/membership.routing';
 
 @NgModule({
 	declarations: [
