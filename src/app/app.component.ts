@@ -8,9 +8,9 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
 	title = 'Itineraris';
 
-	lat: number = 18.5284128;
-	lng: number = 13.9502671;
-	zoom: number = 3;
+	// lat: number = 18.5284128;
+	// lng: number = 13.9502671;
+	// zoom: number = 3;
 
 	constructor(){
 
@@ -18,15 +18,15 @@ export class AppComponent implements OnInit {
 
 	ngOnInit() {
 		//set current position
-		this.setCurrentPosition();
+		//this.setCurrentPosition();
 	}
 
-	private setCurrentPosition() {
-		if ("geolocation" in navigator) {
-			navigator.geolocation.getCurrentPosition((position) => {
-				this.lat = position.coords.latitude;
-				this.lng = position.coords.longitude;
-			});
-		}
-	}
+	// private setCurrentPosition() {
+	// 	if ("geolocation" in navigator) {
+	// 		navigator.geolocation.getCurrentPosition((position) => {
+	// 			this.lat = position.coords.latitude;
+	// 			this.lng = position.coords.longitude;
+	// 		});
+	// 	}
+	// }
 }

@@ -22,8 +22,10 @@ export class StepDialogComponent implements OnInit, OnChanges {
 	isLoading: boolean = false;
 	images: Array<Picture> = [];
 
+	screenHeight: number;
+
 	@ViewChild("search")
-  	public searchElementRef: ElementRef;
+	public searchElementRef: ElementRef;
 
 	city: FormControl;
 	date: FormControl;
@@ -32,13 +34,12 @@ export class StepDialogComponent implements OnInit, OnChanges {
 	form: FormGroup;
 
 	constructor(
-		private mapsAPILoader: MapsAPILoader, 
+		private mapsAPILoader: MapsAPILoader,
 		private ngZone: NgZone,
-		public snackBar: MdSnackBar, 
-		private fb: FormBuilder, 
-		public dialogRef: MdDialogRef<StepDialogComponent>, 
-		private itineraryService: ItineraryService) 
-	{
+		public snackBar: MdSnackBar,
+		private fb: FormBuilder,
+		public dialogRef: MdDialogRef<StepDialogComponent>,
+		private itineraryService: ItineraryService) {
 		this.city = new FormControl('', [Validators.required, Validators.minLength(2)]);
 		this.date = new FormControl('', [Validators.required]);
 		this.description = new FormControl('', [Validators.required, Validators.minLength(3)]);
@@ -50,6 +51,8 @@ export class StepDialogComponent implements OnInit, OnChanges {
 			description: this.description,
 			type: this.type
 		});
+
+		this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
 	}
 
 	ngOnInit() {
@@ -77,7 +80,7 @@ export class StepDialogComponent implements OnInit, OnChanges {
 		});
 	}
 
-	ngOnChanges(e){
+	ngOnChanges(e) {
 		console.log(e);
 	}
 
@@ -87,25 +90,25 @@ export class StepDialogComponent implements OnInit, OnChanges {
 
 			if (this.isUpdate) {
 				this.itineraryService.updateStep(this.newStep).subscribe(
-					id => id != null ? this.updateImages(true, -1) : function(){},
-					error => alert(error)	
+					id => id != null ? this.updateImages(true, -1) : function () { },
+					error => alert(error)
 				);
 			}
 			else {
 				this.itineraryService.createStep(this.newStep).subscribe(
-					id => id != null ? this.updateImages(false, id.id) : function(){},
-					error => alert(error)	
+					id => id != null ? this.updateImages(false, id.id) : function () { },
+					error => alert(error)
 				);
 			}
 		}
 		return false;
 	}
 
-	private updateImages(updated: boolean, stepId: number){
+	private updateImages(updated: boolean, stepId: number) {
 		var that = this;
 
-		if(this.images.length > 0){
-			if(stepId != -1)
+		if (this.images.length > 0) {
+			if (stepId != -1)
 				this.images.map(i => i.stepId = stepId);
 
 			this.images.map(i => (i.caption = (i.caption == null ? '' : i.caption)));
@@ -116,7 +119,7 @@ export class StepDialogComponent implements OnInit, OnChanges {
 			);
 		}
 		else {
-			if(updated)
+			if (updated)
 				this.successfullyUpdated();
 			else
 				this.successfullyCreated();
