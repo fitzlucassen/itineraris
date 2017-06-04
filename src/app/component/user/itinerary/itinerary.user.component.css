@@ -19,7 +19,7 @@ h1.big-title{
         height: initial !important;
     }
 
-    md-icon:hover{
+    md-icon.dragdrop:hover{
         cursor: move;
     }
 

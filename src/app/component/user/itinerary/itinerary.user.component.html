@@ -6,7 +6,7 @@
 </md-toolbar>
 
 <md-sidenav-container class="left-navigation" [ngStyle]="{'height': screenHeight + 'px'}">
-	<md-sidenav #start mode="side" opened="false">
+	<md-sidenav #start mode="side" opened="true">
 		<div class="myself">
 			<span flex=""></span>
 			<div layout="row" layout-align="start center">
@@ -62,17 +62,17 @@
 						Vos étapes
 					</h3>
 					<md-input-container *ngIf="showSearch">
-						<input mdInput md-theme="input" [(ngModel)]="search" placeholder="ville de l'étape"/>
+						<input mdInput #inputSearch md-theme="input" [(ngModel)]="search" placeholder="ville de l'étape"/>
 					</md-input-container>
 					<span flex *ngIf="!showSearch"></span>
 
-					<md-icon *ngIf="!showSearch" aria-label="Search" (click)="toggleSearch()">search</md-icon>
+					<md-icon *ngIf="!showSearch" aria-label="Search" (click)="toggleSearch();">search</md-icon>
 					<md-icon *ngIf="showSearch" aria-label="Back" (click)="toggleSearch()">arrow_back</md-icon>
 				</div>
 			</md-toolbar>
 			<md-nav-list flex>
 				<md-list-item class="md-2-line" id="step-{{step.id}}" *ngFor="let step of itinerarySteps | SearchStepPipe : search" role="link" draggable="true" (dragenter)="dragenter($event)" (dragstart)="dragstart($event)" (dragend)="drop($event, step)" [disableRipple]="true">
-					<md-icon md-list-avatar aria-label="{{step.city}}">drag_handle</md-icon>
+					<md-icon class="dragdrop" md-list-avatar aria-label="{{step.city}}">drag_handle</md-icon>
 					<a md-line href="javascript: void(0);" (click)="editStep(step.id)"><b>{{step.city}}</b></a>
 					<a md-line href="javascript: void(0);" (click)="editStep(step.id)">{{step.date.substr(0, step.date.indexOf('T'))}}</a>
 					<div>

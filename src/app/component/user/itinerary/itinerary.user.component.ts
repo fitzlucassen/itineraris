@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { Meta, Title } from '@angular/platform-browser';
@@ -114,7 +114,7 @@ export class ItineraryUserComponent implements OnInit {
 		let target = $event.currentTarget;
 		if (this.isbefore(this.source, target)) {
 			target.parentNode.insertBefore(this.source, target); // insert before
-			
+
 		}
 		else {
 			target.parentNode.insertBefore(this.source, target.nextSibling); //insert after
@@ -130,21 +130,21 @@ export class ItineraryUserComponent implements OnInit {
 		$event.dataTransfer.effectAllowed = 'move';
 	}
 
-	drop($event: any, step: ItineraryStep){
+	drop($event: any, step: ItineraryStep) {
 		$event.preventDefault();
-		
+
 		var list = $event.path[1].children;
 		var that = this;
 
 		var cpt = 0;
-		for(var i in list){
-			if(list.hasOwnProperty(i)){
+		for (var i in list) {
+			if (list.hasOwnProperty(i)) {
 				var id = list[i].id;
 				var stepId = id.split('-')[1];
 				that.itinerarySteps.find(s => s.id == stepId).position = cpt++;
 				that.itineraryService.updateStep(that.itinerarySteps.find(s => s.id == stepId)).subscribe(
-					data => {},
-					error => {}
+					data => { },
+					error => { }
 				);
 			}
 		}
