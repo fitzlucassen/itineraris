@@ -91,11 +91,12 @@ export class ItineraryService {
 		return this.http
 			.put('http://' + this.serviceUrl + '/steps/' + step.id, {
 				city: step.city,
-				date: step.date,
+				date: step.date.split('T')[0],
 				description: step.description,
 				lat: step.lat,
 				lng: step.lng,
-				type: step.type
+				type: step.type,
+				position: step.position
 			})
 			.map(this.extractData)
 			.catch(this.handleError);

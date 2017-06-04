@@ -19,6 +19,10 @@ h1.big-title{
         height: initial !important;
     }
 
+    md-icon:hover{
+        cursor: move;
+    }
+
     .myself{
         text-align: center;
         padding: 15px;

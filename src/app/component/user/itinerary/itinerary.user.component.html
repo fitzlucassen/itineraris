@@ -71,8 +71,8 @@
 				</div>
 			</md-toolbar>
 			<md-nav-list flex>
-				<md-list-item class="md-2-line" *ngFor="let step of itinerarySteps | SearchStepPipe : search" role="link">
-					<md-icon md-list-avatar aria-label="{{step.city}}">directions_walk</md-icon>
+				<md-list-item class="md-2-line" id="step-{{step.id}}" *ngFor="let step of itinerarySteps | SearchStepPipe : search" role="link" draggable="true" (dragenter)="dragenter($event)" (dragstart)="dragstart($event)" (dragend)="drop($event, step)" [disableRipple]="true">
+					<md-icon md-list-avatar aria-label="{{step.city}}">drag_handle</md-icon>
 					<a md-line href="javascript: void(0);" (click)="editStep(step.id)"><b>{{step.city}}</b></a>
 					<a md-line href="javascript: void(0);" (click)="editStep(step.id)">{{step.date.substr(0, step.date.indexOf('T'))}}</a>
 					<div>

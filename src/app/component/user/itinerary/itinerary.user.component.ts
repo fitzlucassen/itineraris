@@ -26,11 +26,13 @@ export class ItineraryUserComponent implements OnInit {
 	screenHeight: number;
 	mapUrl: string;
 
+	source: any;
+
 	constructor(public itineraryDialog: MdDialog, public route: ActivatedRoute, private itineraryService: ItineraryService, private userService: UserService, private router: Router, private metaService: Meta, private titleService: Title) {
 		this.titleService.setTitle('Itineraris -  Gérer l\'itinéraire');
-		this.metaService.updateTag({content: "Itineraris - Gérer l\'itinéraire"}, "name='og:title'");
-		this.metaService.updateTag({content: "Gérer votre itinéraire en ajoutant une ou plusieurs étapes"}, "name='description'");
-		this.metaService.updateTag({content: "Gérer votre itinéraire en ajoutant une ou plusieurs étapes"}, "name='og:description'");
+		this.metaService.updateTag({ content: "Itineraris - Gérer l\'itinéraire" }, "name='og:title'");
+		this.metaService.updateTag({ content: "Gérer votre itinéraire en ajoutant une ou plusieurs étapes" }, "name='description'");
+		this.metaService.updateTag({ content: "Gérer votre itinéraire en ajoutant une ou plusieurs étapes" }, "name='og:description'");
 
 		this.currentUser = userService.getCurrentUser();
 		this.showSearch = false;
@@ -47,7 +49,7 @@ export class ItineraryUserComponent implements OnInit {
 		});
 		this.dialogRef.componentInstance.newStep.itineraryId = this.currentItinerary.id;
 
-		if(this.itinerarySteps.length == 0)
+		if (this.itinerarySteps.length == 0)
 			this.dialogRef.componentInstance.type.disable();
 
 		var that = this;
@@ -64,7 +66,7 @@ export class ItineraryUserComponent implements OnInit {
 			disableClose: false,
 		});
 		this.itineraryService.getStepById(id).subscribe(
-			result => result != null ? this.assignItineraryStep(result) : function(){},
+			result => result != null ? this.assignItineraryStep(result) : function () { },
 			error => alert(error)
 		);
 		this.dialogRef.componentInstance.isUpdate = true;
@@ -86,12 +88,66 @@ export class ItineraryUserComponent implements OnInit {
 		}
 	}
 
-	replaceAll(str:string, replace:string, value:string):string{
+	replaceAll(str: string, replace: string, value: string): string {
 		return str.replace(new RegExp(replace, 'g'), value);
 	}
 
-	signout(){
-		this.userService.signout(this.currentUser, function(){window.location.href = '/';});
+	signout() {
+		this.userService.signout(this.currentUser, function () { window.location.href = '/'; });
+	}
+
+	/* Drag n drop */
+	isbefore(a, b) {
+		if (a.parentNode == b.parentNode) {
+			for (var cur = a; cur; cur = cur.previousSibling) {
+				if (cur === b) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+    /**
+     * LIST ITEM DRAP ENTERED
+     */
+	dragenter($event) {
+		let target = $event.currentTarget;
+		if (this.isbefore(this.source, target)) {
+			target.parentNode.insertBefore(this.source, target); // insert before
+			
+		}
+		else {
+			target.parentNode.insertBefore(this.source, target.nextSibling); //insert after
+		}
+	}
+
+
+    /**
+     * LIST ITEM DRAG STARTED
+     */
+	dragstart($event) {
+		this.source = $event.currentTarget;
+		$event.dataTransfer.effectAllowed = 'move';
+	}
+
+	drop($event: any, step: ItineraryStep){
+		$event.preventDefault();
+		
+		var list = $event.path[1].children;
+		var that = this;
+
+		var cpt = 0;
+		for(var i in list){
+			if(list.hasOwnProperty(i)){
+				var id = list[i].id;
+				var stepId = id.split('-')[1];
+				that.itinerarySteps.find(s => s.id == stepId).position = cpt++;
+				that.itineraryService.updateStep(that.itinerarySteps.find(s => s.id == stepId)).subscribe(
+					data => {},
+					error => {}
+				);
+			}
+		}
 	}
 
 	ngOnInit() {
@@ -115,25 +171,25 @@ export class ItineraryUserComponent implements OnInit {
 		});
 	}
 
-	private successfullyRemoved(){
+	private successfullyRemoved() {
 		var that = this;
 		this.itineraryService.getItinerarySteps(this.currentItinerary.id).subscribe(
 			result => that.assignItinerarySteps(result),
 			error => alert(error)
 		);
 	}
-	private assignItinerary(result:Itinerary){
+	private assignItinerary(result: Itinerary) {
 		this.currentItinerary = result;
 
-		this.mapUrl = 
-			encodeURI(this.replaceAll(this.currentUser.name.toLocaleLowerCase(), ' ', '-')) + '/' + 
-			this.currentItinerary.id + '/' + 
+		this.mapUrl =
+			encodeURI(this.replaceAll(this.currentUser.name.toLocaleLowerCase(), ' ', '-')) + '/' +
+			this.currentItinerary.id + '/' +
 			encodeURI(this.replaceAll(this.currentItinerary.name.toLocaleLowerCase(), ' ', '-'));
 	}
-	private assignItinerarySteps(result:Array<ItineraryStep>){
+	private assignItinerarySteps(result: Array<ItineraryStep>) {
 		this.itinerarySteps = result;
 	}
-	private assignItineraryStep(step:ItineraryStep){
+	private assignItineraryStep(step: ItineraryStep) {
 		var d = step.date.split('T')[0].split('-');
 
 		step.date = d[0] + '-' + d[1] + '-' + d[2];
