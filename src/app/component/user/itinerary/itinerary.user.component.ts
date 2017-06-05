@@ -142,12 +142,14 @@ export class ItineraryUserComponent implements OnInit {
 				var id = list[i].id;
 				var stepId = id.split('-')[1];
 				that.itinerarySteps.find(s => s.id == stepId).position = cpt++;
-				that.itineraryService.updateStep(that.itinerarySteps.find(s => s.id == stepId)).subscribe(
-					data => { },
-					error => { }
-				);
+				that.itinerarySteps.find(s => s.id == stepId).date = that.itinerarySteps.find(s => s.id == stepId).date.split('T')[0];
 			}
 		}
+
+		that.itineraryService.updateSteps(that.itinerarySteps).subscribe(
+			data => { },
+			error => { alert(error); }
+		);
 	}
 
 	ngOnInit() {

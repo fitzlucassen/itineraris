@@ -87,6 +87,13 @@ export class ItineraryService {
 			.catch(this.handleError);
 	}
 
+	updateSteps(steps: Array<ItineraryStep>): Observable<any> {
+		return this.http
+			.put('http://' + this.serviceUrl + '/steps/', {steps: steps})
+			.map(this.extractData)
+			.catch(this.handleError);
+	}
+
 	updateStep(step: ItineraryStep): Observable<any> {
 		return this.http
 			.put('http://' + this.serviceUrl + '/steps/' + step.id, {
