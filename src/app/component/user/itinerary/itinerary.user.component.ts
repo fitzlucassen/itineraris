@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MdDialog, MdDialogRef } from '@angular/material';
+import { MdDialog, MdDialogRef, MdInputDirective } from '@angular/material';
 import { Meta, Title } from '@angular/platform-browser';
 
 import { Itinerary } from '../../../model/itinerary';
@@ -28,6 +28,8 @@ export class ItineraryUserComponent implements OnInit {
 
 	source: any;
 
+	@ViewChild(MdInputDirective) input:any;
+
 	constructor(public itineraryDialog: MdDialog, public route: ActivatedRoute, private itineraryService: ItineraryService, private userService: UserService, private router: Router, private metaService: Meta, private titleService: Title) {
 		this.titleService.setTitle('Itineraris -  Gérer l\'itinéraire');
 		this.metaService.updateTag({ content: "Itineraris - Gérer l\'itinéraire" }, "name='og:title'");
@@ -41,6 +43,10 @@ export class ItineraryUserComponent implements OnInit {
 
 	toggleSearch() {
 		this.showSearch = !this.showSearch;
+
+		setTimeout(() => {
+			this.input.focus();
+		});
 	}
 
 	openDialog() {

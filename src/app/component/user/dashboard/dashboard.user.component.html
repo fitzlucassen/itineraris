@@ -54,7 +54,7 @@
 						Vos itinéraires
 					</h3>
 					<md-input-container *ngIf="showSearch">
-						<input mdInput md-theme="input" [(ngModel)]="search" style="color: white;" placeholder="nom de l'itinéraire" />
+						<input mdInput md-theme="input" mdInputDirective="focused" [(ngModel)]="search" style="color: white;" placeholder="nom de l'itinéraire" />
 					</md-input-container>
 					<span flex *ngIf="!showSearch"></span>
 

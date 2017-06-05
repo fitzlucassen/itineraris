@@ -41,6 +41,9 @@ app-root .tempDiv{
 .md-toolbar-tools .md-input-placeholder{
 	color: white !important;
 }
+md-toolbar .mat-input-placeholder{
+    color: white !important;
+}
 
     #iw-container .iw-title {
 		display: block;

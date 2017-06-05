@@ -61,12 +61,12 @@
 					<h3 *ngIf="!showSearch">
 						Vos étapes
 					</h3>
-					<md-input-container *ngIf="showSearch">
-						<input mdInput #inputSearch md-theme="input" [(ngModel)]="search" placeholder="ville de l'étape"/>
+					<md-input-container [style.display]="showSearch ? 'inline-block': 'none'">
+						<input mdInput mdInputDirective="focused" md-theme="input" [(ngModel)]="search" placeholder="ville de l'étape"/>
 					</md-input-container>
 					<span flex *ngIf="!showSearch"></span>
 
-					<md-icon *ngIf="!showSearch" aria-label="Search" (click)="toggleSearch();">search</md-icon>
+					<md-icon *ngIf="!showSearch" aria-label="Search" (click)="toggleSearch()">search</md-icon>
 					<md-icon *ngIf="showSearch" aria-label="Back" (click)="toggleSearch()">arrow_back</md-icon>
 				</div>
 			</md-toolbar>
@@ -85,7 +85,7 @@
 		</md-sidenav>
 
 		<div class="dashboard-home-content">
-			<h1 class="big-title">Gérer votre itinéraire.<br/><br/>Vous pouvez ici gérer les différentes étapes de votre itinéraire !</h1>
+			<h1 class="big-title">Gérez votre itinéraire.<br/><br/>Vous pouvez ici gérer les différentes étapes de votre itinéraire !</h1>
 		</div>
 	</md-sidenav-container>
 </md-sidenav-container>

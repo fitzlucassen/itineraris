@@ -23,13 +23,14 @@ export class UserMapComponent implements OnInit, OnDestroy {
 
 	title: string;
 	screenHeight: number;
-	currentUrl: string;
 	totalShare: number = 0;
 
-	@ViewChild(MapComponent)
-	public map: MapComponent;
-	@ViewChild('toAppend')
-	public sidenav: ElementRef;
+	currentUrl: string;
+	currentTitle: string = 'Itinéraire de voyage';
+	currentDescription: string = 'Mon itinéraire de voyage';
+
+	@ViewChild(MapComponent) public map: MapComponent;
+	@ViewChild('toAppend') public sidenav: ElementRef;
 
 	constructor(
 		public route: ActivatedRoute,
@@ -37,9 +38,10 @@ export class UserMapComponent implements OnInit, OnDestroy {
 		private itineraryService: ItineraryService,
 		private router: Router,
 		private renderer: Renderer, private metaService: Meta, private titleService: Title) {
-		this.titleService.setTitle('Itinéraire de voyage');
-		this.metaService.updateTag({ content: "Visualisation de l\'itinéraire de voyage" }, "name='description'");
-		this.metaService.updateTag({ content: "Visualisation de l\'itinéraire de voyage" }, "name='og:description'");
+
+		this.titleService.setTitle(this.currentTitle);
+		this.metaService.updateTag({ content: this.currentDescription }, "name='description'");
+		this.metaService.updateTag({ content: this.currentDescription }, "name='og:description'");
 
 		this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
 		this.currentUrl = window.location.href;
@@ -54,8 +56,8 @@ export class UserMapComponent implements OnInit, OnDestroy {
 
 			this.title = userName;
 
-			this.titleService.setTitle('Itinéraire de voyage de ' + userName);
-			this.metaService.updateTag({ content: "Itinéraire de voyage de " + userName }, "name='og:title'");
+			this.currentTitle += ' ' + userName;
+			this.titleService.setTitle(this.currentTitle);
 
 			var that = this;
 			this.itineraryService.getItinerarySteps(itineraryId).subscribe(
@@ -91,6 +93,8 @@ export class UserMapComponent implements OnInit, OnDestroy {
 	}
 
 	private assignItinerary(result: Itinerary) {
+		this.currentTitle += ' - ' + result.country;
+		this.currentDescription += ' - ' + result.country;
 		this.itinerary = result;
 	}
 	private assignItinerarySteps(result: Array<ItineraryStep>) {

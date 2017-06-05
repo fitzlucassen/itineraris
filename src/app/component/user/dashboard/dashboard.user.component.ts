@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MdDialog, MdDialogRef } from '@angular/material';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MdDialog, MdDialogRef, MdInputDirective } from '@angular/material';
 import { Router, CanActivate } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 
@@ -25,11 +25,13 @@ export class DashboardUserComponent implements OnInit {
 	screenHeight: number;
 	isLoading: boolean = false;
 
+	@ViewChild(MdInputDirective) input: any;
+
 	constructor(public itineraryDialog: MdDialog, private userService: UserService, private itineraryService: ItineraryService, private router: Router, private metaService: Meta, private titleService: Title) {
 		this.titleService.setTitle('Itineraris - Dashboard');
-		this.metaService.updateTag({content: "Itineraris - Dashboard"}, "name='og:title'");
-		this.metaService.updateTag({content: "Votre tableau de bord, gérez vos itinéraires de voyages"}, "name='description'");
-		this.metaService.updateTag({content: "Votre tableau de bord, gérez vos itinéraires de voyages"}, "name='og:description'");
+		this.metaService.updateTag({ content: "Itineraris - Dashboard" }, "name='og:title'");
+		this.metaService.updateTag({ content: "Votre tableau de bord, gérez vos itinéraires de voyages" }, "name='description'");
+		this.metaService.updateTag({ content: "Votre tableau de bord, gérez vos itinéraires de voyages" }, "name='og:description'");
 
 		this.currentUser = userService.getCurrentUser();
 		this.showSearch = false;
@@ -87,9 +89,13 @@ export class DashboardUserComponent implements OnInit {
 
 	toggleSearch() {
 		this.showSearch = !this.showSearch;
+
+		setTimeout(() => {
+			this.input.focus();
+		});
 	}
 
-	replaceAll(str:string, replace:string, value:string):string{
+	replaceAll(str: string, replace: string, value: string): string {
 		return str.replace(new RegExp(replace, 'g'), value);
 	}
 
@@ -99,17 +105,17 @@ export class DashboardUserComponent implements OnInit {
 
 	ngOnInit() {
 	}
-	
+
 	private successfullyRemoved() {
 		this.itineraryService.getUserItineraries(this.currentUser).subscribe(
 			result => this.assignItineraries(result),
 			error => alert(error)
 		);
 	}
-	private assignItinerary(result:Itinerary){
+	private assignItinerary(result: Itinerary) {
 		this.dialogRef.componentInstance.newItinerary = result;
 	}
-	private assignItineraries(result:Array<Itinerary>) {
+	private assignItineraries(result: Array<Itinerary>) {
 		this.itineraries = result;
 		this.isLoading = false;
 	}
