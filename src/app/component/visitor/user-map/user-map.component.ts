@@ -56,7 +56,7 @@ export class UserMapComponent implements OnInit, OnDestroy {
 
 			this.title = userName;
 
-			this.currentTitle += ' ' + userName;
+			this.currentTitle += ' de ' + userName;
 			this.titleService.setTitle(this.currentTitle);
 
 			var that = this;
