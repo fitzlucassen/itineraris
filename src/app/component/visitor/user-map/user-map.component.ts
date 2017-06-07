@@ -5,6 +5,7 @@ import { Meta, Title } from '@angular/platform-browser';
 import { UserService } from '../../../service/user.service';
 import { ItineraryService } from '../../../service/itinerary.service';
 import { User } from '../../../model/user';
+import { Stop } from '../../../model/stop';
 import { Itinerary } from '../../../model/itinerary';
 import { ItineraryStep } from '../../../model/itinerary-step';
 import { MapComponent } from '../map/map.component';
@@ -20,6 +21,7 @@ import { ShareButtonsModule } from 'ng2-sharebuttons';
 export class UserMapComponent implements OnInit, OnDestroy {
 	itinerary: Itinerary;
 	steps: Array<ItineraryStep>;
+	stops: Array<Stop>;
 
 	title: string;
 	screenHeight: number;
@@ -62,6 +64,10 @@ export class UserMapComponent implements OnInit, OnDestroy {
 			var that = this;
 			this.itineraryService.getItinerarySteps(itineraryId).subscribe(
 				result => that.assignItinerarySteps(result),
+				error => alert(error)
+			);
+			this.itineraryService.getItineraryStops(itineraryId).subscribe(
+				result => that.assignItineraryStops(result),
 				error => alert(error)
 			);
 
@@ -117,5 +123,16 @@ export class UserMapComponent implements OnInit, OnDestroy {
 			this.map.waypoints = this.steps;
 		}
 		this.map.updateDirections();
+	}
+	private assignItineraryStops(result: Array<Stop>) {
+		this.stops = result;
+
+		var that = this;
+		this.stops.forEach(function (element: Stop) {
+			that.itineraryService.getStopPictures(element.id).subscribe(
+				data => { that.map.createInfoWindowForStop(data, element); },
+				error => { alert(error); }
+			);
+		});
 	}
 }
