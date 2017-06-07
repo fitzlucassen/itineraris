@@ -1,0 +1,27 @@
+<div class="md-padding" style="overflow: auto;" [style.max-height]="screenHeight + 'px'">
+	<form name="userForm" [formGroup]="form" (ngSubmit)="registerStop()">
+		<div layout layout-sm="column">
+			<md-input-container>
+				<input mdInput class="big-form" placeholder="Ville du free-stop" formControlName="city" [(ngModel)]="newStop.city" required flex autocorrect="off" autocapitalize="off" spellcheck="off" class="form-control" #search />
+				<md-hint *ngIf="!city.untouched && !city.valid && city.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">ville requise</md-hint>
+				<md-hint *ngIf="!city.untouched && !city.valid && city.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">2 caractères minimum</md-hint>
+			</md-input-container>
+			<md-input-container>
+				<input mdInput type="date" class="big-form" placeholder="Date du free-stop" formControlName="date" [(ngModel)]="newStop.date" required flex/>
+				<md-hint *ngIf="!date.untouched && !date.valid && date.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">date requise</md-hint>
+			</md-input-container>
+		</div>
+		<md-input-container style="width:100% !important;">
+			<textarea mdInput class="big-form" placeholder="Description du free-stop" formControlName="description" [(ngModel)]="newStop.description" required flex></textarea>
+			<md-hint *ngIf="!description.untouched && !description.valid && description.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">description requise</md-hint>
+			<md-hint *ngIf="!description.untouched && !description.valid && description.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">3 caractères minimum</md-hint>
+		</md-input-container>
+		<br/>
+		<br/>
+		<app-upload-file [stopId]="newStop.id" [images]="images"></app-upload-file>
+		<br/>
+		<md-spinner *ngIf="isLoading"></md-spinner>
+		<br/>
+		<button md-raised-button>VALIDER</button>
+	</form>
+</div>

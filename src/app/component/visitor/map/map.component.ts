@@ -1,7 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
+
 import { ItineraryStep } from '../../../model/itinerary-step';
 import { Picture } from '../../../model/picture';
+import { Stop } from '../../../model/stop';
 import { ItineraryService } from '../../../service/itinerary.service';
 import { environment } from '../../../../environments/environment';
 
@@ -109,6 +111,32 @@ export class MapComponent implements OnInit {
 		}
 	}
 
+	createInfoWindowForStop(pictures: Array<Picture>, origin: Stop) {
+		this.mapsAPILoader.load().then(() => {
+			var content = this.infoWindowTemplate
+				.replace('TITLE', origin.city)
+				.replace('DESCRIPTION', origin.description)
+				.replace('DATE', origin.date.split('T')[0]);
+
+			var that = this;
+			var picturesHtml = '<ul style="padding: 0;">';
+			pictures.forEach(function (element) {
+				picturesHtml += that.infoWindowImgTemplate
+					.replace('URL1', that.serviceUrl + '/' + element.url)
+					.replace('URL2', that.serviceUrl + '/' + element.url)
+					.replace('CAPTION1', element.caption)
+					.replace('CAPTION3', element.caption)
+					.replace('CAPTION2', element.caption);
+			});
+			picturesHtml += '</ul>';
+			content = content.replace('PICTURES', picturesHtml);
+
+			var marker = this.createMarker({ lat: origin.lat, lng: origin.lng }, this.map, origin.city, true);
+
+			this.attachClickEvent(marker, { lat: origin.lat, lng: origin.lng }, content);
+		});
+	}
+
 	private getBatches(stops: Array<ItineraryStep>): Array<any> {
 		var batches = [];
 		var itemsPerBatch = 10; // google API max = 10 - 1 start, 1 stop, and 8 waypoints
@@ -120,10 +148,10 @@ export class MapComponent implements OnInit {
 			var flightBatch = [];
 			var subitemsCounter = 0;
 
-			for (var j = itemsCounter; j < stops.length; j++) {				
-				if(stops[j].type == 'FLIGHT'){
+			for (var j = itemsCounter; j < stops.length; j++) {
+				if (stops[j].type == 'FLIGHT') {
 					flightBatch.push({
-						location: stops[j-1],
+						location: stops[j - 1],
 						stopover: true,
 						mode: "flight"
 					});
@@ -136,13 +164,13 @@ export class MapComponent implements OnInit {
 
 				subitemsCounter++;
 
-				if(stops[j].type != 'FLIGHT') {
-					if(j > 0 && stops[j-1].type == 'FLIGHT'){
+				if (stops[j].type != 'FLIGHT') {
+					if (j > 0 && stops[j - 1].type == 'FLIGHT') {
 						subBatch.push({
-							location: stops[j-1],
+							location: stops[j - 1],
 							stopover: true,
 							mode: "normal"
-						});	
+						});
 					}
 					subBatch.push({
 						location: stops[j],
@@ -156,11 +184,11 @@ export class MapComponent implements OnInit {
 
 			itemsCounter += subitemsCounter;
 
-			if(subBatch.length > 0)
+			if (subBatch.length > 0)
 				batches.push(subBatch);
 
 			wayptsExist = itemsCounter < stops.length;
-			if(flightBatch.length > 0){
+			if (flightBatch.length > 0) {
 				batches.push(flightBatch);
 			}
 			else {
@@ -177,7 +205,7 @@ export class MapComponent implements OnInit {
 		var that = this;
 		var waypts = request.waypoints;
 
-		if(mode == 'flight'){
+		if (mode == 'flight') {
 			var line = new google.maps.Polyline({
 				strokeColor: '#3f51b5',
 				strokeOpacity: 1.0,
@@ -200,7 +228,7 @@ export class MapComponent implements OnInit {
 			directionsResultsReturned.number++;
 		}
 		else {
-			request.waypoints.forEach(function(element){
+			request.waypoints.forEach(function (element) {
 				delete element.mode;
 			});
 
@@ -292,11 +320,11 @@ export class MapComponent implements OnInit {
 		this.attachClickEvent(marker, { lat: origin.lat, lng: origin.lng }, content);
 	}
 
-	private createMarker(location: any, map: any, title: string) {
+	private createMarker(location: any, map: any, title: string, isStop: boolean = false) {
 		var marker = new google.maps.Marker({
 			position: location,
 			map: map,
-			icon: '/assets/icon.png',
+			icon: isStop ? '/assets/icon-stop.png' : '/assets/icon.png',
 			clickable: true,
 			title: title,
 		});

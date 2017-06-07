@@ -1,24 +1,25 @@
-import { Component, OnInit, OnChanges, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { MdDialog, MdDialogRef, MaterialModule } from '@angular/material';
-import { MdSnackBar } from '@angular/material';
-import { MapsAPILoader } from '@agm/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { MdSnackBar, MdDialogRef } from '@angular/material';
+import { MapsAPILoader } from '@agm/core';
 
-import { ItineraryStep } from '../../../model/itinerary-step';
-import { ItineraryService } from '../../../service/itinerary.service';
 import { UploadFileComponent } from '../../upload-file/upload-file.component';
+import { ItineraryService } from '../../../service/itinerary.service';
+
 import { Picture } from '../../../model/picture';
+import { Stop } from '../../../model/stop';
 
 declare var google: any;
 
 @Component({
-	selector: 'step-dialog',
-	templateUrl: './step-dialog.component.html',
-	styleUrls: ['./step-dialog.component.css'],
+	selector: 'stop-dialog',
+	templateUrl: './stop-dialog.component.html',
+	styleUrls: ['./stop-dialog.component.css'],
 	providers: [UploadFileComponent]
+
 })
-export class StepDialogComponent implements OnInit, OnChanges {
-	newStep: ItineraryStep = new ItineraryStep();
+export class StopDialogComponent implements OnInit {
+	newStop: Stop = new Stop();
 	isUpdate: boolean = false;
 	isLoading: boolean = false;
 	images: Array<Picture> = [];
@@ -31,7 +32,6 @@ export class StepDialogComponent implements OnInit, OnChanges {
 	city: FormControl;
 	date: FormControl;
 	description: FormControl;
-	type: FormControl;
 	form: FormGroup;
 
 	constructor(
@@ -39,18 +39,16 @@ export class StepDialogComponent implements OnInit, OnChanges {
 		private ngZone: NgZone,
 		public snackBar: MdSnackBar,
 		private fb: FormBuilder,
-		public dialogRef: MdDialogRef<StepDialogComponent>,
+		public dialogRef: MdDialogRef<StopDialogComponent>,
 		private itineraryService: ItineraryService) {
 		this.city = new FormControl('', [Validators.required, Validators.minLength(2)]);
 		this.date = new FormControl('', [Validators.required]);
 		this.description = new FormControl('', [Validators.required, Validators.minLength(3)]);
-		this.type = new FormControl('', [Validators.required]);
 
 		this.form = this.fb.group({
 			city: this.city,
 			date: this.date,
-			description: this.description,
-			type: this.type
+			description: this.description
 		});
 
 		this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
@@ -73,29 +71,25 @@ export class StepDialogComponent implements OnInit, OnChanges {
 					if (place.geometry === undefined || place.geometry === null) {
 						return;
 					}
-					that.newStep.lat = place.geometry.location.lat();
-					that.newStep.lng = place.geometry.location.lng();
+					that.newStop.lat = place.geometry.location.lat();
+					that.newStop.lng = place.geometry.location.lng();
 				});
 			});
 		});
 	}
 
-	ngOnChanges(e) {
-		console.log(e);
-	}
-
-	registerStep() {
+	registerStop() {
 		if ((this.form.dirty || this.images.length > 0) && this.form.valid) {
 			this.isLoading = true;
 
 			if (this.isUpdate) {
-				this.itineraryService.updateStep(this.newStep).subscribe(
+				this.itineraryService.updateStop(this.newStop).subscribe(
 					id => id != null ? this.updateImages(true, -1) : function () { },
 					error => alert(error)
 				);
 			}
 			else {
-				this.itineraryService.createStep(this.newStep).subscribe(
+				this.itineraryService.createStop(this.newStop).subscribe(
 					id => id != null ? this.updateImages(false, id.id) : function () { },
 					error => alert(error)
 				);
@@ -104,12 +98,12 @@ export class StepDialogComponent implements OnInit, OnChanges {
 		return false;
 	}
 
-	private updateImages(updated: boolean, stepId: number) {
+	private updateImages(updated: boolean, stopId: number) {
 		var that = this;
 
 		if (this.images.length > 0) {
-			if (stepId != -1)
-				this.images.map(i => i.stepId = stepId);
+			if (stopId != -1)
+				this.images.map(i => i.stopId = stopId);
 
 			this.images.map(i => (i.caption = (i.caption == null ? '' : i.caption)));
 
@@ -125,27 +119,28 @@ export class StepDialogComponent implements OnInit, OnChanges {
 				this.successfullyCreated();
 		}
 	}
+
 	private successfullyCreated() {
 		this.isLoading = false;
-		this.snackBar.open('Félicitation votre étape a bien été créée', 'Ok', {
+		this.snackBar.open('Félicitation votre free-stop a bien été créée', 'Ok', {
 			duration: 3000
 		});
 
 		var that = this;
 		setTimeout(function () {
-			that.newStep = new ItineraryStep();
+			that.newStop = new Stop();
 			that.dialogRef.close();
 		}, 500);
 	}
 	private successfullyUpdated() {
 		this.isLoading = false;
-		this.snackBar.open('Félicitation votre étape a bien été modifiée', 'Ok', {
+		this.snackBar.open('Félicitation votre free-stop a bien été modifiée', 'Ok', {
 			duration: 3000
 		});
 
 		var that = this;
 		setTimeout(function () {
-			that.newStep = new ItineraryStep();
+			that.newStop = new Stop();
 			that.dialogRef.close();
 		}, 500);
 	}

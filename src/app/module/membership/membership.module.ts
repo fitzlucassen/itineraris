@@ -11,6 +11,7 @@ import { SignupMembershipComponent } from '../../component/membership/signup/sig
 import { DashboardUserComponent } from '../../component/user/dashboard/dashboard.user.component';
 import { ItineraryDialogComponent } from '../../component/user/itinerary-dialog/itinerary-dialog.component';
 import { StepDialogComponent } from '../../component/user/step-dialog/step-dialog.component';
+import { StopDialogComponent } from '../../component/user/stop-dialog/stop-dialog.component';
 import { UploadFileComponent } from '../../component/upload-file/upload-file.component';
 import { ItineraryUserComponent } from '../../component/user/itinerary/itinerary.user.component';
 
@@ -31,12 +32,14 @@ import { routing } from '../../routing/membership.routing';
 		ItineraryDialogComponent,
 		SearchPipe,
 		StepDialogComponent,
+		StopDialogComponent,
 		SearchStepPipe,
 		UploadFileComponent,
 	],
 	entryComponents: [
 		ItineraryDialogComponent,
-		StepDialogComponent
+		StepDialogComponent,
+		StopDialogComponent,
 	],
 	imports: [
 		ReactiveFormsModule,

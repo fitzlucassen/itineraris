@@ -6,9 +6,11 @@ import { Meta, Title } from '@angular/platform-browser';
 import { Itinerary } from '../../../model/itinerary';
 import { ItineraryStep } from '../../../model/itinerary-step';
 import { User } from '../../../model/user';
+import { Stop } from '../../../model/stop';
 import { ItineraryService } from '../../../service/itinerary.service';
 import { UserService } from '../../../service/user.service';
-import { StepDialogComponent } from '../step-dialog/step-dialog.component'
+import { StepDialogComponent } from '../step-dialog/step-dialog.component';
+import { StopDialogComponent } from '../stop-dialog/stop-dialog.component';
 
 @Component({
 	selector: 'app-user-itinerary',
@@ -19,9 +21,13 @@ import { StepDialogComponent } from '../step-dialog/step-dialog.component'
 export class ItineraryUserComponent implements OnInit {
 	currentItinerary: Itinerary;
 	currentUser: User;
-	dialogRef: MdDialogRef<StepDialogComponent>;
 	itinerarySteps: Array<ItineraryStep>;
+	itineraryStops: Array<Stop>;
+
+	dialogRef: MdDialogRef<StepDialogComponent>;
+	dialogRefStop: MdDialogRef<StopDialogComponent>;
 	showSearch: boolean;
+	isStop: boolean = false;
 	search: string;
 	screenHeight: number;
 	mapUrl: string;
@@ -49,6 +55,10 @@ export class ItineraryUserComponent implements OnInit {
 		});
 	}
 
+	toggleIsStop(isStop: boolean){
+		this.isStop = isStop;
+	}
+
 	openDialog() {
 		this.dialogRef = this.itineraryDialog.open(StepDialogComponent, {
 			disableClose: false,
@@ -62,6 +72,21 @@ export class ItineraryUserComponent implements OnInit {
 		return this.dialogRef.afterClosed().subscribe(function () {
 			that.itineraryService.getItinerarySteps(that.currentItinerary.id).subscribe(
 				result => that.assignItinerarySteps(result),
+				error => alert(error)
+			);
+		});
+	}
+
+	openFreeStopDialog() {
+		this.dialogRefStop = this.itineraryDialog.open(StopDialogComponent, {
+			disableClose: false,
+		});
+		this.dialogRefStop.componentInstance.newStop.itineraryId = this.currentItinerary.id;
+
+		var that = this;
+		return this.dialogRefStop.afterClosed().subscribe(function () {
+			that.itineraryService.getItineraryStops(that.currentItinerary.id).subscribe(
+				result => that.assignItineraryStops(result),
 				error => alert(error)
 			);
 		});
@@ -86,10 +111,37 @@ export class ItineraryUserComponent implements OnInit {
 		});
 	}
 
+	editStop(id: string) {
+		this.dialogRefStop = this.itineraryDialog.open(StopDialogComponent, {
+			disableClose: false,
+		});
+		this.itineraryService.getStopById(id).subscribe(
+			result => result != null ? this.assignItineraryStop(result) : function () { },
+			error => alert(error)
+		);
+		this.dialogRefStop.componentInstance.isUpdate = true;
+
+		var that = this;
+		return this.dialogRefStop.afterClosed().subscribe(function () {
+			that.itineraryService.getItineraryStops(that.currentItinerary.id).subscribe(
+				result => that.assignItineraryStops(result),
+				error => alert(error)
+			);
+		});
+	}
+
 	removeStep(id: number) {
 		if (confirm('Êtes-vous sur de vouloir supprimer cette étape ?')) {
 			this.itineraryService.deleteStep(id).subscribe(
 				id => id != null ? this.successfullyRemoved() : function () { }
+			);
+		}
+	}
+
+	removeStop(id: number) {
+		if (confirm('Êtes-vous sur de vouloir supprimer ce free-stop ?')) {
+			this.itineraryService.deleteStop(id).subscribe(
+				id => id != null ? this.successfullyRemovedFreeStop() : function () { }
 			);
 		}
 	}
@@ -102,7 +154,9 @@ export class ItineraryUserComponent implements OnInit {
 		this.userService.signout(this.currentUser, function () { window.location.href = '/'; });
 	}
 
+	/***************/
 	/* Drag n drop */
+	/***************/
 	isbefore(a, b) {
 		if (a.parentNode == b.parentNode) {
 			for (var cur = a; cur; cur = cur.previousSibling) {
@@ -113,9 +167,6 @@ export class ItineraryUserComponent implements OnInit {
 		}
 		return false;
 	}
-    /**
-     * LIST ITEM DRAP ENTERED
-     */
 	dragenter($event) {
 		let target = $event.currentTarget;
 		if (this.isbefore(this.source, target)) {
@@ -126,16 +177,10 @@ export class ItineraryUserComponent implements OnInit {
 			target.parentNode.insertBefore(this.source, target.nextSibling); //insert after
 		}
 	}
-
-
-    /**
-     * LIST ITEM DRAG STARTED
-     */
 	dragstart($event) {
 		this.source = $event.currentTarget;
 		$event.dataTransfer.effectAllowed = 'move';
 	}
-
 	drop($event: any, step: ItineraryStep) {
 		$event.preventDefault();
 
@@ -176,6 +221,11 @@ export class ItineraryUserComponent implements OnInit {
 				result => that.assignItinerary(result),
 				error => alert(error)
 			);
+
+			this.itineraryService.getItineraryStops(id).subscribe(
+				result => that.assignItineraryStops(result),
+				error => alert(error)
+			);
 		});
 	}
 
@@ -183,6 +233,13 @@ export class ItineraryUserComponent implements OnInit {
 		var that = this;
 		this.itineraryService.getItinerarySteps(this.currentItinerary.id).subscribe(
 			result => that.assignItinerarySteps(result),
+			error => alert(error)
+		);
+	}
+	private successfullyRemovedFreeStop() {
+		var that = this;
+		this.itineraryService.getItineraryStops(this.currentItinerary.id).subscribe(
+			result => that.assignItineraryStops(result),
 			error => alert(error)
 		);
 	}
@@ -197,11 +254,21 @@ export class ItineraryUserComponent implements OnInit {
 	private assignItinerarySteps(result: Array<ItineraryStep>) {
 		this.itinerarySteps = result;
 	}
+	private assignItineraryStops(result: Array<Stop>) {
+		this.itineraryStops = result;
+	}
 	private assignItineraryStep(step: ItineraryStep) {
 		var d = step.date.split('T')[0].split('-');
 
 		step.date = d[0] + '-' + d[1] + '-' + d[2];
 
 		this.dialogRef.componentInstance.newStep = step;
+	}
+	private assignItineraryStop(stop: Stop) {
+		var d = stop.date.split('T')[0].split('-');
+
+		stop.date = d[0] + '-' + d[1] + '-' + d[2];
+
+		this.dialogRefStop.componentInstance.newStop = stop;
 	}
 }
