@@ -34,9 +34,9 @@ export class UserService {
 	signup(user: User): Observable<number> {
 		return this.http
 			.post('http://' + this.serviceUrl + '/users', {
-				name: user.name,
-				email: user.email,
-				password: user.password
+				name: btoa(user.name),
+				email: btoa(user.email),
+				password: btoa(user.password)
 			})
 			.map(this.extractData)
 			.catch(this.handleError);
@@ -44,7 +44,7 @@ export class UserService {
 
 	signin(emailOrPseudo: string, password: string): Observable<User> {
 		return this.http
-			.get('http://' + this.serviceUrl + '/users/' + emailOrPseudo + '/' + password)
+			.get('http://' + this.serviceUrl + '/users/' + btoa(emailOrPseudo) + '/' + btoa(password))
 			.map(this.extractData);
 	}
 
