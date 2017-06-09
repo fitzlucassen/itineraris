@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
@@ -6,18 +6,23 @@ import { Meta, Title } from '@angular/platform-browser';
 import { ItineraryService } from '../../../service/itinerary.service';
 import { Itinerary } from '../../../model/itinerary';
 import { SearchItineraryPipe } from '../../../pipe/search-itinerary.pipe';
+import { SearchMapComponent } from '../search-map/search-map.component';
 
 @Component({
 	selector: 'app-home',
 	templateUrl: './home.visitor.component.html',
 	styleUrls: ['./home.visitor.component.css'],
-	providers: [ItineraryService]
+	providers: [ItineraryService, SearchMapComponent]
 })
 export class HomeVisitorComponent implements OnInit {
 	searchText: string;
 	search: FormControl;
 	form: FormGroup;
 	screenHeight: number;
+
+	@ViewChild(SearchMapComponent) public map: SearchMapComponent;
+
+	isMap: boolean = false;
 
 	itineraries: Array<Itinerary> = [];
 
@@ -29,7 +34,7 @@ export class HomeVisitorComponent implements OnInit {
 
 		this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
 
-		this.search = new FormControl('', [Validators.required]);
+		this.search = new FormControl('', []);
 		this.form = this.fb.group({
 			search: this.search,
 		});
@@ -43,6 +48,15 @@ export class HomeVisitorComponent implements OnInit {
 
 	replaceAll(str: string, replace: string, value: string): string {
 		return str.replace(new RegExp(replace, 'g'), value);
+	}
+
+	toggleIsMap() {
+		this.isMap = !this.isMap;
+
+		if(this.isMap)
+			this.map.loadMap();
+		else
+			this.map.unloadMap();
 	}
 
 	ngOnInit() {

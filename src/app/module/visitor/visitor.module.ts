@@ -10,6 +10,7 @@ import { HomeVisitorComponent } from '../../component/visitor/home/home.visitor.
 import { UserMapComponent } from '../../component/visitor/user-map/user-map.component';
 import { MapComponent } from '../../component/visitor/map/map.component';
 import { SearchItineraryPipe } from '../../pipe/search-itinerary.pipe';
+import { SearchMapComponent } from '../../component/visitor/search-map/search-map.component';
 
 import { ShareButtonsModule } from 'ng2-sharebuttons';
 
@@ -30,6 +31,7 @@ import { routing } from '../../routing/visitor.routing';
 		UserMapComponent,
 		MapComponent,
 		HomeVisitorComponent,
+		SearchMapComponent,
 		SearchItineraryPipe
 	]
 })

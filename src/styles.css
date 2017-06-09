@@ -45,7 +45,7 @@ md-toolbar .mat-input-placeholder{
     color: white !important;
 }
 
-    #iw-container .iw-title {
+  #iw-container .iw-title {
 		display: block;
         font-family: 'Open Sans Condensed', sans-serif;
         font-size: 22px;
@@ -92,6 +92,17 @@ md-toolbar .mat-input-placeholder{
 .fb-comments > span, .fb-comments iframe{
 	width: 300px !important;
 }
+
+md-tab-header{
+  	margin-bottom: 2.5%;
+}
+	.mat-tab-label{
+      	font-size: 16px !important;
+  	}
+	.mat-tab-label[aria-selected="true"]{
+		opacity: 1 !important;
+		background-color: rgba(197,202,233,.3);
+	}
 
 @media screen and (max-width: 950px) {
 	app-membership-home, app-membership-signup{
