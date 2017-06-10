@@ -18,7 +18,7 @@ export class SearchMapComponent implements OnInit {
 	@Input() itineraries: Array<Itinerary> = [];
 
 	map: any = null;
-	infoWindowTemplate: string = '<div id="iw-container"><b class="iw-title">TITLE</b><div class="iw-content"><i class="iw-subTitle"><a target="_blank" href="/#/visiteur/USER/ID/ITINERARYNAME">Voir son itinéraire</a></i><br/><br/>DESCRIPTION<br/></div><div class="iw-bottom-gradient"></div></div>'
+	infoWindowTemplate: string = '<div id="iw-container"><b class="iw-title">TITLE</b><div class="iw-content"><i class="iw-subTitle"><a target="_blank" href="/#/visiteur/USER/ID/ITINERARYNAME">Voir l\'itinéraire de USERNAME</a></i><br/><br/>DESCRIPTION<br/></div><div class="iw-bottom-gradient"></div></div>'
 	infoWindows: Array<any> = [];
 
 	@ViewChild('container') container: ElementRef;
@@ -38,34 +38,25 @@ export class SearchMapComponent implements OnInit {
 
 		this.mapsAPILoader.load().then(() => {
 			var element = document.getElementById('searchmap');
-			this.container.nativeElement.style.height = '400px';
+			this.container.nativeElement.style.height = '500px';
 			element.style.height = '100%';
 
 			that.map = new google.maps.Map(element, {
-				zoom: 3,
-				center: { lat: 38.067885, lng: -1.061857 }
-
+				zoom: 2,
+				center: { lat: 18.5284128, lng: 13.9502671 }
 			});
 
 			var locations = [];
 
 			that.itineraries.forEach(function (element) {
-				var geocoder = new google.maps.Geocoder();
-
-				geocoder.geocode({ 'address': element.country }, function (results, status) {
-					if (status == 'OK') {
-						var l = { lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng() };
-						var m = new google.maps.Marker({
-							position: l,
-							icon: '/assets/icon.png'
-						});
-						locations.push(m);
-
-						that.createInfoWindowForStep(element, m, l);
-					} else {
-						alert('Geocode was not successful for the following reason: ' + status);
-					}
+				var l = { lat: element.stepLat, lng: element.stepLng };
+				var m = new google.maps.Marker({
+					position: l,
+					icon: '/assets/icon.png'
 				});
+				locations.push(m);
+
+				that.createInfoWindowForStep(element, m, l);
 			});
 
 			setTimeout(function () {
@@ -86,6 +77,7 @@ export class SearchMapComponent implements OnInit {
 		var content = this.infoWindowTemplate
 			.replace('TITLE', itinerary.name + ' - <i>' + itinerary.country + '</i>')
 			.replace('USER', this.replaceAll(itinerary.user.name.toLowerCase(), ' ', '-'))
+			.replace('USERNAME', itinerary.user.name)
 			.replace('ID', itinerary.id + '')
 			.replace('ITINERARYNAME', this.replaceAll(itinerary.name.toLowerCase(), ' ', '-'))
 			.replace('DESCRIPTION', itinerary.description)

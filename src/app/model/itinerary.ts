@@ -8,6 +8,8 @@ export class Itinerary {
     description: string;
     user: User;
     nbStep: number;
+    stepLat: number;
+    stepLng: number;
     
     constructor(values: Object = {}) {
         (<any>Object).assign(this, values);
