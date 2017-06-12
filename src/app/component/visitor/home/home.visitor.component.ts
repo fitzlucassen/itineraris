@@ -29,8 +29,8 @@ export class HomeVisitorComponent implements OnInit {
 	constructor(private fb: FormBuilder, private itineraryService: ItineraryService, private router: Router, private metaService: Meta, private titleService: Title) {
 		this.titleService.setTitle('Trouvez un itinéraire de voyage');
 		this.metaService.updateTag({ content: "Trouvez un itinéraire de voyage" }, "name='og:title'");
-		this.metaService.updateTag({ content: "Recherchez un itinéraire de voyage" }, "name='description'");
-		this.metaService.updateTag({ content: "Recherchez un itinéraire de voyage" }, "name='og:description'");
+		this.metaService.updateTag({ content: "Recherchez l'itinéraire de voyage d'un de vos proches ou l'itinéraire d'un voyageur qui a déjà traversé le pays que vous convoitez pour vos prochaines vacances !" }, "name='description'");
+		this.metaService.updateTag({ content: "Recherchez l'itinéraire de voyage d'un de vos proches ou l'itinéraire d'un voyageur qui a déjà traversé le pays que vous convoitez pour vos prochaines vacances !" }, "name='og:description'");
 
 		this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
 

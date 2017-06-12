@@ -29,7 +29,7 @@ export class UserMapComponent implements OnInit, OnDestroy {
 
 	currentUrl: string;
 	currentTitle: string = 'Itinéraire de voyage';
-	currentDescription: string = 'Mon itinéraire de voyage';
+	currentDescription: string = 'Voici l\'itinéraire de voyage';
 
 	@ViewChild(MapComponent) public map: MapComponent;
 	@ViewChild('toAppend') public sidenav: ElementRef;
@@ -40,10 +40,6 @@ export class UserMapComponent implements OnInit, OnDestroy {
 		private itineraryService: ItineraryService,
 		private router: Router,
 		private renderer: Renderer, private metaService: Meta, private titleService: Title) {
-
-		this.titleService.setTitle(this.currentTitle);
-		this.metaService.updateTag({ content: this.currentDescription }, "name='description'");
-		this.metaService.updateTag({ content: this.currentDescription }, "name='og:description'");
 
 		this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
 		this.currentUrl = window.location.href;
@@ -59,7 +55,7 @@ export class UserMapComponent implements OnInit, OnDestroy {
 			this.title = userName;
 
 			this.currentTitle += ' de ' + userName;
-			this.titleService.setTitle(this.currentTitle);
+			this.currentDescription += ' de ' + userName;
 
 			var that = this;
 			this.itineraryService.getItinerarySteps(itineraryId).subscribe(
@@ -100,7 +96,13 @@ export class UserMapComponent implements OnInit, OnDestroy {
 
 	private assignItinerary(result: Itinerary) {
 		this.currentTitle += ' - ' + result.country;
-		this.currentDescription += ' - ' + result.country;
+		this.currentDescription += ' - ' + result.country + ' - Restez en contact avec lui et laissez lui un message !';
+
+		this.titleService.setTitle(this.currentTitle);
+		this.metaService.updateTag({ content: this.currentTitle }, "name='og:title'");
+		this.metaService.updateTag({ content: this.currentDescription }, "name='description'");
+		this.metaService.updateTag({ content: this.currentDescription }, "name='og:description'");
+
 		this.itinerary = result;
 	}
 	private assignItinerarySteps(result: Array<ItineraryStep>) {
