@@ -6,6 +6,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 
 import { ItineraryStep } from '../../../model/itinerary-step';
 import { ItineraryService } from '../../../service/itinerary.service';
+import { MapsService } from '../../../service/maps.service';
 import { UploadFileComponent } from '../../upload-file/upload-file.component';
 import { Picture } from '../../../model/picture';
 
@@ -15,7 +16,7 @@ declare var google: any;
 	selector: 'step-dialog',
 	templateUrl: './step-dialog.component.html',
 	styleUrls: ['./step-dialog.component.css'],
-	providers: [UploadFileComponent]
+	providers: [UploadFileComponent, MapsService]
 })
 export class StepDialogComponent implements OnInit, OnChanges {
 	newStep: ItineraryStep = new ItineraryStep();
@@ -40,7 +41,8 @@ export class StepDialogComponent implements OnInit, OnChanges {
 		public snackBar: MdSnackBar,
 		private fb: FormBuilder,
 		public dialogRef: MdDialogRef<StepDialogComponent>,
-		private itineraryService: ItineraryService) {
+		private itineraryService: ItineraryService,
+		private mapsService: MapsService) {
 		this.city = new FormControl('', [Validators.required, Validators.minLength(2)]);
 		this.date = new FormControl('', [Validators.required]);
 		this.description = new FormControl('', [Validators.required, Validators.minLength(3)]);
@@ -108,31 +110,43 @@ export class StepDialogComponent implements OnInit, OnChanges {
 
 		if ("geolocation" in navigator) {
 			navigator.geolocation.getCurrentPosition((position) => {
-				var d = new Date();
-
-				this.newStep.date = d.getFullYear() + '-' + this.completeNumberWithZero(d.getMonth() + 1) + '-' + this.completeNumberWithZero(d.getDate());
-				this.newStep.lat = position.coords.latitude;
-				this.newStep.lng = position.coords.longitude;
-
-				var geocoder = new google.maps.Geocoder();
-
-				geocoder.geocode({
-					'latLng': { lat: position.coords.latitude, lng: position.coords.longitude }
-				}, function (results, status) {
-					if (status === google.maps.GeocoderStatus.OK) {
-						if (results[1]) {
-							that.city.setValue(results[1].formatted_address);
-							that.newStep.city = results[1].formatted_address;
-							that.searchElementRef.nativeElement.focus();
-						} else {
-							alert('Aucun résultat trouvé :(');
-						}
-					} else {
-						alert('Aucun résultat trouvé :(');
+				that.fillFormWithGeolocalisation(position.coords.latitude, position.coords.longitude)
+			}, function () {
+				that.mapsService.getCurrentPosition().subscribe(
+					data => {
+						that.fillFormWithGeolocalisation(data.location.lat, data.location.lng);
 					}
-				});
+				);
 			});
 		}
+	}
+	
+	private fillFormWithGeolocalisation(latitude: number, longitude: number) {
+		var d = new Date();
+
+		this.newStep.date = d.getFullYear() + '-' + this.completeNumberWithZero(d.getMonth() + 1) + '-' + this.completeNumberWithZero(d.getDate());
+		this.newStep.lat = latitude;
+		this.newStep.lng = longitude;
+
+		var geocoder = new google.maps.Geocoder();
+
+		var that = this;
+
+		geocoder.geocode({
+			'latLng': { lat: latitude, lng: longitude }
+		}, function (results, status) {
+			if (status === google.maps.GeocoderStatus.OK) {
+				if (results[1]) {
+					that.city.setValue(results[1].formatted_address);
+					that.newStep.city = results[1].formatted_address;
+					that.searchElementRef.nativeElement.focus();
+				} else {
+					alert('Aucun résultat trouvé :(');
+				}
+			} else {
+				alert('Aucun résultat trouvé :(');
+			}
+		});
 	}
 	private updateImages(updated: boolean, stepId: number) {
 		var that = this;
