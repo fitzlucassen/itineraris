@@ -97,7 +97,37 @@ export class StopDialogComponent implements OnInit {
 		}
 		return false;
 	}
+	getCurrentPosition() {
+		var that = this;
 
+		if ("geolocation" in navigator) {
+			navigator.geolocation.getCurrentPosition((position) => {
+				var d = new Date();
+
+				this.newStop.date = d.getFullYear() + '-' + this.completeNumberWithZero(d.getMonth() + 1) + '-' + this.completeNumberWithZero(d.getDate());
+				this.newStop.lat = position.coords.latitude;
+				this.newStop.lng = position.coords.longitude;
+
+				var geocoder = new google.maps.Geocoder();
+
+				geocoder.geocode({
+					'latLng': { lat: position.coords.latitude, lng: position.coords.longitude }
+				}, function (results, status) {
+					if (status === google.maps.GeocoderStatus.OK) {
+						if (results[1]) {
+							that.city.setValue(results[1].formatted_address);
+							that.newStop.city = results[1].formatted_address;
+							that.searchElementRef.nativeElement.focus();
+						} else {
+							alert('Aucun résultat trouvé :(');
+						}
+					} else {
+						alert('Aucun résultat trouvé :(');
+					}
+				});
+			});
+		}
+	}
 	private updateImages(updated: boolean, stopId: number) {
 		var that = this;
 
@@ -143,5 +173,11 @@ export class StopDialogComponent implements OnInit {
 			that.newStop = new Stop();
 			that.dialogRef.close();
 		}, 500);
+	}
+	private completeNumberWithZero(number: number): string {
+		if ((number + '').length == 1)
+			return '0' + number + '';
+		else
+			return '' + number;
 	}
 }

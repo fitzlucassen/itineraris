@@ -10,8 +10,11 @@
 				<input mdInput type="date" class="big-form" placeholder="Date de l'étape" formControlName="date" [(ngModel)]="newStep.date" required flex/>
 				<md-hint *ngIf="!date.untouched && !date.valid && date.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">date requise</md-hint>
 			</md-input-container>
+			<button md-mini-fab type="button" (click)="getCurrentPosition()" style="margin-right: 0;float:right;">
+				<md-icon class="">location_searching</md-icon>
+			</button>
 		</div>
-		<md-input-container style="width:100% !important;" >
+		<md-input-container style="width:100% !important;">
 			<textarea mdInput class="big-form" placeholder="Description de l'étape" formControlName="description" [(ngModel)]="newStep.description" required flex></textarea>
 			<md-hint *ngIf="!description.untouched && !description.valid && description.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">description requise</md-hint>
 			<md-hint *ngIf="!description.untouched && !description.valid && description.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">3 caractères minimum</md-hint>
@@ -29,7 +32,6 @@
 		<br/>
 		<md-spinner *ngIf="isLoading"></md-spinner>
 		<br/>
-		<button md-raised-button>VALIDER</button>
+		<button md-raised-button style="margin: 2.5%;">VALIDER</button>
 	</form>
 </div>
-

@@ -271,7 +271,8 @@ export class MapComponent implements OnInit {
 						});
 					}
 				} else {
-					window.alert('Directions request failed due to ' + status);
+					console.log(status);
+					window.alert('Aucune route n\'a été trouvé pour rejoindre certains points de l\'itinéraire. Il faut surement changer le moyen de transport de certaines étapes :)');
 				}
 			});
 		}

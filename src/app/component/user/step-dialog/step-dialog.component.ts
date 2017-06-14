@@ -103,7 +103,37 @@ export class StepDialogComponent implements OnInit, OnChanges {
 		}
 		return false;
 	}
+	getCurrentPosition() {
+		var that = this;
 
+		if ("geolocation" in navigator) {
+			navigator.geolocation.getCurrentPosition((position) => {
+				var d = new Date();
+
+				this.newStep.date = d.getFullYear() + '-' + this.completeNumberWithZero(d.getMonth() + 1) + '-' + this.completeNumberWithZero(d.getDate());
+				this.newStep.lat = position.coords.latitude;
+				this.newStep.lng = position.coords.longitude;
+
+				var geocoder = new google.maps.Geocoder();
+
+				geocoder.geocode({
+					'latLng': { lat: position.coords.latitude, lng: position.coords.longitude }
+				}, function (results, status) {
+					if (status === google.maps.GeocoderStatus.OK) {
+						if (results[1]) {
+							that.city.setValue(results[1].formatted_address);
+							that.newStep.city = results[1].formatted_address;
+							that.searchElementRef.nativeElement.focus();
+						} else {
+							alert('Aucun résultat trouvé :(');
+						}
+					} else {
+						alert('Aucun résultat trouvé :(');
+					}
+				});
+			});
+		}
+	}
 	private updateImages(updated: boolean, stepId: number) {
 		var that = this;
 
@@ -148,5 +178,11 @@ export class StepDialogComponent implements OnInit, OnChanges {
 			that.newStep = new ItineraryStep();
 			that.dialogRef.close();
 		}, 500);
+	}
+	private completeNumberWithZero(number: number): string {
+		if ((number + '').length == 1)
+			return '0' + number + '';
+		else
+			return '' + number;
 	}
 }
