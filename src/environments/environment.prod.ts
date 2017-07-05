@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'api.itineraris.thibaultdulon.com:3000'
+  apiUrl: 'https://api.itineraris.thibaultdulon.com'
 };
