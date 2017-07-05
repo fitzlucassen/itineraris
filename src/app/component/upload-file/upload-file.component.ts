@@ -52,7 +52,7 @@ export class UploadFileComponent implements OnInit, OnChanges {
 			result.result.forEach(function (element) {
 				var img = new Picture({
 					stepId: that.stepId,
-					url: 'http://' + that.serviceUrl + '/' + element.url,
+					url: that.serviceUrl + '/' + element.url,
 					id: element.id,
 					date: element.date
 				});

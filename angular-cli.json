@@ -22,7 +22,9 @@
 			"mobile": false,
 			"styles": [
 				"styles.css",
-				"../node_modules/lightbox2/dist/css/lightbox.min.css"
+				"assets/material/material-icons.css",
+				"../node_modules/lightbox2/dist/css/lightbox.min.css",
+				"../node_modules/font-awesome/css/font-awesome.css" 
 			],
 			"scripts": [
 				"../node_modules/jquery/dist/jquery.js",

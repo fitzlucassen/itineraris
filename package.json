@@ -31,6 +31,7 @@
     "@types/node": "^7.0.22",
     "angular-router-loader": "^0.6.0",
     "core-js": "^2.4.1",
+    "font-awesome": "^4.7.0",
     "jquery": "^3.1.1",
     "js-marker-clusterer": "^1.0.0",
     "karma-chrome-launcher": "^2.1.1",
