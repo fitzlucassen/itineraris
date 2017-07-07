@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { MaterialModule } from '@angular/material';
+import { MaterialModule, MdNativeDateModule } from '@angular/material';
 import { AgmCoreModule } from '@agm/core';
 
 import { HomeMembershipComponent } from '../../component/membership/home/home.membership.component';
@@ -47,6 +47,7 @@ import { routing } from '../../routing/membership.routing';
 		CommonModule,
 		HttpModule,
 		MaterialModule,
+		MdNativeDateModule,
 		routing
 	]
 })

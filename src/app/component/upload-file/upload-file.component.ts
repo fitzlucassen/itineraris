@@ -105,7 +105,7 @@ export class UploadFileComponent implements OnInit, OnChanges {
 			that.images.push(new Picture({
 				id: element.id,
 				stepId: that.stepId,
-				url: 'http://' + that.serviceUrl + '/' + element.url,
+				url: that.serviceUrl + '/' + element.url,
 				caption: element.caption,
 				date: element.date.split('T')[0]
 			}));
@@ -116,7 +116,7 @@ export class UploadFileComponent implements OnInit, OnChanges {
 		pictures.forEach(function (element) {
 			var img = new Picture({
 				id: element.id,
-				url: 'http://' + that.serviceUrl + '/' + element.url,
+				url: that.serviceUrl + '/' + element.url,
 				caption: element.caption,
 				date: element.date.split('T')[0]
 			});

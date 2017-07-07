@@ -2,14 +2,16 @@
 	<form name="userForm" [formGroup]="form" (ngSubmit)="registerStep()">
 		<div layout layout-sm="column">
 			<md-input-container>
-				<input mdInput class="big-form" placeholder="Ville de l'étape" formControlName="city" [(ngModel)]="newStep.city" required flex autocorrect="off" autocapitalize="off" spellcheck="off" class="form-control" #search />
+				<input mdInput class="big-form" placeholder="Ville de l'étape" focus="window.scrollTo(0, 0);document.body.scrollTop = 0;" formControlName="city" [(ngModel)]="newStep.city" required flex autocorrect="off" autocapitalize="off" spellcheck="off" class="form-control" #search />
 				<md-hint *ngIf="!city.untouched && !city.valid && city.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">ville requise</md-hint>
 				<md-hint *ngIf="!city.untouched && !city.valid && city.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">2 caractères minimum</md-hint>
 			</md-input-container>
 			<md-input-container>
-				<input mdInput type="date" class="big-form" placeholder="Date de l'étape" formControlName="date" [(ngModel)]="newStep.date" required flex/>
+				<input mdInput type="text" [mdDatepicker]="myDatepicker" class="big-form" placeholder="Date de l'étape" formControlName="date" [(ngModel)]="newStep.date" required flex/>
+				<button mdSuffix [mdDatepickerToggle]="myDatepicker"></button>
 				<md-hint *ngIf="!date.untouched && !date.valid && date.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">date requise</md-hint>
 			</md-input-container>
+			<md-datepicker #myDatepicker></md-datepicker>
 			<button md-mini-fab type="button" (click)="getCurrentPosition()" style="margin-right: 0;float:right;">
 				<md-icon class="">location_searching</md-icon>
 			</button>
@@ -35,3 +37,4 @@
 		<button md-raised-button style="margin: 2.5%;">VALIDER</button>
 	</form>
 </div>
+
