@@ -18,7 +18,7 @@ export class SearchMapComponent implements OnInit {
 	@Input() itineraries: Array<Itinerary> = [];
 
 	map: any = null;
-	infoWindowTemplate: string = '<div id="iw-container"><b class="iw-title">TITLE</b><div class="iw-content"><i class="iw-subTitle"><a target="_blank" href="/visiteur/USER/ID/ITINERARYNAME">Voir l\'itinéraire de USERNAME</a></i><br/><br/>DESCRIPTION<br/></div><div class="iw-bottom-gradient"></div></div>'
+	infoWindowTemplate: string = '<div id="iw-container"><b class="iw-title">TITLE</b><div class="iw-content"><i class="iw-subTitle"><a target="_blank" rel="noopener" href="/visiteur/USER/ID/ITINERARYNAME">Voir l\'itinéraire de USERNAME</a></i><br/><br/>DESCRIPTION<br/></div><div class="iw-bottom-gradient"></div></div>'
 	infoWindows: Array<any> = [];
 
 	@ViewChild('container') container: ElementRef;
