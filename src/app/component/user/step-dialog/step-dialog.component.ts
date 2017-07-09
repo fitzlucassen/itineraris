@@ -25,6 +25,7 @@ export class StepDialogComponent implements OnInit, OnChanges {
 	images: Array<Picture> = [];
 
 	screenHeight: number;
+	popinHeight: number;
 
 	@ViewChild("search")
 	public searchElementRef: ElementRef;
@@ -56,6 +57,13 @@ export class StepDialogComponent implements OnInit, OnChanges {
 		});
 
 		this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
+
+		window.onresize = (e) => {
+			//ngZone.run will help to run change detection
+			this.ngZone.run(() => {
+				this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
+			});
+		};
 	}
 
 	ngOnInit() {
@@ -120,7 +128,7 @@ export class StepDialogComponent implements OnInit, OnChanges {
 			});
 		}
 	}
-	
+
 	private fillFormWithGeolocalisation(latitude: number, longitude: number) {
 		var d = new Date();
 

@@ -11,7 +11,7 @@
 				<button mdSuffix [mdDatepickerToggle]="myDatepicker"></button>
 				<md-hint *ngIf="!date.untouched && !date.valid && date.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">date requise</md-hint>
 			</md-input-container>
-			<md-datepicker #myDatepicker></md-datepicker>
+			<md-datepicker #myDatepicker touchUi="true"></md-datepicker>
 			<button md-mini-fab type="button" (click)="getCurrentPosition()" style="margin-right: 0;float:right;">
 				<md-icon class="">location_searching</md-icon>
 			</button>

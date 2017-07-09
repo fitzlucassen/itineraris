@@ -52,6 +52,13 @@ export class StopDialogComponent implements OnInit {
 		});
 
 		this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
+
+		window.onresize = (e) => {
+			//ngZone.run will help to run change detection
+			this.ngZone.run(() => {
+				this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
+			});
+		};
 	}
 
 	ngOnInit() {

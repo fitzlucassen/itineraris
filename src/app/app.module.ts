@@ -21,7 +21,7 @@ import { ShareButtonsModule } from 'ng2-sharebuttons';
 @NgModule({
 	declarations: [
 		AppComponent,
-		HomeComponent
+		HomeComponent,
 	],
 	imports: [
 		BrowserModule,

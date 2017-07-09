@@ -14,6 +14,7 @@ import { StepDialogComponent } from '../../component/user/step-dialog/step-dialo
 import { StopDialogComponent } from '../../component/user/stop-dialog/stop-dialog.component';
 import { UploadFileComponent } from '../../component/upload-file/upload-file.component';
 import { ItineraryUserComponent } from '../../component/user/itinerary/itinerary.user.component';
+import { SharingDialogComponent } from '../../component/user/sharing-dialog/sharing-dialog.component';
 
 import { SearchPipe } from '../../pipe/search.pipe';
 import { SearchStepPipe } from '../../pipe/search-step.pipe';
@@ -22,6 +23,8 @@ import { AuthGuard } from '../../guard/auth-guard';
 import { NoAuthGuard } from '../../guard/no-auth-guard';
 
 import { routing } from '../../routing/membership.routing';
+
+import { ShareButtonsModule } from "ng2-sharebuttons";
 
 @NgModule({
 	declarations: [
@@ -35,11 +38,13 @@ import { routing } from '../../routing/membership.routing';
 		StopDialogComponent,
 		SearchStepPipe,
 		UploadFileComponent,
+		SharingDialogComponent
 	],
 	entryComponents: [
 		ItineraryDialogComponent,
 		StepDialogComponent,
 		StopDialogComponent,
+		SharingDialogComponent
 	],
 	imports: [
 		ReactiveFormsModule,
@@ -48,6 +53,7 @@ import { routing } from '../../routing/membership.routing';
 		HttpModule,
 		MaterialModule,
 		MdNativeDateModule,
+		ShareButtonsModule.forRoot(),
 		routing
 	]
 })

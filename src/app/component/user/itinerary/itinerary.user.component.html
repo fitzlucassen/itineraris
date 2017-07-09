@@ -45,6 +45,10 @@
 				<a md-line href="/visiteur/{{mapUrl}}" target="_blank" rel="noopener">Voir la carte</a>
 			</md-list-item>
 			<md-list-item>
+				<md-icon md-list-avatar aria-label="Partager">share</md-icon>
+				<a md-line (click)="openSharingPopup()">Partager</a>
+			</md-list-item>
+			<md-list-item>
 				<md-icon md-list-avatar aria-label="Retour au dashboard">keyboard_backspace</md-icon>
 				<a md-line href="/compte/tableau-de-bord.html">Retour aux itinéraires</a>
 			</md-list-item>

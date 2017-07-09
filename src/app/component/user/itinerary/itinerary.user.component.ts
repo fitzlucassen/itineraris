@@ -11,6 +11,9 @@ import { ItineraryService } from '../../../service/itinerary.service';
 import { UserService } from '../../../service/user.service';
 import { StepDialogComponent } from '../step-dialog/step-dialog.component';
 import { StopDialogComponent } from '../stop-dialog/stop-dialog.component';
+import { SharingDialogComponent } from "../sharing-dialog/sharing-dialog.component";
+
+import { environment } from '../../../../environments/environment';
 
 @Component({
 	selector: 'app-user-itinerary',
@@ -26,6 +29,7 @@ export class ItineraryUserComponent implements OnInit {
 
 	dialogRef: MdDialogRef<StepDialogComponent>;
 	dialogRefStop: MdDialogRef<StopDialogComponent>;
+	sharingRef: MdDialogRef<SharingDialogComponent>;
 	showSearch: boolean;
 	isStop: boolean = false;
 	search: string;
@@ -34,7 +38,7 @@ export class ItineraryUserComponent implements OnInit {
 
 	source: any;
 
-	@ViewChild(MdInputDirective) input:any;
+	@ViewChild(MdInputDirective) input: any;
 
 	constructor(public itineraryDialog: MdDialog, public route: ActivatedRoute, private itineraryService: ItineraryService, private userService: UserService, private router: Router, private metaService: Meta, private titleService: Title) {
 		this.titleService.setTitle('Itineraris -  Gérer l\'itinéraire');
@@ -55,7 +59,7 @@ export class ItineraryUserComponent implements OnInit {
 		});
 	}
 
-	toggleIsStop(isStop: boolean){
+	toggleIsStop(isStop: boolean) {
 		this.isStop = isStop;
 	}
 
@@ -75,6 +79,19 @@ export class ItineraryUserComponent implements OnInit {
 				error => alert(error)
 			);
 		});
+	}
+
+	openSharingPopup() {
+		this.sharingRef = this.itineraryDialog.open(SharingDialogComponent, {
+			disableClose: false,
+		});
+
+		var userName = this.currentUser.name;
+		var country = this.currentItinerary.country;
+
+		this.sharingRef.componentInstance.sharingUrl = environment.url + '/visiteur/' + this.mapUrl;
+		this.sharingRef.componentInstance.sharingTitle = 'Itinéraire de voyage de ' + userName + ' - ' + country;
+		this.sharingRef.componentInstance.sharingDescription = 'Voici l\'itinéraire de voyage de ' + userName + ' - ' + country + ' - Restez en contact avec lui et laissez lui un message !';
 	}
 
 	openFreeStopDialog() {
