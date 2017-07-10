@@ -17,6 +17,8 @@
 			<md-hint *ngIf="!description.untouched && !description.valid && description.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">3 caractères minimum</md-hint>
 		</md-input-container>
 		<br/>
+		<div style="text-align: center;"><md-slide-toggle [checked]="newItinerary.online" (change)="updateOnline()">Itinéraire publique</md-slide-toggle></div>
+		<br/>
 		<md-spinner *ngIf="isLoading"></md-spinner>
 		<br/>
 		<button md-raised-button>VALIDER</button>

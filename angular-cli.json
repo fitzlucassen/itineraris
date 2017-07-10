@@ -12,6 +12,7 @@
 				"favicon.ico",
 				"manifest.json",
 				"sitemap.xml",
+				"web.config",
 				"robots.txt"
 			],
 			"index": "index.html",

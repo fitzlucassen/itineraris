@@ -10,6 +10,7 @@ export class Itinerary {
     nbStep: number;
     stepLat: number;
     stepLng: number;
+    online: boolean;
     
     constructor(values: Object = {}) {
         (<any>Object).assign(this, values);

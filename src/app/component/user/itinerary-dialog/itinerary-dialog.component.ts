@@ -18,6 +18,7 @@ export class ItineraryDialogComponent implements OnInit {
 	newItinerary: Itinerary = new Itinerary();
 	isUpdate: boolean = false;
 	isLoading: boolean = false;
+	onlineChanges: boolean = false;
 
 	@ViewChild("search")
   	public searchElementRef: ElementRef;
@@ -70,7 +71,7 @@ export class ItineraryDialogComponent implements OnInit {
 	}
 
 	registerItinerary() {
-		if (this.form.dirty && this.form.valid) {
+		if ((this.onlineChanges || this.form.dirty) && this.form.valid ) {
 			this.isLoading = true;
 
 			if (this.isUpdate) {
@@ -87,6 +88,11 @@ export class ItineraryDialogComponent implements OnInit {
 			}
 		}
 		return false;
+	}
+
+	updateOnline(){
+		this.newItinerary.online = !this.newItinerary.online;
+		this.onlineChanges = true;
 	}
 
 	private successfullyCreated() {
