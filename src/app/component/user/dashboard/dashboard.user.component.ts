@@ -48,6 +48,7 @@ export class DashboardUserComponent implements OnInit {
 			disableClose: false,
 		});
 		this.dialogRef.componentInstance.newItinerary.userId = this.currentUser.id;
+		this.dialogRef.componentInstance.newItinerary.online = true;
 
 		var that = this;
 		return this.dialogRef.afterClosed().subscribe(function () {
