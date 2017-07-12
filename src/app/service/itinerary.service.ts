@@ -43,7 +43,8 @@ export class ItineraryService {
 				name: itinerary.name,
 				country: itinerary.country,
 				description: itinerary.description,
-				online: itinerary.online ? 1 : 0
+				online: itinerary.online ? 1 : 0,
+				likes: itinerary.likes
 			})
 			.map(this.extractData)
 			.catch(this.handleError);

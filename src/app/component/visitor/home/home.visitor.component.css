@@ -104,6 +104,17 @@ md-toolbar.md-whiteframe-z1 {
             cursor: pointer;
         }
 
+.list-item-right{
+    min-width:70px;
+    text-align:right;
+}
+.list-item-right md-icon{
+    transition: all 0.3s linear;
+}
+.list-item-right:hover md-icon, .liked{
+    color: #3f51b5;
+}
+
 @media screen and (max-width: 950px) {
     h1{
         text-align: center;

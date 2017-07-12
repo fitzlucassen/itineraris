@@ -37,6 +37,11 @@
 							<md-icon md-list-avatar aria-label="{{itinerary.name}}">airplanemode_active</md-icon>
 							<a md-line href="/visiteur/{{replaceAll(itinerary.user.name.toLowerCase(), ' ', '-')}}/{{itinerary.id}}/{{replaceAll(itinerary.name.toLowerCase(), ' ', '-')}}"><b>{{itinerary.name}} <i>- {{itinerary.country}}</i></b></a>
 							<a md-line href="/visiteur/{{replaceAll(itinerary.user.name.toLowerCase(), ' ', '-')}}/{{itinerary.id}}/{{replaceAll(itinerary.name.toLowerCase(), ' ', '-')}}">{{itinerary.date.substr(0, itinerary.date.indexOf('T'))}}</a>
+
+							<div class="list-item-right">
+								<span style="display:inline-block;">{{itinerary.likes}}</span>
+								<md-icon class="little-icon" [ngClass]="{'liked': isBlue(itinerary.id)}" style="display:inline-block;vertical-align:bottom;" (click)="like(itinerary.id)">thumb_up</md-icon>
+							</div>
 						</md-list-item>
 						<md-list-item *ngIf="(itineraries | SearchItineraryPipe: searchText).length === 0">
 							<a md-line href="javascript: void(0);">Aucun résultat...</a>
