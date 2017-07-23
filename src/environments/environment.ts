@@ -7,6 +7,6 @@ export const environment = {
 	production: false,
 	// url: 'http://localhost:4200',
 	// apiUrl: 'http://localhost:3000'
-	url: 'https://itineraris.thibaultdulon.com',	
-	apiUrl: 'https://api.itineraris.thibaultdulon.com'
+	url: 'https://itineraris.fr',	
+	apiUrl: 'https://api.itineraris.fr'
 };

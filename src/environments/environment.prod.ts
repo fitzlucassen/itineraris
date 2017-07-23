@@ -1,5 +1,5 @@
 export const environment = {
 	production: true,
-	url: 'https://itineraris.thibaultdulon.com',
-	apiUrl: 'https://api.itineraris.thibaultdulon.com'
+	url: 'https://itineraris.fr',
+	apiUrl: 'https://api.itineraris.fr'
 };
