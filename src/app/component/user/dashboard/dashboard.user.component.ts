@@ -47,7 +47,7 @@ export class DashboardUserComponent implements OnInit {
 		this.dialogRef = this.itineraryDialog.open(ItineraryDialogComponent, {
 			disableClose: false,
 		});
-		this.dialogRef.componentInstance.newItinerary.userId = this.currentUser.id;
+		this.dialogRef.componentInstance.newItinerary.users.push(new User({ id: this.currentUser.id}));
 		this.dialogRef.componentInstance.newItinerary.online = true;
 
 		var that = this;

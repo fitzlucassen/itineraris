@@ -35,8 +35,8 @@
 					<md-nav-list flex>
 						<md-list-item class="md-2-line" *ngFor="let itinerary of itineraries | SearchItineraryPipe: searchText" role="link">
 							<md-icon md-list-avatar aria-label="{{itinerary.name}}">airplanemode_active</md-icon>
-							<a md-line href="/visiteur/{{replaceAll(itinerary.user.name.toLowerCase(), ' ', '-')}}/{{itinerary.id}}/{{replaceAll(itinerary.name.toLowerCase(), ' ', '-')}}"><b>{{itinerary.name}} <i>- {{itinerary.country}}</i></b></a>
-							<a md-line href="/visiteur/{{replaceAll(itinerary.user.name.toLowerCase(), ' ', '-')}}/{{itinerary.id}}/{{replaceAll(itinerary.name.toLowerCase(), ' ', '-')}}">{{itinerary.date.substr(0, itinerary.date.indexOf('T'))}}</a>
+							<a md-line href="/visiteur/{{replaceAll(itinerary.users[0].name.toLowerCase(), ' ', '-')}}/{{itinerary.id}}/{{replaceAll(itinerary.name.toLowerCase(), ' ', '-')}}"><b>{{itinerary.name}} <i>- {{itinerary.country}}</i></b></a>
+							<a md-line href="/visiteur/{{replaceAll(itinerary.users[0].name.toLowerCase(), ' ', '-')}}/{{itinerary.id}}/{{replaceAll(itinerary.name.toLowerCase(), ' ', '-')}}">{{itinerary.date.substr(0, itinerary.date.indexOf('T'))}}</a>
 
 							<div class="list-item-right">
 								<span style="display:inline-block;">{{itinerary.likes}}</span>

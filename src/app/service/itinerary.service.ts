@@ -30,7 +30,7 @@ export class ItineraryService {
 				name: itinerary.name,
 				country: itinerary.country,
 				description: itinerary.description,
-				userId: itinerary.userId,
+				userId: itinerary.users[0].id,
 				online: itinerary.online ? 1 : 0
 			})
 			.map(this.extractData)

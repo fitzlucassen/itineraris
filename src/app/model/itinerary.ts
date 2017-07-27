@@ -2,11 +2,10 @@ import { User } from './user';
 
 export class Itinerary {
     id: number;
-    userId: number;
     name: string;
     country: string;
     description: string;
-    user: User;
+    users: Array<User>;
     nbStep: number;
     stepLat: number;
     stepLng: number;
@@ -14,6 +13,7 @@ export class Itinerary {
     likes: number;
     
     constructor(values: Object = {}) {
+        this.users = new Array<User>();
         (<any>Object).assign(this, values);
     }
 }

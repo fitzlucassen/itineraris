@@ -76,8 +76,8 @@ export class SearchMapComponent implements OnInit {
 	private createInfoWindowForStep(itinerary: Itinerary, marker: any, location: any) {
 		var content = this.infoWindowTemplate
 			.replace('TITLE', itinerary.name + ' - <i>' + itinerary.country + '</i>')
-			.replace('USER', this.replaceAll(itinerary.user.name.toLowerCase(), ' ', '-'))
-			.replace('USERNAME', itinerary.user.name)
+			.replace('USER', this.replaceAll(itinerary.users[0].name.toLowerCase(), ' ', '-'))
+			.replace('USERNAME', itinerary.users[0].name)
 			.replace('ID', itinerary.id + '')
 			.replace('ITINERARYNAME', this.replaceAll(itinerary.name.toLowerCase(), ' ', '-'))
 			.replace('DESCRIPTION', itinerary.description)

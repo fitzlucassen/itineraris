@@ -12,7 +12,7 @@ export class SearchItineraryPipe implements PipeTransform {
 		return value.filter(v =>
 			v.name.toLocaleLowerCase().indexOf(args.toLocaleLowerCase()) !== -1 ||
 			v.country.toLocaleLowerCase().indexOf(args.toLocaleLowerCase()) !== -1 ||
-			v.user.name.toLocaleLowerCase().indexOf(args.toLocaleLowerCase()) !== -1
+			v.users.filter(u => u.name.toLocaleLowerCase().indexOf(args.toLocaleLowerCase()) !== -1).length > 0
 		);
 	}
 }
