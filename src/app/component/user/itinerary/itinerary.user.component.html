@@ -106,7 +106,7 @@
 				</md-list-item>
 			</md-nav-list>
 			<md-nav-list flex *ngIf="isStop">
-				<md-list-item class="md-2-line" id="stop-{{stop.id}}" *ngFor="let stop of itineraryStops | SearchStepPipe : search" role="link" draggable="true" (dragenter)="dragenter($event)" (dragstart)="dragstart($event)" (dragend)="drop($event, step)" [disableRipple]="true">
+				<md-list-item class="md-2-line" id="stop-{{stop.id}}" *ngFor="let stop of itineraryStops | SearchStepPipe : search" role="link" draggable="true" (dragenter)="dragenter($event)" (dragstart)="dragstart($event)" (dragend)="dropStop($event, stop)" [disableRipple]="true">
 					<md-icon class="dragdrop" md-list-avatar aria-label="{{stop.city}}">drag_handle</md-icon>
 					<a md-line href="javascript: void(0);" (click)="editStop(stop.id)"><b>{{stop.city}}</b></a>
 					<a md-line href="javascript: void(0);" (click)="editStop(stop.id)">{{stop.date.substr(0, stop.date.indexOf('T'))}}</a>

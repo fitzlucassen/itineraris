@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone, OnChanges, SimpleChanges } from '@angular/core';
 import { MdDialog, MdDialogRef, MaterialModule } from '@angular/material';
 import { Itinerary } from '../../../model/itinerary';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';

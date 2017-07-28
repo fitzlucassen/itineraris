@@ -86,7 +86,7 @@ export class ItineraryService {
 		return this.http
 			.post(this.serviceUrl + '/steps', {
 				city: step.city,
-				date: step.date,
+				date: typeof step.date == 'object' ? this.convertToString(step.date) : step.date.split('T')[0],
 				description: step.description,
 				itineraryId: step.itineraryId,
 				lat: step.lat,
@@ -108,7 +108,7 @@ export class ItineraryService {
 		return this.http
 			.put(this.serviceUrl + '/steps/' + step.id, {
 				city: step.city,
-				date: step.date.split('T')[0],
+				date: typeof step.date == 'object' ? this.convertToString(step.date) : step.date.split('T')[0],
 				description: step.description,
 				lat: step.lat,
 				lng: step.lng,
@@ -160,7 +160,7 @@ export class ItineraryService {
 		return this.http
 			.post(this.serviceUrl + '/stops', {
 				city: stop.city,
-				date: stop.date,
+				date: typeof stop.date == 'object' ? this.convertToString(stop.date) : stop.date.split('T')[0],
 				description: stop.description,
 				itineraryId: stop.itineraryId,
 				lat: stop.lat,
@@ -173,7 +173,7 @@ export class ItineraryService {
 		return this.http
 			.put(this.serviceUrl + '/stops/' + stop.id, {
 				city: stop.city,
-				date: stop.date.split('T')[0],
+				date: typeof stop.date == 'object' ? this.convertToString(stop.date) : stop.date.split('T')[0],
 				description: stop.description,
 				lat: stop.lat,
 				lng: stop.lng,
@@ -280,5 +280,14 @@ export class ItineraryService {
 		}
 
 		return Observable.throw(errMsg);
+	}
+	private convertToString(d: Date): string{
+		return d.getFullYear() + '-' + this.completeNumberWithZero(d.getMonth() + 1) + '-' + this.completeNumberWithZero(d.getDate());;
+	}
+	private completeNumberWithZero(number: number): string {
+		if ((number + '').length == 1)
+			return '0' + number + '';
+		else
+			return '' + number;
 	}
 }

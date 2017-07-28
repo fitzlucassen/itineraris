@@ -209,12 +209,35 @@ export class ItineraryUserComponent implements OnInit {
 			if (list.hasOwnProperty(i)) {
 				var id = list[i].id;
 				var stepId = id.split('-')[1];
+
 				that.itinerarySteps.find(s => s.id == stepId).position = cpt++;
 				that.itinerarySteps.find(s => s.id == stepId).date = that.itinerarySteps.find(s => s.id == stepId).date.split('T')[0];
 			}
 		}
 
 		that.itineraryService.updateSteps(that.itinerarySteps).subscribe(
+			data => { },
+			error => { alert(error); }
+		);
+	}
+	dropStop($event: any, stop: Stop) {
+		$event.preventDefault();
+
+		var list = $event.path[1].children;
+		var that = this;
+
+		var cpt = 0;
+		for (var i in list) {
+			if (list.hasOwnProperty(i)) {
+				var id = list[i].id;
+				var stepId = id.split('-')[1];
+
+				that.itineraryStops.find(s => s.id == stepId).position = cpt++;
+				that.itineraryStops.find(s => s.id == stepId).date = that.itineraryStops.find(s => s.id == stepId).date.split('T')[0];
+			}
+		}
+
+		that.itineraryService.updateStops(that.itineraryStops).subscribe(
 			data => { },
 			error => { alert(error); }
 		);
