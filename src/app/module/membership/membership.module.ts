@@ -15,9 +15,11 @@ import { StopDialogComponent } from '../../component/user/stop-dialog/stop-dialo
 import { UploadFileComponent } from '../../component/upload-file/upload-file.component';
 import { ItineraryUserComponent } from '../../component/user/itinerary/itinerary.user.component';
 import { SharingDialogComponent } from '../../component/user/sharing-dialog/sharing-dialog.component';
+import { ItineraryUserDialogComponent } from '../../component/user/itinerary-user-dialog/itinerary-user-dialog.component';
 
 import { SearchPipe } from '../../pipe/search.pipe';
 import { SearchStepPipe } from '../../pipe/search-step.pipe';
+import { SearchUserPipe } from '../../pipe/search-user.pipe';
 
 import { AuthGuard } from '../../guard/auth-guard';
 import { NoAuthGuard } from '../../guard/no-auth-guard';
@@ -33,18 +35,21 @@ import { ShareButtonsModule } from "ng2-sharebuttons";
 		DashboardUserComponent,
 		ItineraryUserComponent,
 		ItineraryDialogComponent,
+		ItineraryUserDialogComponent,
 		SearchPipe,
 		StepDialogComponent,
 		StopDialogComponent,
 		SearchStepPipe,
 		UploadFileComponent,
-		SharingDialogComponent
+		SharingDialogComponent,
+		SearchUserPipe
 	],
 	entryComponents: [
 		ItineraryDialogComponent,
 		StepDialogComponent,
 		StopDialogComponent,
-		SharingDialogComponent
+		SharingDialogComponent,
+		ItineraryUserDialogComponent,		
 	],
 	imports: [
 		ReactiveFormsModule,

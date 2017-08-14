@@ -27,10 +27,25 @@ export class UserService {
 		return JSON.parse(c);
 	}
 
+	getAll(search: string): Observable<Array<User>>{
+		return this.http
+			.get(this.serviceUrl + '/users/' + btoa(search))
+			.map(this.extractData);
+	}
+
 	setCurrentUser(user:User){
 		localStorage.setItem('current_user', JSON.stringify(user));
 	}
 
+	addInItinerary(userId: number, itineraryId: number): Observable<any>{
+		return this.http
+			.post(this.serviceUrl + '/users/addInItinerary', {
+				userId: userId,
+				itineraryId: itineraryId
+			})
+			.map(this.extractData)
+			.catch(this.handleError);
+	}
 	signup(user: User): Observable<number> {
 		return this.http
 			.post(this.serviceUrl + '/users', {

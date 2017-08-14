@@ -12,6 +12,7 @@ import { UserService } from '../../../service/user.service';
 import { StepDialogComponent } from '../step-dialog/step-dialog.component';
 import { StopDialogComponent } from '../stop-dialog/stop-dialog.component';
 import { SharingDialogComponent } from "../sharing-dialog/sharing-dialog.component";
+import { ItineraryUserDialogComponent } from "../itinerary-user-dialog/itinerary-user-dialog.component";
 
 import { environment } from '../../../../environments/environment';
 
@@ -30,6 +31,7 @@ export class ItineraryUserComponent implements OnInit {
 	dialogRef: MdDialogRef<StepDialogComponent>;
 	dialogRefStop: MdDialogRef<StopDialogComponent>;
 	sharingRef: MdDialogRef<SharingDialogComponent>;
+	contributorRef: MdDialogRef<ItineraryUserDialogComponent>;
 	showSearch: boolean;
 	isStop: boolean = false;
 	search: string;
@@ -79,6 +81,14 @@ export class ItineraryUserComponent implements OnInit {
 				error => alert(error)
 			);
 		});
+	}
+
+	opencontributorPopup(){
+		this.contributorRef = this.itineraryDialog.open(ItineraryUserDialogComponent, {
+			disableClose: false,
+		});
+		this.contributorRef.componentInstance.usedUsers = this.currentItinerary.users;
+		this.contributorRef.componentInstance.currentItinerary = this.currentItinerary;
 	}
 
 	openSharingPopup() {

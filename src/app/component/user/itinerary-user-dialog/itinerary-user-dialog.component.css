@@ -1,0 +1,32 @@
+[md-raised-button]{
+    float: right;
+}
+md-input-container{
+    width: 100% !important;
+}
+md-spinner{
+    display: block;
+    margin: auto;
+    width: 40px;
+    height: 40px;
+}
+
+h2, h3{
+    font-family: 'Segoe UI';
+    font-weight: normal;
+    font-size: 28px;
+}
+h3{
+    font-size: 24px;
+}
+
+.mat-mini-fab{
+    width: 36px;
+    height: 36px;
+}
+.mat-mini-fab .mat-icon, .mat-mini-fab i{
+    line-height: 20px;
+    height: 20px;
+    width: 20px;
+    font-size: 20px !important;
+}
