@@ -24,6 +24,9 @@ h3{
     width: 36px;
     height: 36px;
 }
+.mat-mini-fab.gray{
+    background-color: #3f51b5;
+}
 .mat-mini-fab .mat-icon, .mat-mini-fab i{
     line-height: 20px;
     height: 20px;

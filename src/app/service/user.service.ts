@@ -46,6 +46,14 @@ export class UserService {
 			.map(this.extractData)
 			.catch(this.handleError);
 	}
+
+	removeFromItinerary(userId: number, itineraryId: number): Observable<any>{
+		return this.http
+			.delete(this.serviceUrl + '/users/removeFromItinerary/' + userId + '/' + itineraryId)
+			.map(this.extractData)
+			.catch(this.handleError);
+	}
+
 	signup(user: User): Observable<number> {
 		return this.http
 			.post(this.serviceUrl + '/users', {

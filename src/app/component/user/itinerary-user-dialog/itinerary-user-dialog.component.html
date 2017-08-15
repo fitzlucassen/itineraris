@@ -1,4 +1,4 @@
-<div class="md-padding" style="overflow: auto;" [style.max-height]="(screenHeight-100) + 'px'">
+<div class="md-padding" style="overflow: auto;" [style.max-height]="screenHeight + 'px'">
 	<h2>Vous-êtes plusieurs à participer ?</h2>
 	<h3>Invitez d'autres utilisateurs à contribuer à votre voyage !</h3>
 	<br/>
@@ -15,6 +15,7 @@
 			<p md-line href="">{{user.name}} - <i>{{anonymizeStart(user.email)}}<span style="color:#3f51b5">{{anonymizeMiddle(user.email)}}</span>{{anonymizeEnd(user.email)}}</i></p>
 
 			<button md-mini-fab *ngIf="userAlreadyExists(user.id)" (click)="addUserInItinerary(user.id)"><md-icon>check</md-icon></button>
+			<button md-mini-fab *ngIf="!userAlreadyExists(user.id)" (click)="removeUserInItinerary(user.id)" class="gray"><md-icon>delete</md-icon></button>
 		</md-list-item>
 		<md-list-item *ngIf="(users | SearchUserPipe: searchText) == null || (users | SearchUserPipe: searchText).length === 0">
 			<p md-line href="javascript: void(0);">Aucun résultat...</p>

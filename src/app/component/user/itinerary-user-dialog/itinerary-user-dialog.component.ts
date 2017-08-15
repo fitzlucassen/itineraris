@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 import { UserService } from "app/service/user.service";
@@ -20,7 +20,7 @@ export class ItineraryUserDialogComponent implements OnInit {
 	search: FormControl;
 	screenHeight: number;
 	
-	constructor(private fb: FormBuilder, private userService: UserService) {
+	constructor(private fb: FormBuilder, private userService: UserService, private ngZone: NgZone) {
 		this.form = this.fb.group({
 			search: this.search,
 		});
@@ -33,6 +33,13 @@ export class ItineraryUserDialogComponent implements OnInit {
 		);
 
 		this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
+		
+		window.onresize = (e) => {
+			//ngZone.run will help to run change detection
+			this.ngZone.run(() => {
+				this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
+			});
+		};
 	}
 
 	ngOnInit() {
@@ -86,6 +93,16 @@ export class ItineraryUserDialogComponent implements OnInit {
 				this.usedUsers.push(new User({
 					id: userId
 				}));
+			},
+			error => alert(error)
+		);
+	}
+
+	removeUserInItinerary(userId: number){
+		this.userService.removeFromItinerary(userId, this.currentItinerary.id).subscribe(
+			result => {
+				var index = this.usedUsers.findIndex(u => u.id == userId);
+				this.usedUsers.splice(index, 1);
 			},
 			error => alert(error)
 		);
