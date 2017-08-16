@@ -13,7 +13,8 @@
 				"manifest.json",
 				"sitemap.xml",
 				"web.config",
-				"robots.txt"
+				"robots.txt",
+				"modernizr-custom.js"
 			],
 			"index": "index.html",
 			"main": "main.ts",
@@ -29,7 +30,8 @@
 			],
 			"scripts": [
 				"../node_modules/jquery/dist/jquery.js",
-				"../node_modules/lightbox2/dist/js/lightbox.min.js"
+				"../node_modules/lightbox2/dist/js/lightbox.min.js",
+				"modernizr-custom.js"
 			],
 			"environmentSource": "environments/environment.ts",
 			"environments": {
