@@ -9,11 +9,11 @@
 	<md-sidenav #start mode="side" opened="false">
 		<md-nav-list>
 			<md-list-item>
-				<md-icon md-list-avatar aria-label="Accueil">home</md-icon>
+				<md-icon md-list-avatar>home</md-icon>
 				<a md-line href="/">Accueil</a>
 			</md-list-item>
 			<md-list-item>
-				<md-icon md-list-avatar aria-label="Espace membre">person</md-icon>
+				<md-icon md-list-avatar>person</md-icon>
 				<a md-line href="/compte/connexion.html">Espace membre</a>
 			</md-list-item>
 		</md-nav-list>
@@ -34,7 +34,7 @@
 
 					<md-nav-list flex>
 						<md-list-item class="md-2-line" *ngFor="let itinerary of itineraries | SearchItineraryPipe: searchText" role="link">
-							<md-icon md-list-avatar aria-label="{{itinerary.name}}">airplanemode_active</md-icon>
+							<md-icon md-list-avatar>airplanemode_active</md-icon>
 							<a md-line href="/visiteur/{{replaceAll(itinerary.users[0].name.toLowerCase(), ' ', '-')}}/{{itinerary.id}}/{{replaceAll(itinerary.name.toLowerCase(), ' ', '-')}}"><b>{{itinerary.name}} <i>- {{itinerary.country}}</i></b></a>
 							<a md-line href="/visiteur/{{replaceAll(itinerary.users[0].name.toLowerCase(), ' ', '-')}}/{{itinerary.id}}/{{replaceAll(itinerary.name.toLowerCase(), ' ', '-')}}">{{itinerary.date.substr(0, itinerary.date.indexOf('T'))}}</a>
 

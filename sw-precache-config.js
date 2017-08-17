@@ -4,6 +4,7 @@ module.exports = {
         'dist/**.js',
         'dist/**.css',
         'dist/**.png',
+        'dist/**.webp',
         'dist/**.eot',
         'dist/**.svg',
         'dist/**.woff',
@@ -15,7 +16,7 @@ module.exports = {
     stripPrefix: 'dist/',
     navigateFallback: '/index.html',
     runtimeCaching: [{
-        urlPattern: /itineraris\.thibaultdulon\.com/,
+        urlPattern: /itineraris\.fr/,
         handler: 'networkFirst'
     }]
 };
