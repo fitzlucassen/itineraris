@@ -177,6 +177,31 @@ export class ItineraryUserComponent implements OnInit {
 		return str.replace(new RegExp(replace, 'g'), value);
 	}
 
+	sanitize(str: string): string {
+		if (!str || str.length == 0)
+			return str;
+
+		var tmp = this.replaceAll(str.toLocaleLowerCase(), ' ', '-');
+		tmp = this.replaceAll(tmp, "/\?/", "-");
+		tmp = this.replaceAll(tmp, "/\!/", "-");
+		tmp = this.replaceAll(tmp, "/\:/", "-");
+		tmp = this.replaceAll(tmp, "/\//", "-");
+		tmp = this.replaceAll(tmp, "/\&/", "-");
+		tmp = this.replaceAll(tmp, "/\%/", "-");
+		tmp = this.replaceAll(tmp, "/\*/", "x");
+		tmp = this.replaceAll(tmp, "/\@/", "-");
+		tmp = this.replaceAll(tmp, "/\;/", "-");
+		tmp = this.replaceAll(tmp, "/\,/", "-");
+		tmp = this.replaceAll(tmp, "/\./", "-");
+		tmp = this.replaceAll(tmp, "/\^/", "-");
+		tmp = this.replaceAll(tmp, "/\$/", "-");
+		tmp = this.replaceAll(tmp, "/\€/", "-");
+		tmp = this.replaceAll(tmp, "/\#/", "-");
+		tmp = this.replaceAll(tmp, "/\'/", "-");
+
+		return encodeURIComponent(tmp);
+	}
+
 	signout() {
 		this.userService.signout(this.currentUser, function () { window.location.href = '/'; });
 	}
@@ -297,9 +322,9 @@ export class ItineraryUserComponent implements OnInit {
 		this.currentItinerary = result;
 
 		this.mapUrl =
-			encodeURI(this.replaceAll(this.currentUser.name.toLocaleLowerCase(), ' ', '-')) + '/' +
+			this.sanitize(this.currentUser.name) + '/' +
 			this.currentItinerary.id + '/' +
-			encodeURI(this.replaceAll(this.currentItinerary.name.toLocaleLowerCase(), ' ', '-'));
+			this.sanitize(this.currentItinerary.name);
 	}
 	private assignItinerarySteps(result: Array<ItineraryStep>) {
 		this.itinerarySteps = result;

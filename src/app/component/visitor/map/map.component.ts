@@ -26,6 +26,7 @@ export class MapComponent implements OnInit {
 		object: new ItineraryStep()
 	};
 	@Input() waypoints: Array<ItineraryStep> = [];
+	@Input() steps: Array<Array<ItineraryStep>> = [];
 
 	serviceUrl: string;
 	map: any = null;
@@ -41,21 +42,29 @@ export class MapComponent implements OnInit {
 		this.serviceUrl = environment.apiUrl;
 
 		// Load the map at the last step of the itinerary
-		this.updateDirections();
+		this.updateDirections(null, null, null);
 	}
 
-	updateDirections() {
+	updateDirections(origin, destination, waypoints) {
 		var that = this;
 
-		if (this.origin.object.id != null && this.origin.object.id > 0) {
+		if (this.origin.object.id != null && this.origin.object.id > 0 || (origin != null && waypoints != null && waypoints.length > 0)) {
 			this.mapsAPILoader.load().then(() => {
 				var directionsService = new google.maps.DirectionsService;
 				var directionsDisplay = new google.maps.DirectionsRenderer;
 
-				that.map = new google.maps.Map(document.getElementById('map'), {
-					zoom: 7,
-					center: { lat: that.origin.latitude, lng: that.origin.longitude }
-				});
+				if(origin != null && waypoints != null && waypoints.length > 0){
+					that.origin = origin;
+					that.destination = destination;
+					that.waypoints = waypoints;
+				}
+
+				if (!that.map || that.map == null || that.map == {}) {
+					that.map = new google.maps.Map(document.getElementById('map'), {
+						zoom: 7,
+						center: { lat: that.origin.latitude, lng: that.origin.longitude }
+					});
+				}
 				directionsDisplay.setMap(that.map);
 				directionsDisplay.setOptions({
 					suppressMarkers: true,
@@ -109,6 +118,38 @@ export class MapComponent implements OnInit {
 				}
 			});
 		}
+		else if (this.steps && this.steps.length > 0) {
+			console.log('coucou');
+			this.drawItineraries();
+			this.steps = null;
+		}
+	}
+
+	drawItineraries() {
+		var that = this;
+
+		this.steps.forEach(function (element: Array<ItineraryStep>) {
+			if (element.length > 0) {
+				var origin = {};
+				var destination = {};
+
+				origin = {
+					latitude: element[0].lat,
+					longitude: element[0].lng,
+					object: element[0]
+				};
+
+				if (element.length > 1) {
+					destination = {
+						latitude: element[element.length - 1].lat,
+						longitude: element[element.length - 1].lng,
+						object: element[element.length - 1]
+					};
+				}
+				var waypoints = element;
+				that.updateDirections(origin, destination, waypoints);
+			}
+		});
 	}
 
 	createInfoWindowForStop(pictures: Array<Picture>, origin: Stop) {
