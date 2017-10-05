@@ -46,26 +46,43 @@ export class UploadFileComponent implements OnInit, OnChanges {
 
 		this.isLoading = true;
 		var that = this;
-		this.itineraryService.uploadImages(this.stepId ? this.stepId : this.stopId, files).then((result) => {
-			that.isLoading = false;
 
-			result.result.forEach(function (element) {
-				var img = new Picture({
-					stepId: that.stepId,
-					url: that.serviceUrl + '/' + element.url,
-					id: element.id,
-					date: element.date
+		if (this.stepId) {
+			this.itineraryService.uploadImages(this.stepId, files).then((result) => {
+				that.isLoading = false;
+
+				result.result.forEach(function (element) {
+					var img = new Picture({
+						stepId: that.stepId,
+						url: that.serviceUrl + '/' + element.url,
+						id: element.id,
+						date: element.date
+					});
+
+					that.images.push(img);
 				});
-				if (that.stepId)
-					img.stepId = that.stepId;
-				else
-					img.stopId = that.stopId;
-
-				that.images.push(img);
+			}, (error) => {
+				alert(error);
 			});
-		}, (error) => {
-			alert(error);
-		});
+		}
+		else {
+			this.itineraryService.uploadStopImages(this.stopId, files).then((result) => {
+				that.isLoading = false;
+
+				result.result.forEach(function (element) {
+					var img = new Picture({
+						stopId: that.stopId,
+						url: that.serviceUrl + '/' + element.url,
+						id: element.id,
+						date: element.date
+					});
+
+					that.images.push(img);
+				});
+			}, (error) => {
+				alert(error);
+			});
+		}
 	}
 
 	removePicture(imageId: number) {

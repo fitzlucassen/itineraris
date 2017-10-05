@@ -210,7 +210,7 @@ export class ItineraryService {
 		if (stopId != null)
 			return this.makeFileRequest(this.serviceUrl + '/stops/' + stopId + '/images', [], files);
 		else
-			return this.makeFileRequest(this.serviceUrl + '/steps/images', [], files);
+			return this.makeFileRequest(this.serviceUrl + '/stops/images', [], files);
 	}
 
 	updateImages(images: Array<Picture>): Observable<Array<Picture>> {
