@@ -61,7 +61,7 @@ export class MapComponent implements OnInit {
 
 				if (!that.map || that.map == null || that.map == {}) {
 					that.map = new google.maps.Map(document.getElementById('map'), {
-						zoom: (waypoints != null && waypoints.length > 0) ? 3 : 7,
+						zoom: 7,
 						center: { lat: that.origin.latitude, lng: that.origin.longitude }
 					});
 				}
