@@ -94,9 +94,7 @@ export class WorldMapComponent implements OnInit {
 	private assignItinerarySteps(result: Array<Array<ItineraryStep>>) {
 		this.steps = result;
 
-		this.map.steps = this.steps;
-
-		this.map.updateDirections(null, null, null);
+		this.map.drawItineraries(this.steps);
 	}
 	private assignItineraryStops(result: Array<Stop>) {
 		this.stops = result;

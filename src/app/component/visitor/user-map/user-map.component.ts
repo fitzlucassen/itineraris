@@ -107,24 +107,27 @@ export class UserMapComponent implements OnInit, OnDestroy {
 	}
 	private assignItinerarySteps(result: Array<ItineraryStep>) {
 		this.steps = result;
+		var origin = {};
+		var destination = {};
+		var waypoints = {};
 
 		if (this.steps.length > 0) {
-			this.map.origin = {
+			origin = {
 				latitude: this.steps[0].lat,
 				longitude: this.steps[0].lng,
 				object: this.steps[0]
 			};
 		}
 		if (this.steps.length > 1) {
-			this.map.destination = {
+			destination = {
 				latitude: this.steps[this.steps.length - 1].lat,
 				longitude: this.steps[this.steps.length - 1].lng,
 				object: this.steps[this.steps.length - 1]
 			};
 
-			this.map.waypoints = this.steps;
+			waypoints = this.steps;
 		}
-		this.map.updateDirections(null, null, null);
+		this.map.updateDirections(origin, destination, waypoints);
 	}
 	private assignItineraryStops(result: Array<Stop>) {
 		this.stops = result;

@@ -15,23 +15,19 @@ declare var google: any;
 	styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit {
-	@Input() origin = {
-		latitude: 0,
-		longitude: 0,
-		object: new ItineraryStep()
-	};
-	@Input() destination = {
-		latitude: 0,
-		longitude: 0,
-		object: new ItineraryStep()
-	};
-	@Input() waypoints: Array<ItineraryStep> = [];
-	@Input() steps: Array<Array<ItineraryStep>> = [];
-
+	multiple: boolean = false;
 	serviceUrl: string;
 	map: any = null;
 	infoWindows: Array<any> = [];
 	markers: Array<any> = [];
+
+	markersPng: Array<any> = [
+		'/assets/icon.png',
+		'/assets/icon1.png',
+		'/assets/icon2.png',
+		'/assets/icon3.png',
+		'/assets/icon4.png'
+	];
 
 	infoWindowTemplate: string = '<div id="iw-container"><b class="iw-title">TITLE</b><div class="iw-content"><i class="iw-subTitle">Le DATE</i><br/><br/>DESCRIPTION<br/><br/>PICTURES</div><div class="iw-bottom-gradient"></div></div>'
 	infoWindowImgTemplate: string = '<li style="list-style:none;display: inline-block;margin-right: 5px;"><a href="URL1" data-lightbox="image" data-title="CAPTION1"><img class="ui bordered small image" src="URL2" alt="CAPTION2" title="CAPTION3" width="95px" height="95px"/></a></li>';
@@ -40,53 +36,47 @@ export class MapComponent implements OnInit {
 
 	ngOnInit() {
 		this.serviceUrl = environment.apiUrl;
-
-		// Load the map at the last step of the itinerary
-		this.updateDirections(null, null, null);
 	}
 
-	updateDirections(origin, destination, waypoints) {
+	updateDirections(origin, destination, waypoints, markerIndex = 0) {
 		var that = this;
 
-		if (this.origin.object.id != null && this.origin.object.id > 0 || (origin != null && waypoints != null && waypoints.length > 0)) {
+		if (origin.object.id != null && origin.object.id > 0) {
 			this.mapsAPILoader.load().then(() => {
+				// Init GMaps direction services
 				var directionsService = new google.maps.DirectionsService;
 				var directionsDisplay = new google.maps.DirectionsRenderer;
 
-				if (origin != null && waypoints != null && waypoints.length > 0) {
-					that.origin = origin;
-					that.destination = destination;
-					that.waypoints = waypoints;
-				}
-
+				// If no maps yet, we create it
 				if (!that.map || that.map == null || that.map == {}) {
 					that.map = new google.maps.Map(document.getElementById('map'), {
-						zoom: 7,
-						center: { lat: that.origin.latitude, lng: that.origin.longitude }
+						zoom: 3,
+						center: { lat: origin.latitude, lng: origin.longitude }
 					});
 				}
 
+				// Assign direction service to the created map
 				directionsDisplay.setMap(that.map);
 				directionsDisplay.setOptions({
 					suppressMarkers: true,
 				});
 
 				// Create a marker at the first step of the itinerary
-				var photos = this.itineraryService.getStepPictures(this.origin.object.id).subscribe(
-					result => that.createInfoWindowForStep(result, this.origin.object),
+				var photos = this.itineraryService.getStepPictures(origin.object.id).subscribe(
+					result => that.createInfoWindowForStep(result, origin.object, markerIndex),
 					error => alert(error)
 				);
 				// Create a marker at the last step of the itinerary if exists
-				if (this.destination.object.id != null && this.destination.object.id > 0) {
-					var photos = this.itineraryService.getStepPictures(this.destination.object.id).subscribe(
-						result => that.createInfoWindowForStep(result, this.destination.object),
+				if (destination.object.id != null && destination.object.id > 0) {
+					var photos = this.itineraryService.getStepPictures(destination.object.id).subscribe(
+						result => that.createInfoWindowForStep(result, destination.object, markerIndex),
 						error => alert(error)
 					);
 				}
 
 				// If too much steps, batch by group of ten
-				var batches = this.getBatches(this.waypoints);
-				// to hold the counter and the results themselves as they come back, to later sort
+				var batches = this.getBatches(waypoints);
+				// to hold the counter and the results themselves as they come back, to, later, sort them
 				var unsortedResults = [{}];
 				var directionsResultsReturned = { number: 0 };
 
@@ -114,21 +104,17 @@ export class MapComponent implements OnInit {
 
 					// Execute the calculation with a counter to sort later
 					(function (kk, mode) {
-						that.calculateAndDisplayRoute(directionsService, directionsDisplay, request, mode, batches.length, kk, unsortedResults, directionsResultsReturned);
+						that.calculateAndDisplayRoute(directionsService, directionsDisplay, request, waypoints, mode, batches.length, kk, unsortedResults, directionsResultsReturned, markerIndex);
 					})(k, mode);
 				}
 			});
 		}
-		else if (this.steps && this.steps.length > 0) {
-			this.drawItineraries();
-			this.steps = null;
-		}
 	}
 
-	drawItineraries() {
+	drawItineraries(steps: Array<Array<ItineraryStep>>) {
 		var that = this;
 
-		this.steps.forEach(function (element: Array<ItineraryStep>) {
+		steps.forEach(function (element: Array<ItineraryStep>) {
 			if (element.length > 0) {
 				var origin = {};
 				var destination = {};
@@ -149,7 +135,8 @@ export class MapComponent implements OnInit {
 				var waypoints = element;
 
 				setTimeout(function () {
-					that.updateDirections(origin, destination, waypoints);
+					var iconMarkerIndex = Math.floor(Math.random() * 5);
+					that.updateDirections(origin, destination, waypoints, iconMarkerIndex);
 				}, 500);
 			}
 		});
@@ -175,7 +162,7 @@ export class MapComponent implements OnInit {
 			picturesHtml += '</ul>';
 			content = content.replace('PICTURES', picturesHtml);
 
-			var marker = this.createMarker({ lat: origin.lat, lng: origin.lng }, this.map, origin.city, true);
+			var marker = this.createMarker({ lat: origin.lat, lng: origin.lng }, this.map, origin.city, true, null);
 
 			this.attachClickEvent(marker, { lat: origin.lat, lng: origin.lng }, content);
 		});
@@ -245,7 +232,7 @@ export class MapComponent implements OnInit {
 		return batches;
 	}
 
-	private calculateAndDisplayRoute(directionsService, directionsDisplay, request, mode, batchesLength, counter, unsortedResults, directionsResultsReturned) {
+	private calculateAndDisplayRoute(directionsService, directionsDisplay, request, allWaypoints, mode, batchesLength, counter, unsortedResults, directionsResultsReturned, markerIndex) {
 		var that = this;
 		var waypts = request.waypoints;
 
@@ -262,11 +249,11 @@ export class MapComponent implements OnInit {
 			line.setPath(path);
 
 			that.itineraryService.getStepPictures(request.origin.id).subscribe(
-				result => that.createInfoWindowForStep(result, request.origin),
+				result => that.createInfoWindowForStep(result, request.origin, markerIndex),
 				error => alert(error)
 			);
 			that.itineraryService.getStepPictures(request.destination.id).subscribe(
-				result => that.createInfoWindowForStep(result, request.destination),
+				result => that.createInfoWindowForStep(result, request.destination, markerIndex),
 				error => alert(error)
 			);
 			directionsResultsReturned.number++;
@@ -278,13 +265,13 @@ export class MapComponent implements OnInit {
 
 			directionsService.route(request, function (response, status) {
 				if (status === 'OK') {
-					that.manageOkResult(that, directionsDisplay, unsortedResults, directionsResultsReturned, counter, response, batchesLength);
+					that.manageOkResult(that, directionsDisplay, allWaypoints, unsortedResults, directionsResultsReturned, counter, response, batchesLength, markerIndex);
 				} else {
 					if (status.indexOf('OVER_QUERY_LIMIT') >= 0) {
 						setTimeout(function () {
 							directionsService.route(request, function (response, status) {
 								if (status === 'OK') {
-									that.manageOkResult(that, directionsDisplay, unsortedResults, directionsResultsReturned, counter, response, batchesLength);
+									that.manageOkResult(that, directionsDisplay, allWaypoints, unsortedResults, directionsResultsReturned, counter, response, batchesLength, markerIndex);
 								} else {
 									console.log(status);
 									window.alert('Aucune route n\'a été trouvé pour rejoindre certains points de l\'itinéraire. Il faut surement changer le moyen de transport de certaines étapes :)');
@@ -301,7 +288,7 @@ export class MapComponent implements OnInit {
 		}
 	}
 
-	private manageOkResult(that, directionsDisplay, unsortedResults, directionsResultsReturned, counter, response, batchesLength) {
+	private manageOkResult(that, directionsDisplay, allWaypoints, unsortedResults, directionsResultsReturned, counter, response, batchesLength, markerIndex) {
 		// Push the result with the order number
 		unsortedResults.push({ order: counter, result: response });
 		directionsResultsReturned.number++;
@@ -327,16 +314,21 @@ export class MapComponent implements OnInit {
 			directionsDisplay.setDirections(combinedResult);
 			var legs = combinedResult.routes[0].legs;
 
-			var tmpWaypoints = that.waypoints.filter(w => w.type != 'FLIGHT');
+			var tmpWaypoints = allWaypoints.filter(w => w.type != 'FLIGHT');
 
 			legs.forEach(function (element, index) {
 				if (tmpWaypoints[index] != null) {
 					that.itineraryService.getStepPictures(tmpWaypoints[index].id).subscribe(
-						result => that.createInfoWindowForStep(result, tmpWaypoints[index]),
+						result => that.createInfoWindowForStep(result, tmpWaypoints[index], markerIndex),
 						error => alert(error)
 					);
 				}
 			});
+
+			setTimeout(function(){
+				that.map.setZoom(3);
+				that.map.setCenter({lat: 22.6102934, lng: 7.5675984});
+			}, 500);
 		}
 	}
 
@@ -359,7 +351,7 @@ export class MapComponent implements OnInit {
 		return combinedResults;
 	}
 
-	private createInfoWindowForStep(pictures: Array<Picture>, origin: ItineraryStep) {
+	private createInfoWindowForStep(pictures: Array<Picture>, origin: ItineraryStep, markerIndex) {
 		var content = this.infoWindowTemplate
 			.replace('TITLE', origin.city)
 			.replace('DESCRIPTION', origin.description)
@@ -378,16 +370,16 @@ export class MapComponent implements OnInit {
 		picturesHtml += '</ul>';
 		content = content.replace('PICTURES', picturesHtml);
 
-		var marker = this.createMarker({ lat: origin.lat, lng: origin.lng }, this.map, origin.city);
+		var marker = this.createMarker({ lat: origin.lat, lng: origin.lng }, this.map, origin.city, false, markerIndex);
 
 		this.attachClickEvent(marker, { lat: origin.lat, lng: origin.lng }, content);
 	}
 
-	private createMarker(location: any, map: any, title: string, isStop: boolean = false) {
+	private createMarker(location: any, map: any, title: string, isStop: boolean = false, markerIndex) {
 		var marker = new google.maps.Marker({
 			position: location,
 			map: map,
-			icon: isStop ? '/assets/icon-stop.png' : '/assets/icon.png',
+			icon: isStop ? '/assets/icon-stop.png' : '/assets/icon' + markerIndex + '.png',
 			clickable: true,
 			title: title,
 		});
