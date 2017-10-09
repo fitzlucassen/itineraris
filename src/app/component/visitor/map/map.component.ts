@@ -321,6 +321,7 @@ export class MapComponent implements OnInit {
 		this.attachClickEvent(marker, { lat: origin.lat, lng: origin.lng }, content);
 	}
 
+	
 	private createMarker(location: any, map: any, title: string, isStop: boolean = false) {
 		var marker = new google.maps.Marker({
 			position: location,
