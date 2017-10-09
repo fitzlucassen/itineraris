@@ -10,6 +10,8 @@ import { Itinerary } from '../../../model/itinerary';
 import { ItineraryDialogComponent } from '../itinerary-dialog/itinerary-dialog.component';
 import { SearchPipe } from '../../../pipe/search.pipe';
 
+import { environment } from '../../../../environments/environment';
+
 @Component({
 	selector: 'app-user-dashboard',
 	templateUrl: './dashboard.user.component.html',
@@ -24,6 +26,7 @@ export class DashboardUserComponent implements OnInit {
 	search: string;
 	screenHeight: number;
 	isLoading: boolean = false;
+	mapUrl: string;
 
 	@ViewChild(MdInputDirective) input: any;
 
@@ -34,6 +37,7 @@ export class DashboardUserComponent implements OnInit {
 		this.metaService.updateTag({ content: "Votre tableau de bord, gérez vos itinéraires de voyages" }, "name='og:description'");
 
 		this.currentUser = userService.getCurrentUser();
+		this.mapUrl = 'world/' + this.currentUser.id + '/' + this.sanitize(this.currentUser.name);
 		this.showSearch = false;
 		this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
 
@@ -47,7 +51,7 @@ export class DashboardUserComponent implements OnInit {
 		this.dialogRef = this.itineraryDialog.open(ItineraryDialogComponent, {
 			disableClose: false,
 		});
-		this.dialogRef.componentInstance.newItinerary.users.push(new User({ id: this.currentUser.id}));
+		this.dialogRef.componentInstance.newItinerary.users.push(new User({ id: this.currentUser.id }));
 		this.dialogRef.componentInstance.newItinerary.online = true;
 
 		var that = this;
@@ -98,6 +102,31 @@ export class DashboardUserComponent implements OnInit {
 
 	replaceAll(str: string, replace: string, value: string): string {
 		return str.replace(new RegExp(replace, 'g'), value);
+	}
+
+	sanitize(str: string): string {
+		if (!str || str.length == 0)
+			return str;
+
+		var tmp = this.replaceAll(str.toLocaleLowerCase(), ' ', '-');
+		tmp = this.replaceAll(tmp, "/\?/", "-");
+		tmp = this.replaceAll(tmp, "/\!/", "-");
+		tmp = this.replaceAll(tmp, "/\:/", "-");
+		tmp = this.replaceAll(tmp, "/\//", "-");
+		tmp = this.replaceAll(tmp, "/\&/", "-");
+		tmp = this.replaceAll(tmp, "/\%/", "-");
+		tmp = this.replaceAll(tmp, "/\*/", "x");
+		tmp = this.replaceAll(tmp, "/\@/", "-");
+		tmp = this.replaceAll(tmp, "/\;/", "-");
+		tmp = this.replaceAll(tmp, "/\,/", "-");
+		tmp = this.replaceAll(tmp, "/\./", "-");
+		tmp = this.replaceAll(tmp, "/\^/", "-");
+		tmp = this.replaceAll(tmp, "/\$/", "-");
+		tmp = this.replaceAll(tmp, "/\€/", "-");
+		tmp = this.replaceAll(tmp, "/\#/", "-");
+		tmp = this.replaceAll(tmp, "/\'/", "-");
+
+		return encodeURIComponent(tmp);
 	}
 
 	signout() {

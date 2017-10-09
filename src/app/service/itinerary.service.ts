@@ -134,6 +134,13 @@ export class ItineraryService {
 			.catch(this.handleError);
 	}
 
+	getItinerariesSteps(userId: number): Observable<Array<Array<ItineraryStep>>> {
+		return this.http
+			.get(this.serviceUrl + '/steps/user/' + userId)
+			.map(this.extractData)
+			.catch(this.handleError);
+	}
+
 	getStepById(id: string): Observable<ItineraryStep> {
 		return this.http
 			.get(this.serviceUrl + '/steps/' + id)
@@ -150,12 +157,21 @@ export class ItineraryService {
 			.map(this.extractData)
 			.catch(this.handleError);
 	}
+
+	getItinerariesStops(userId: number): Observable<Array<Stop>> {
+		return this.http
+			.get(this.serviceUrl + '/stops/user/' + userId)
+			.map(this.extractData)
+			.catch(this.handleError);
+	}
+
 	getStopById(id: string): Observable<Stop> {
 		return this.http
 			.get(this.serviceUrl + '/stops/' + id)
 			.map(this.extractData)
 			.catch(this.handleError);
 	}
+
 	createStop(stop: Stop): Observable<any> {
 		return this.http
 			.post(this.serviceUrl + '/stops', {
@@ -169,6 +185,7 @@ export class ItineraryService {
 			.map(this.extractData)
 			.catch(this.handleError);
 	}
+
 	updateStop(stop: Stop): Observable<any> {
 		return this.http
 			.put(this.serviceUrl + '/stops/' + stop.id, {
@@ -182,12 +199,14 @@ export class ItineraryService {
 			.map(this.extractData)
 			.catch(this.handleError);
 	}
+
 	updateStops(stops: Array<Stop>): Observable<any> {
 		return this.http
 			.put(this.serviceUrl + '/stops/', { stops: stops })
 			.map(this.extractData)
 			.catch(this.handleError);
 	}
+
 	deleteStop(id: number): Observable<any> {
 		return this.http
 			.delete(this.serviceUrl + '/stops/' + id, {
@@ -226,6 +245,7 @@ export class ItineraryService {
 			.map(this.extractData)
 			.catch(this.handleError);
 	}
+
 	getStopPictures(stopId: number): Observable<Array<Picture>> {
 		return this.http
 			.get(this.serviceUrl + '/stops/' + stopId + '/images')

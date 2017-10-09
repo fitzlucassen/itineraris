@@ -1,26 +1,23 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, NgZone, Renderer } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit, ViewChild, ElementRef, Renderer } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 
+import { ItineraryStep } from '../../../model/itinerary-step';
+import { Stop } from '../../../model/stop';
+import { MapComponent } from '../map/map.component';
 import { UserService } from '../../../service/user.service';
 import { ItineraryService } from '../../../service/itinerary.service';
-import { User } from '../../../model/user';
-import { Stop } from '../../../model/stop';
-import { Itinerary } from '../../../model/itinerary';
-import { ItineraryStep } from '../../../model/itinerary-step';
-import { MapComponent } from '../map/map.component';
 
 import { ShareButtonsModule } from 'ng2-sharebuttons';
 
 @Component({
-	selector: 'app-user-map',
-	templateUrl: './user-map.component.html',
-	styleUrls: ['./user-map.component.css'],
-	providers: [ItineraryService, UserService, MapComponent],
+	selector: 'app-world-map',
+	templateUrl: './world-map.component.html',
+	styleUrls: ['./world-map.component.css'],
+	providers: [ItineraryService]
 })
-export class UserMapComponent implements OnInit, OnDestroy {
-	itinerary: Itinerary;
-	steps: Array<ItineraryStep>;
+export class WorldMapComponent implements OnInit {
+	steps: Array<Array<ItineraryStep>>;
 	stops: Array<Stop>;
 
 	title: string;
@@ -28,8 +25,8 @@ export class UserMapComponent implements OnInit, OnDestroy {
 	totalShare: number = 0;
 
 	currentUrl: string;
-	currentTitle: string = 'Itinéraire de voyage';
-	currentDescription: string = 'Voici l\'itinéraire de voyage';
+	currentTitle: string = 'Les voyages';
+	currentDescription: string = 'Visualisation des itinéraires de voyage';
 
 	@ViewChild(MapComponent) public map: MapComponent;
 	@ViewChild('toAppend') public sidenav: ElementRef;
@@ -48,8 +45,7 @@ export class UserMapComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 		this.route.params.subscribe(params => {
 			// Récupération des valeurs de l'URL
-			let itineraryId = params['id'];
-			let itineraryName = params['name'];
+			let userId = params['iduser'];
 			let userName = params['nameuser'];
 
 			this.title = userName;
@@ -57,18 +53,19 @@ export class UserMapComponent implements OnInit, OnDestroy {
 			this.currentTitle += ' de ' + userName;
 			this.currentDescription += ' de ' + userName;
 
+			this.titleService.setTitle(this.currentTitle);
+			this.metaService.updateTag({ content: this.currentTitle }, "name='og:title'");
+			this.metaService.updateTag({ content: this.currentDescription }, "name='description'");
+			this.metaService.updateTag({ content: this.currentDescription }, "name='og:description'");
+
 			var that = this;
-			this.itineraryService.getItinerarySteps(itineraryId).subscribe(
+
+			this.itineraryService.getItinerariesSteps(userId).subscribe(
 				result => that.assignItinerarySteps(result),
 				error => alert(error)
 			);
-			this.itineraryService.getItineraryStops(itineraryId).subscribe(
+			this.itineraryService.getItinerariesStops(userId).subscribe(
 				result => that.assignItineraryStops(result),
-				error => alert(error)
-			);
-
-			this.itineraryService.getItineraryById(itineraryId).subscribe(
-				result => that.assignItinerary(result),
 				error => alert(error)
 			);
 
@@ -94,45 +91,16 @@ export class UserMapComponent implements OnInit, OnDestroy {
 		this.totalShare += count;
 	}
 
-	private assignItinerary(result: Itinerary) {
-		this.currentTitle += ' - ' + result.country;
-		this.currentDescription += ' - ' + result.country + ' - Restez en contact avec lui et laissez lui un message !';
-
-		this.titleService.setTitle(this.currentTitle);
-		this.metaService.updateTag({ content: this.currentTitle }, "name='og:title'");
-		this.metaService.updateTag({ content: this.currentDescription }, "name='description'");
-		this.metaService.updateTag({ content: this.currentDescription }, "name='og:description'");
-
-		this.itinerary = result;
-	}
-	private assignItinerarySteps(result: Array<ItineraryStep>) {
+	private assignItinerarySteps(result: Array<Array<ItineraryStep>>) {
 		this.steps = result;
-		var origin = {};
-		var destination = {};
-		var waypoints = {};
 
-		if (this.steps.length > 0) {
-			origin = {
-				latitude: this.steps[0].lat,
-				longitude: this.steps[0].lng,
-				object: this.steps[0]
-			};
-		}
-		if (this.steps.length > 1) {
-			destination = {
-				latitude: this.steps[this.steps.length - 1].lat,
-				longitude: this.steps[this.steps.length - 1].lng,
-				object: this.steps[this.steps.length - 1]
-			};
-
-			waypoints = this.steps;
-		}
-		this.map.updateDirections(origin, destination, waypoints);
+		this.map.drawItineraries(this.steps);
 	}
 	private assignItineraryStops(result: Array<Stop>) {
 		this.stops = result;
 
 		var that = this;
+
 		this.stops.forEach(function (element: Stop) {
 			that.itineraryService.getStopPictures(element.id).subscribe(
 				data => { that.map.createInfoWindowForStop(data, element); },
