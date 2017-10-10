@@ -263,29 +263,29 @@ export class MapComponent implements OnInit {
 				delete element.mode;
 			});
 
-			directionsService.route(request, function (response, status) {
-				if (status === 'OK') {
-					that.manageOkResult(that, directionsDisplay, allWaypoints, unsortedResults, directionsResultsReturned, counter, response, batchesLength, markerIndex);
-				} else {
-					if (status.indexOf('OVER_QUERY_LIMIT') >= 0) {
-						setTimeout(function () {
-							directionsService.route(request, function (response, status) {
-								if (status === 'OK') {
-									that.manageOkResult(that, directionsDisplay, allWaypoints, unsortedResults, directionsResultsReturned, counter, response, batchesLength, markerIndex);
-								} else {
-									console.log(status);
-									window.alert('Aucune route n\'a été trouvé pour rejoindre certains points de l\'itinéraire. Il faut surement changer le moyen de transport de certaines étapes :)');
-								}
-							});
-						}, 2001);
-					}
-					else {
-						console.log(status);
-						window.alert('Aucune route n\'a été trouvé pour rejoindre certains points de l\'itinéraire. Il faut surement changer le moyen de transport de certaines étapes :)');
-					}
-				}
-			});
+			that.traceRoute(that, request, directionsService, directionsDisplay, allWaypoints, unsortedResults, directionsResultsReturned, counter, batchesLength, markerIndex, 0);
 		}
+	}
+
+	private traceRoute(that, request, directionsService, directionsDisplay, allWaypoints, unsortedResults, directionsResultsReturned, counter, batchesLength, markerIndex, retryNumber) {
+		directionsService.route(request, function (response, status) {
+			if (status === 'OK') {
+				retryNumber = 0;
+				that.manageOkResult(that, directionsDisplay, allWaypoints, unsortedResults, directionsResultsReturned, counter, response, batchesLength, markerIndex);
+			} else {
+				if (retryNumber < 4) {
+					setTimeout(function () {
+						retryNumber++;
+						console.log("retry: " + retryNumber + ' ' + new Date().getTime());
+						that.traceRoute(that, request, directionsService, directionsDisplay, allWaypoints, unsortedResults, directionsResultsReturned, counter, batchesLength, markerIndex, retryNumber);
+					}, 2001 * (retryNumber + 1));
+				} else {
+					console.log(status);
+					console.log(request);
+					window.alert('Aucune route n\'a été trouvé pour rejoindre certains points de l\'itinéraire. Il faut surement changer le moyen de transport de certaines étapes :)');
+				}
+			}
+		});
 	}
 
 	private manageOkResult(that, directionsDisplay, allWaypoints, unsortedResults, directionsResultsReturned, counter, response, batchesLength, markerIndex) {
@@ -325,9 +325,9 @@ export class MapComponent implements OnInit {
 				}
 			});
 
-			setTimeout(function(){
+			setTimeout(function () {
 				that.map.setZoom(3);
-				that.map.setCenter({lat: 22.6102934, lng: 7.5675984});
+				that.map.setCenter({ lat: 22.6102934, lng: 7.5675984 });
 			}, 500);
 		}
 	}
