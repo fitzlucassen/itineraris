@@ -278,7 +278,7 @@ export class MapComponent implements OnInit {
 						retryNumber++;
 						console.log("retry: " + retryNumber + ' ' + new Date().getTime());
 						that.traceRoute(that, request, directionsService, directionsDisplay, allWaypoints, unsortedResults, directionsResultsReturned, counter, batchesLength, markerIndex, retryNumber);
-					}, 2001 * (retryNumber + 1));
+					}, 2001);
 				} else {
 					console.log(status);
 					console.log(request);
