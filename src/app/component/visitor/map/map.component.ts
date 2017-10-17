@@ -113,6 +113,7 @@ export class MapComponent implements OnInit {
 
 	drawItineraries(steps: Array<Array<ItineraryStep>>) {
 		var that = this;
+		this.multiple = true;
 
 		steps.forEach(function (element: Array<ItineraryStep>) {
 			if (element.length > 0) {
@@ -325,10 +326,12 @@ export class MapComponent implements OnInit {
 				}
 			});
 
-			setTimeout(function () {
-				that.map.setZoom(3);
-				that.map.setCenter({ lat: 22.6102934, lng: 7.5675984 });
-			}, 500);
+			if (that.multiple) {
+				setTimeout(function () {
+					that.map.setZoom(3);
+					that.map.setCenter({ lat: 22.6102934, lng: 7.5675984 });
+				}, 500);
+			}
 		}
 	}
 
