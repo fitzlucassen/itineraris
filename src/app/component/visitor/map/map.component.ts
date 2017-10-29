@@ -39,19 +39,95 @@ export class MapComponent implements OnInit {
 	}
 
 	updateDirections(origin, destination, waypoints, markerIndex = 0) {
-		var that = this;
+		let that = this;
 
 		if (origin.object.id != null && origin.object.id > 0) {
 			this.mapsAPILoader.load().then(() => {
 				// Init GMaps direction services
-				var directionsService = new google.maps.DirectionsService;
-				var directionsDisplay = new google.maps.DirectionsRenderer;
+				let directionsService = new google.maps.DirectionsService;
+				let directionsDisplay = new google.maps.DirectionsRenderer({
+					polylineOptions: {
+						strokeColor: '#ff4081'
+					}
+				});
 
 				// If no maps yet, we create it
 				if (!that.map || that.map == null || that.map == {}) {
 					that.map = new google.maps.Map(document.getElementById('map'), {
 						zoom: 3,
-						center: { lat: origin.latitude, lng: origin.longitude }
+						center: { lat: origin.latitude, lng: origin.longitude },
+						styles: [
+							{
+								"featureType": "road",
+								"stylers": [
+									{
+										"visibility": "off"
+									}
+								]
+							},
+							{
+								"featureType": "transit",
+								"stylers": [
+									{
+										"visibility": "off"
+									}
+								]
+							},
+							{
+								"featureType": "administrative.province",
+								"stylers": [
+									{
+										"visibility": "off"
+									}
+								]
+							},
+							{
+								"featureType": "poi.park",
+								"elementType": "geometry",
+								"stylers": [
+									{
+										"visibility": "off"
+									}
+								]
+							},
+							{
+								"featureType": "water",
+								"stylers": [
+									{
+										"color": "#3f51b5"
+									}
+								]
+							},
+							{
+								"featureType": "landscape.natural",
+								"stylers": [
+									{
+										"visibility": "on"
+									},
+									{
+										"color": "#fff6cb"
+									}
+								]
+							},
+							{
+								"featureType": "administrative.country",
+								"elementType": "geometry.stroke",
+								"stylers": [
+									{
+										"visibility": "on"
+									},
+									{
+										"color": "#7f7d7a"
+									},
+									{
+										"lightness": 10
+									},
+									{
+										"weight": 1
+									}
+								]
+							}
+						]
 					});
 				}
 
@@ -62,40 +138,40 @@ export class MapComponent implements OnInit {
 				});
 
 				// Create a marker at the first step of the itinerary
-				var photos = this.itineraryService.getStepPictures(origin.object.id).subscribe(
+				let photos = this.itineraryService.getStepPictures(origin.object.id).subscribe(
 					result => that.createInfoWindowForStep(result, origin.object, markerIndex),
 					error => alert(error)
 				);
 				// Create a marker at the last step of the itinerary if exists
 				if (destination.object.id != null && destination.object.id > 0) {
-					var photos = this.itineraryService.getStepPictures(destination.object.id).subscribe(
+					let photos = this.itineraryService.getStepPictures(destination.object.id).subscribe(
 						result => that.createInfoWindowForStep(result, destination.object, markerIndex),
 						error => alert(error)
 					);
 				}
 
 				// If too much steps, batch by group of ten
-				var batches = this.getBatches(waypoints);
+				let batches = this.getBatches(waypoints);
 				// to hold the counter and the results themselves as they come back, to, later, sort them
-				var unsortedResults = [{}];
-				var directionsResultsReturned = { number: 0 };
+				let unsortedResults = [{}];
+				let directionsResultsReturned = { number: 0 };
 
 				// Trace route for each batch of steps
-				for (var k = 0; k < batches.length; k++) {
-					var mode = batches[k][0].mode;
+				for (let k = 0; k < batches.length; k++) {
+					let mode = batches[k][0].mode;
 
-					var lastIndex = batches[k].length - 1;
-					var start = batches[k][0].location;
-					var end = batches[k][lastIndex].location;
+					let lastIndex = batches[k].length - 1;
+					let start = batches[k][0].location;
+					let end = batches[k][lastIndex].location;
 
 					// trim first and last entry from array
-					var waypts = [];
+					let waypts = [];
 					waypts = batches[k];
 					waypts.splice(0, 1);
 					waypts.splice(waypts.length - 1, 1);
 
 					// create the request in google maps format
-					var request = {
+					let request = {
 						origin: start,
 						destination: end,
 						waypoints: waypts,
@@ -112,13 +188,13 @@ export class MapComponent implements OnInit {
 	}
 
 	drawItineraries(steps: Array<Array<ItineraryStep>>) {
-		var that = this;
+		let that = this;
 		this.multiple = true;
 
 		steps.forEach(function (element: Array<ItineraryStep>) {
 			if (element.length > 0) {
-				var origin = {};
-				var destination = {};
+				let origin = {};
+				let destination = {};
 
 				origin = {
 					latitude: element[0].lat,
@@ -133,10 +209,10 @@ export class MapComponent implements OnInit {
 						object: element[element.length - 1]
 					};
 				}
-				var waypoints = element;
+				let waypoints = element;
 
 				setTimeout(function () {
-					var iconMarkerIndex = Math.floor(Math.random() * 5);
+					let iconMarkerIndex = Math.floor(Math.random() * 5);
 					that.updateDirections(origin, destination, waypoints, iconMarkerIndex);
 				}, 500);
 			}
@@ -145,13 +221,13 @@ export class MapComponent implements OnInit {
 
 	createInfoWindowForStop(pictures: Array<Picture>, origin: Stop) {
 		this.mapsAPILoader.load().then(() => {
-			var content = this.infoWindowTemplate
+			let content = this.infoWindowTemplate
 				.replace('TITLE', origin.city)
 				.replace('DESCRIPTION', origin.description)
 				.replace('DATE', origin.date.split('T')[0]);
 
-			var that = this;
-			var picturesHtml = '<ul style="padding: 0;">';
+			let that = this;
+			let picturesHtml = '<ul style="padding: 0;">';
 			pictures.forEach(function (element) {
 				picturesHtml += that.infoWindowImgTemplate
 					.replace('URL1', that.serviceUrl + '/' + element.url)
@@ -163,67 +239,68 @@ export class MapComponent implements OnInit {
 			picturesHtml += '</ul>';
 			content = content.replace('PICTURES', picturesHtml);
 
-			var marker = this.createMarker({ lat: origin.lat, lng: origin.lng }, this.map, origin.city, true, null);
+			let marker = this.createMarker({ lat: origin.lat, lng: origin.lng }, this.map, origin.city, true, null);
 
 			this.attachClickEvent(marker, { lat: origin.lat, lng: origin.lng }, content);
 		});
 	}
 
 	private getBatches(stops: Array<ItineraryStep>): Array<any> {
-		var batches = [];
-		var itemsPerBatch = 10; // google API max = 10 - 1 start, 1 stop, and 8 waypoints
-		var itemsCounter = 0;
-		var wayptsExist = stops.length > 0;
+		let batches = [];
+		let itemsPerBatch = 10; // google API max = 10 - 1 start, 1 stop, and 8 waypoints
+		let itemsCounter = 0;
+		let wayptsExist = stops.length > 0;
 
 		while (wayptsExist) {
-			var subBatch = [];
-			var flightBatch = [];
-			var subitemsCounter = 0;
+			let subBatch = [];
+			let flightBatch = [];
+			let subitemsCounter = 0;
 
-			for (var j = itemsCounter; j < stops.length; j++) {
-				if (stops[j].type == 'FLIGHT') {
+			for (let j = itemsCounter; j < stops.length; j++) {
+				if (stops[j].type === 'FLIGHT') {
 					flightBatch.push({
 						location: stops[j - 1],
 						stopover: true,
-						mode: "flight"
+						mode: 'flight'
 					});
 					flightBatch.push({
 						location: stops[j],
 						stopover: true,
-						mode: "flight"
+						mode: 'flight'
 					});
 				}
 
 				subitemsCounter++;
 
-				if (stops[j].type != 'FLIGHT') {
-					if (j > 0 && stops[j - 1].type == 'FLIGHT') {
+				if (stops[j].type !== 'FLIGHT') {
+					if (j > 0 && stops[j - 1].type === 'FLIGHT') {
 						subBatch.push({
 							location: stops[j - 1],
 							stopover: true,
-							mode: "normal"
+							mode: 'normal'
 						});
 					}
 					subBatch.push({
 						location: stops[j],
 						stopover: true,
-						mode: "normal"
+						mode: 'normal'
 					});
 				}
-				if (subitemsCounter == itemsPerBatch || flightBatch.length > 0)
+				if (subitemsCounter === itemsPerBatch || flightBatch.length > 0) {
 					break;
+				}
 			}
 
 			itemsCounter += subitemsCounter;
 
-			if (subBatch.length > 0)
+			if (subBatch.length > 0) {
 				batches.push(subBatch);
+			}
 
 			wayptsExist = itemsCounter < stops.length;
 			if (flightBatch.length > 0) {
 				batches.push(flightBatch);
-			}
-			else {
+			} else {
 				// If it runs again there are still points. Minus 1 before continuing to
 				// start up with end of previous tour leg
 				itemsCounter--;
@@ -234,19 +311,28 @@ export class MapComponent implements OnInit {
 	}
 
 	private calculateAndDisplayRoute(directionsService, directionsDisplay, request, allWaypoints, mode, batchesLength, counter, unsortedResults, directionsResultsReturned, markerIndex) {
-		var that = this;
-		var waypts = request.waypoints;
+		let that = this;
+		let waypts = request.waypoints;
 
-		if (mode == 'flight') {
-			var line = new google.maps.Polyline({
-				strokeColor: '#3f51b5',
-				strokeOpacity: 1.0,
+		if (mode === 'flight') {
+			let line = new google.maps.Polyline({
+				strokeColor: '#693668',
+				strokeOpacity: 0,
+				icons: [{
+					icon: {
+						path: 'M 0,-1 0,1',
+						strokeOpacity: 1,
+						scale: 4
+					},
+					offset: '0',
+					repeat: '20px'
+				}],
 				strokeWeight: 3,
 				geodesic: true,
 				map: that.map
 			});
 
-			var path = [request.origin, request.destination];
+			let path = [request.origin, request.destination];
 			line.setPath(path);
 
 			that.itineraryService.getStepPictures(request.origin.id).subscribe(
@@ -258,8 +344,7 @@ export class MapComponent implements OnInit {
 				error => alert(error)
 			);
 			directionsResultsReturned.number++;
-		}
-		else {
+		} else {
 			request.waypoints.forEach(function (element) {
 				delete element.mode;
 			});
@@ -277,7 +362,7 @@ export class MapComponent implements OnInit {
 				if (retryNumber < 4) {
 					setTimeout(function () {
 						retryNumber++;
-						console.log("retry: " + retryNumber + ' ' + new Date().getTime());
+						console.log('retry: ' + retryNumber + ' ' + new Date().getTime());
 						that.traceRoute(that, request, directionsService, directionsDisplay, allWaypoints, unsortedResults, directionsResultsReturned, counter, batchesLength, markerIndex, retryNumber);
 					}, 2001);
 				} else {
@@ -300,10 +385,10 @@ export class MapComponent implements OnInit {
 			unsortedResults.sort(function (a, b) { return parseFloat(a.order) - parseFloat(b.order); });
 
 			// browse it to trace routes
-			var count = 0;
-			var combinedResult;
+			let count = 0;
+			let combinedResult;
 
-			for (var key in unsortedResults) {
+			for (let key in unsortedResults) {
 				if (unsortedResults[key].result !== null) {
 					if (unsortedResults.hasOwnProperty(key)) {
 						combinedResult = that.getGoogleMapsRoute(combinedResult, key, unsortedResults, count);
@@ -313,9 +398,9 @@ export class MapComponent implements OnInit {
 			}
 
 			directionsDisplay.setDirections(combinedResult);
-			var legs = combinedResult.routes[0].legs;
+			let legs = combinedResult.routes[0].legs;
 
-			var tmpWaypoints = allWaypoints.filter(w => w.type != 'FLIGHT');
+			let tmpWaypoints = allWaypoints.filter(w => w.type !== 'FLIGHT');
 
 			legs.forEach(function (element, index) {
 				if (tmpWaypoints[index] != null) {
@@ -337,12 +422,12 @@ export class MapComponent implements OnInit {
 
 	private getGoogleMapsRoute(combinedResults, key, unsortedResults, count) {
 		if (count === 0) {// first results. new up the combinedResults object
-			if (unsortedResults[key].result)
+			if (unsortedResults[key].result) {
 				combinedResults = unsortedResults[key].result;
-			else
+			} else {
 				combinedResults = unsortedResults[1 + (key * 1)].result;
-		}
-		else {
+			}
+		} else {
 			// only building up legs, overview_path, and bounds in my consolidated object. This is not a complete
 			// directionResults object, but enough to draw a path on the map, which is all I need
 			combinedResults.routes[0].legs = combinedResults.routes[0].legs.concat(unsortedResults[key].result.routes[0].legs);
@@ -355,13 +440,14 @@ export class MapComponent implements OnInit {
 	}
 
 	private createInfoWindowForStep(pictures: Array<Picture>, origin: ItineraryStep, markerIndex) {
-		var content = this.infoWindowTemplate
+		let content = this.infoWindowTemplate
 			.replace('TITLE', origin.city)
 			.replace('DESCRIPTION', origin.description)
 			.replace('DATE', origin.date.split('T')[0]);
 
-		var that = this;
-		var picturesHtml = '<ul style="padding: 0;">';
+		let that = this;
+		let picturesHtml = '<ul style="padding: 0;">';
+
 		pictures.forEach(function (element) {
 			picturesHtml += that.infoWindowImgTemplate
 				.replace('URL1', that.serviceUrl + '/' + element.url)
@@ -373,16 +459,16 @@ export class MapComponent implements OnInit {
 		picturesHtml += '</ul>';
 		content = content.replace('PICTURES', picturesHtml);
 
-		var marker = this.createMarker({ lat: origin.lat, lng: origin.lng }, this.map, origin.city, false, markerIndex);
+		let marker = this.createMarker({ lat: origin.lat, lng: origin.lng }, this.map, origin.city, false, markerIndex);
 
 		this.attachClickEvent(marker, { lat: origin.lat, lng: origin.lng }, content);
 	}
 
 	private createMarker(location: any, map: any, title: string, isStop: boolean = false, markerIndex) {
-		var marker = new google.maps.Marker({
+		let marker = new google.maps.Marker({
 			position: location,
 			map: map,
-			icon: isStop ? '/assets/icon-stop.png' : '/assets/icon' + markerIndex + '.png',
+			icon: isStop ? '/assets/icon-stop.svg' : '/assets/icon' + markerIndex + '.svg',
 			clickable: true,
 			title: title,
 		});
@@ -391,10 +477,10 @@ export class MapComponent implements OnInit {
 		return marker;
 	}
 	private attachClickEvent(marker: any, location: any, content: string) {
-		var that = this;
+		let that = this;
 
 		google.maps.event.addListener(marker, 'click', function (e) {
-			var infoWindow = new google.maps.InfoWindow({
+			let infoWindow = new google.maps.InfoWindow({
 				content: content,
 				position: location
 			});
@@ -404,8 +490,8 @@ export class MapComponent implements OnInit {
 
 			infoWindow.open(that.map, marker);
 
-			var preElement: any = document.getElementsByClassName('gm-style-iw')[0].previousElementSibling;
-			var nextElement: any = document.getElementsByClassName('gm-style-iw')[0].nextElementSibling;
+			let preElement: any = document.getElementsByClassName('gm-style-iw')[0].previousElementSibling;
+			let nextElement: any = document.getElementsByClassName('gm-style-iw')[0].nextElementSibling;
 
 			preElement.children[1].style.display = 'none';
 			preElement.children[3].style.display = 'none';

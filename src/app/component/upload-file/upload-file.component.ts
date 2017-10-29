@@ -46,12 +46,10 @@ export class UploadFileComponent implements OnInit, OnChanges {
 		this.isLoading = true;
 		let that = this;
 
-		
 		if (this.stepId) {
 			this.itineraryService.uploadImages(this.stepId, files).then((result) => {
 				that.isLoading = false;
-				console.log(result);
-				
+
 				result.result.forEach(function (element) {
 					let img = new Picture({
 						stepId: that.stepId,

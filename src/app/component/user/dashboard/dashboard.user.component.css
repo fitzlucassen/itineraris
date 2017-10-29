@@ -1,6 +1,7 @@
 md-sidenav-container{
     margin: 0;
     background: transparent;
+    box-shadow: 1px 1px 3px #000;
 }
 md-sidenav{
     width: 300px;
