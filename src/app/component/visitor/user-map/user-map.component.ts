@@ -15,7 +15,7 @@ import { ShareButtonsModule } from 'ng2-sharebuttons';
 @Component({
 	selector: 'app-user-map',
 	templateUrl: './user-map.component.html',
-	styleUrls: ['./user-map.component.css'],
+	styleUrls: ['./user-map.component.scss'],
 	providers: [ItineraryService, UserService, MapComponent],
 })
 export class UserMapComponent implements OnInit, OnDestroy {
@@ -57,7 +57,7 @@ export class UserMapComponent implements OnInit, OnDestroy {
 			this.currentTitle += ' de ' + userName;
 			this.currentDescription += ' de ' + userName;
 
-			var that = this;
+			let that = this;
 			this.itineraryService.getItinerarySteps(itineraryId).subscribe(
 				result => that.assignItinerarySteps(result),
 				error => alert(error)
@@ -75,12 +75,12 @@ export class UserMapComponent implements OnInit, OnDestroy {
 			this.renderer.setElementProperty(this.sidenav.nativeElement, 'innerHTML', '<div id="fb-root"></div><div class="fb-comments" data-href="' + this.currentUrl + '" data-numposts="10"></div>');
 
 			(function (d, s, id) {
-				var js, fjs = d.getElementsByTagName(s)[0];
+				let js, fjs = d.getElementsByTagName(s)[0];
 				if (d.getElementById(id) && window['FB']) {
-					window['FB'].XFBML.parse(); //Instead of returning, lets call parse()
+					window['FB'].XFBML.parse(); // Instead of returning, lets call parse()
 				}
 				js = d.createElement(s); js.id = id;
-				js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.8&appId=265963237186602";
+				js.src = '//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.8&appId=265963237186602';
 				fjs.parentNode.insertBefore(js, fjs);
 			}(document, 'script', 'facebook-jssdk'));
 		});
@@ -99,17 +99,17 @@ export class UserMapComponent implements OnInit, OnDestroy {
 		this.currentDescription += ' - ' + result.country + ' - Restez en contact avec lui et laissez lui un message !';
 
 		this.titleService.setTitle(this.currentTitle);
-		this.metaService.updateTag({ content: this.currentTitle }, "name='og:title'");
-		this.metaService.updateTag({ content: this.currentDescription }, "name='description'");
-		this.metaService.updateTag({ content: this.currentDescription }, "name='og:description'");
+		this.metaService.updateTag({ content: this.currentTitle }, 'name="og:title"');
+		this.metaService.updateTag({ content: this.currentDescription }, 'name="description"');
+		this.metaService.updateTag({ content: this.currentDescription }, 'name="og:description"');
 
 		this.itinerary = result;
 	}
 	private assignItinerarySteps(result: Array<ItineraryStep>) {
 		this.steps = result;
-		var origin = {};
-		var destination = {};
-		var waypoints = {};
+		let origin = {};
+		let destination = {};
+		let waypoints = {};
 
 		if (this.steps.length > 0) {
 			origin = {
@@ -132,7 +132,7 @@ export class UserMapComponent implements OnInit, OnDestroy {
 	private assignItineraryStops(result: Array<Stop>) {
 		this.stops = result;
 
-		var that = this;
+		let that = this;
 		this.stops.forEach(function (element: Stop) {
 			that.itineraryService.getStopPictures(element.id).subscribe(
 				data => { that.map.createInfoWindowForStop(data, element); },

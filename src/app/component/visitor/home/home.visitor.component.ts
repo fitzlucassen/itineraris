@@ -4,15 +4,15 @@ import { Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 
 import { ItineraryService } from '../../../service/itinerary.service';
+import { StorageService } from '../../../service/storage.service';
 import { Itinerary } from '../../../model/itinerary';
 import { SearchItineraryPipe } from '../../../pipe/search-itinerary.pipe';
 import { SearchMapComponent } from '../search-map/search-map.component';
-import { StorageService } from "app/service/storage.service";
 
 @Component({
 	selector: 'app-home',
 	templateUrl: './home.visitor.component.html',
-	styleUrls: ['./home.visitor.component.css'],
+	styleUrls: ['./home.visitor.component.scss'],
 	providers: [ItineraryService, SearchMapComponent, StorageService]
 })
 export class HomeVisitorComponent implements OnInit {
@@ -29,9 +29,9 @@ export class HomeVisitorComponent implements OnInit {
 
 	constructor(private fb: FormBuilder, private itineraryService: ItineraryService, private storageService: StorageService, private router: Router, private metaService: Meta, private titleService: Title) {
 		this.titleService.setTitle('Trouvez un itinéraire de voyage');
-		this.metaService.updateTag({ content: "Trouvez un itinéraire de voyage" }, "name='og:title'");
-		this.metaService.updateTag({ content: "Recherchez l'itinéraire de voyage d'un de vos proches ou l'itinéraire d'un voyageur qui a déjà traversé le pays que vous convoitez pour vos prochaines vacances !" }, "name='description'");
-		this.metaService.updateTag({ content: "Recherchez l'itinéraire de voyage d'un de vos proches ou l'itinéraire d'un voyageur qui a déjà traversé le pays que vous convoitez pour vos prochaines vacances !" }, "name='og:description'");
+		this.metaService.updateTag({ content: 'Trouvez un itinéraire de voyage' }, 'name="og:title"');
+		this.metaService.updateTag({ content: 'Recherchez l\'itinéraire de voyage d\'un de vos proches ou l\'itinéraire d\'un voyageur qui a déjà traversé le pays que vous convoitez pour vos prochaines vacances !' }, 'name="description"');
+		this.metaService.updateTag({ content: 'Recherchez l\'itinéraire de voyage d\'un de vos proches ou l\'itinéraire d\'un voyageur qui a déjà traversé le pays que vous convoitez pour vos prochaines vacances !' }, 'name="og:description"');
 
 		this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
 
@@ -40,7 +40,7 @@ export class HomeVisitorComponent implements OnInit {
 			search: this.search,
 		});
 
-		var that = this;
+		let that = this;
 		this.itineraryService.getItineraries().subscribe(
 			result => that.assignItineraries(result),
 			error => alert(error)
@@ -54,19 +54,20 @@ export class HomeVisitorComponent implements OnInit {
 	toggleIsMap() {
 		this.isMap = !this.isMap;
 
-		if (this.isMap)
+		if (this.isMap) {
 			this.map.loadMap();
-		else
+		} else {
 			this.map.unloadMap();
+		}
 	}
 
-	isBlue(itineraryId: number): boolean{
+	isBlue(itineraryId: number): boolean {
 		return this.storageService.isStored('itinerary-like', itineraryId.toString());
 	}
 
 	like(itineraryId: number) {
 		if (!this.storageService.isStored('itinerary-like', itineraryId.toString())) {
-			var itinerary = this.itineraries.find(i => i.id == itineraryId);
+			let itinerary = this.itineraries.find(i => i.id == itineraryId);
 			itinerary.likes++;
 
 			this.itineraryService.update(itinerary).subscribe(
@@ -75,9 +76,8 @@ export class HomeVisitorComponent implements OnInit {
 				},
 				error => alert(error)
 			);
-		}
-		else {
-			var itinerary = this.itineraries.find(i => i.id == itineraryId);
+		} else {
+			let itinerary = this.itineraries.find(i => i.id == itineraryId);
 			itinerary.likes--;
 
 			this.itineraryService.update(itinerary).subscribe(

@@ -1,17 +1,17 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone, OnChanges, SimpleChanges } from '@angular/core';
-import { MdDialog, MdDialogRef, MaterialModule } from '@angular/material';
-import { Itinerary } from '../../../model/itinerary';
+import { MdSnackBar, MdDialog, MdDialogRef, MaterialModule } from '@angular/material';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { ItineraryService } from '../../../service/itinerary.service';
-import { MdSnackBar } from '@angular/material';
+
 import { MapsAPILoader } from '@agm/core';
+import { Itinerary } from '../../../model/itinerary';
+import { ItineraryService } from '../../../service/itinerary.service';
 
 declare var google: any;
 
 @Component({
 	selector: 'itinerary-dialog',
 	templateUrl: './itinerary-dialog.component.html',
-	styleUrls: ['./itinerary-dialog.component.css'],
+	styleUrls: ['./itinerary-dialog.component.scss'],
 	providers: [MdDialog, ItineraryService]
 })
 export class ItineraryDialogComponent implements OnInit {
@@ -20,22 +20,21 @@ export class ItineraryDialogComponent implements OnInit {
 	isLoading: boolean = false;
 	onlineChanges: boolean = false;
 
-	@ViewChild("search")
-  	public searchElementRef: ElementRef;
+	@ViewChild('search')
+	public searchElementRef: ElementRef;
 
 	name: FormControl;
 	country: FormControl;
 	description: FormControl;
 	form: FormGroup;
 
-	constructor(		
-		private mapsAPILoader: MapsAPILoader, 
+	constructor(
+		private mapsAPILoader: MapsAPILoader,
 		private ngZone: NgZone,
-		public snackBar: MdSnackBar, 
-		private fb: FormBuilder, 
-		public dialogRef: MdDialogRef<ItineraryDialogComponent>, 
-		private itineraryService: ItineraryService) 
-	{
+		public snackBar: MdSnackBar,
+		private fb: FormBuilder,
+		public dialogRef: MdDialogRef<ItineraryDialogComponent>,
+		private itineraryService: ItineraryService) {
 		this.name = new FormControl('', [Validators.required, Validators.minLength(3)]);
 		this.country = new FormControl('', [Validators.required]);
 		this.description = new FormControl('', [Validators.required, Validators.minLength(3)]);
@@ -48,20 +47,20 @@ export class ItineraryDialogComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		var that = this;
+		let that = this;
 
 		this.mapsAPILoader.load().then(() => {
 			let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-				types: ["geocode"]
+				types: ['geocode']
 			});
-			autocomplete.addListener("place_changed", () => {
+			autocomplete.addListener('place_changed', () => {
 				this.ngZone.run(() => {
-					//get the place result
+					// get the place result
 					let place: any = autocomplete.getPlace();
-					
+
 					that.country.setValue(place.name);
 
-					//verify result
+					// verify result
 					if (place.geometry === undefined || place.geometry === null) {
 						return;
 					}
@@ -71,26 +70,25 @@ export class ItineraryDialogComponent implements OnInit {
 	}
 
 	registerItinerary() {
-		if ((this.onlineChanges || this.form.dirty) && this.form.valid ) {
+		if ((this.onlineChanges || this.form.dirty) && this.form.valid) {
 			this.isLoading = true;
 
 			if (this.isUpdate) {
 				this.itineraryService.update(this.newItinerary).subscribe(
-					id => id != null ? this.successfullyUpdated() : function(){},
-					error => alert(error)	
+					id => id != null ? this.successfullyUpdated() : function () { },
+					error => alert(error)
 				);
-			}
-			else {
+			} else {
 				this.itineraryService.create(this.newItinerary).subscribe(
-					id => id != null ? this.successfullyCreated() : function(){},
-					error => alert(error)	
+					id => id != null ? this.successfullyCreated() : function () { },
+					error => alert(error)
 				);
 			}
 		}
 		return false;
 	}
 
-	updateOnline(){
+	updateOnline() {
 		this.newItinerary.online = !this.newItinerary.online;
 		this.onlineChanges = true;
 	}
@@ -101,7 +99,7 @@ export class ItineraryDialogComponent implements OnInit {
 		});
 		this.isLoading = false;
 
-		var that = this;
+		let that = this;
 		setTimeout(function () {
 			that.newItinerary = new Itinerary();
 			that.dialogRef.close();
@@ -114,7 +112,7 @@ export class ItineraryDialogComponent implements OnInit {
 		});
 		this.isLoading = false;
 
-		var that = this;
+		let that = this;
 		setTimeout(function () {
 			that.newItinerary = new Itinerary();
 			that.dialogRef.close();

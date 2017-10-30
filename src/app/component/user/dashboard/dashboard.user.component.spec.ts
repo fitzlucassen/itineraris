@@ -6,23 +6,23 @@ import { DebugElement } from '@angular/core';
 import { DashboardUserComponent } from './dashboard.user.component';
 
 describe('DashboardComponent', () => {
-  let component: DashboardUserComponent;
-  let fixture: ComponentFixture<DashboardUserComponent>;
+	let component: DashboardUserComponent;
+	let fixture: ComponentFixture<DashboardUserComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ DashboardUserComponent ]
-    })
-    .compileComponents();
-  }));
+	beforeEach(async(() => {
+		TestBed.configureTestingModule({
+			declarations: [DashboardUserComponent]
+		})
+			.compileComponents();
+	}));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(DashboardUserComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+	beforeEach(() => {
+		fixture = TestBed.createComponent(DashboardUserComponent);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+	});
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+	it('should create', () => {
+		expect(component).toBeTruthy();
+	});
 });

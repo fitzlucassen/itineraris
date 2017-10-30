@@ -14,7 +14,7 @@ declare var google: any;
 @Component({
 	selector: 'stop-dialog',
 	templateUrl: './stop-dialog.component.html',
-	styleUrls: ['./stop-dialog.component.css'],
+	styleUrls: ['./stop-dialog.component.scss'],
 	providers: [UploadFileComponent]
 
 })
@@ -26,7 +26,7 @@ export class StopDialogComponent implements OnInit {
 
 	screenHeight: number;
 
-	@ViewChild("search")
+	@ViewChild('search')
 	public searchElementRef: ElementRef;
 
 	city: FormControl;
@@ -54,7 +54,7 @@ export class StopDialogComponent implements OnInit {
 		this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
 
 		window.onresize = (e) => {
-			//ngZone.run will help to run change detection
+			// ngZone.run will help to run change detection
 			this.ngZone.run(() => {
 				this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
 			});
@@ -62,19 +62,19 @@ export class StopDialogComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		var that = this;
+		let that = this;
 
 		this.mapsAPILoader.load().then(() => {
 			let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
 			});
-			autocomplete.addListener("place_changed", () => {
+			autocomplete.addListener('place_changed', () => {
 				this.ngZone.run(() => {
-					//get the place result
+					// get the place result
 					let place: any = autocomplete.getPlace();
 
 					that.city.setValue(place.name);
 
-					//verify result
+					// verify result
 					if (place.geometry === undefined || place.geometry === null) {
 						return;
 					}
@@ -94,8 +94,7 @@ export class StopDialogComponent implements OnInit {
 					id => id != null ? this.updateImages(true, -1) : function () { },
 					error => alert(error)
 				);
-			}
-			else {
+			} else {
 				this.itineraryService.createStop(this.newStop).subscribe(
 					id => id != null ? this.updateImages(false, id.id) : function () { },
 					error => alert(error)
@@ -105,17 +104,17 @@ export class StopDialogComponent implements OnInit {
 		return false;
 	}
 	getCurrentPosition() {
-		var that = this;
+		let that = this;
 
-		if ("geolocation" in navigator) {
+		if ('geolocation' in navigator) {
 			navigator.geolocation.getCurrentPosition((position) => {
-				var d = new Date();
+				let d = new Date();
 
 				this.newStop.date = d.getFullYear() + '-' + this.completeNumberWithZero(d.getMonth() + 1) + '-' + this.completeNumberWithZero(d.getDate());
 				this.newStop.lat = position.coords.latitude;
 				this.newStop.lng = position.coords.longitude;
 
-				var geocoder = new google.maps.Geocoder();
+				let geocoder = new google.maps.Geocoder();
 
 				geocoder.geocode({
 					'latLng': { lat: position.coords.latitude, lng: position.coords.longitude }
@@ -136,11 +135,12 @@ export class StopDialogComponent implements OnInit {
 		}
 	}
 	private updateImages(updated: boolean, stopId: number) {
-		var that = this;
+		let that = this;
 
 		if (this.images.length > 0) {
-			if (stopId != -1)
+			if (stopId != -1) {
 				this.images.map(i => i.stopId = stopId);
+			}
 
 			this.images.map(i => (i.caption = (i.caption == null ? '' : i.caption)));
 
@@ -148,12 +148,12 @@ export class StopDialogComponent implements OnInit {
 				id => updated ? that.successfullyUpdated() : that.successfullyCreated(),
 				error => alert(error)
 			);
-		}
-		else {
-			if (updated)
+		} else {
+			if (updated) {
 				this.successfullyUpdated();
-			else
+			} else {
 				this.successfullyCreated();
+			}
 		}
 	}
 
@@ -163,7 +163,7 @@ export class StopDialogComponent implements OnInit {
 			duration: 3000
 		});
 
-		var that = this;
+		let that = this;
 		setTimeout(function () {
 			that.newStop = new Stop();
 			that.dialogRef.close();
@@ -175,16 +175,17 @@ export class StopDialogComponent implements OnInit {
 			duration: 3000
 		});
 
-		var that = this;
+		let that = this;
 		setTimeout(function () {
 			that.newStop = new Stop();
 			that.dialogRef.close();
 		}, 500);
 	}
 	private completeNumberWithZero(number: number): string {
-		if ((number + '').length == 1)
+		if ((number + '').length === 1) {
 			return '0' + number + '';
-		else
+		} else {
 			return '' + number;
+		}
 	}
 }

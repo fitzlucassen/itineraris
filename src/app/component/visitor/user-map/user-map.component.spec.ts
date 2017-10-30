@@ -6,23 +6,23 @@ import { DebugElement } from '@angular/core';
 import { UserMapComponent } from './user-map.component';
 
 describe('UserMapComponent', () => {
-  let component: UserMapComponent;
-  let fixture: ComponentFixture<UserMapComponent>;
+	let component: UserMapComponent;
+	let fixture: ComponentFixture<UserMapComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ UserMapComponent ]
-    })
-    .compileComponents();
-  }));
+	beforeEach(async(() => {
+		TestBed.configureTestingModule({
+			declarations: [UserMapComponent]
+		})
+			.compileComponents();
+	}));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(UserMapComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+	beforeEach(() => {
+		fixture = TestBed.createComponent(UserMapComponent);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+	});
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+	it('should create', () => {
+		expect(component).toBeTruthy();
+	});
 });

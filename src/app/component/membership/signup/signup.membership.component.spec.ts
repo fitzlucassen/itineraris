@@ -6,23 +6,23 @@ import { DebugElement } from '@angular/core';
 import { SignupMembershipComponent } from './signup.membership.component';
 
 describe('SignupComponent', () => {
-  let component: SignupMembershipComponent;
-  let fixture: ComponentFixture<SignupMembershipComponent>;
+	let component: SignupMembershipComponent;
+	let fixture: ComponentFixture<SignupMembershipComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ SignupMembershipComponent ]
-    })
-    .compileComponents();
-  }));
+	beforeEach(async(() => {
+		TestBed.configureTestingModule({
+			declarations: [SignupMembershipComponent]
+		})
+			.compileComponents();
+	}));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(SignupMembershipComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+	beforeEach(() => {
+		fixture = TestBed.createComponent(SignupMembershipComponent);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+	});
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+	it('should create', () => {
+		expect(component).toBeTruthy();
+	});
 });

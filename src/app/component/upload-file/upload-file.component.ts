@@ -1,4 +1,5 @@
 import { Component, OnInit, OnChanges, ViewChild, ElementRef, Input } from '@angular/core';
+
 import { ItineraryService } from '../../service/itinerary.service';
 import { environment } from '../../../environments/environment';
 import { Picture } from '../../model/picture';
@@ -6,7 +7,7 @@ import { Picture } from '../../model/picture';
 @Component({
 	selector: 'app-upload-file',
 	templateUrl: './upload-file.component.html',
-	styleUrls: ['./upload-file.component.css'],
+	styleUrls: ['./upload-file.component.scss'],
 	providers: [ItineraryService]
 })
 export class UploadFileComponent implements OnInit, OnChanges {

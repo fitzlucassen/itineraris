@@ -10,7 +10,7 @@ import { UserService } from '../../../service/user.service';
 @Component({
 	selector: 'app-membership-signup',
 	templateUrl: './signup.membership.component.html',
-	styleUrls: ['./signup.membership.component.css'],
+	styleUrls: ['./signup.membership.component.scss'],
 	providers: [UserService, MdSnackBar]
 })
 export class SignupMembershipComponent implements OnInit {
@@ -24,9 +24,9 @@ export class SignupMembershipComponent implements OnInit {
 
 	constructor(public snackBar: MdSnackBar, private fb: FormBuilder, private userService: UserService, private router: Router, private metaService: Meta, private titleService: Title) {
 		this.titleService.setTitle('Itineraris - Inscription');
-		this.metaService.updateTag({content: "Itineraris - Inscription"}, "name='og:title'");
-		this.metaService.updateTag({content: "Inscrivez-vous afin de créer vos itinéraires de voyages"}, "name='description'");
-		this.metaService.updateTag({content: "Inscrivez-vous afin de créer vos itinéraires de voyages"}, "name='og:description'");
+		this.metaService.updateTag({content: 'Itineraris - Inscription'}, 'name="og:title"');
+		this.metaService.updateTag({content: 'Inscrivez-vous afin de créer vos itinéraires de voyages'}, 'name="description"');
+		this.metaService.updateTag({content: 'Inscrivez-vous afin de créer vos itinéraires de voyages'}, 'name="og:description"');
 
 		this.name = new FormControl('', [Validators.required, Validators.minLength(3)]);
 		this.email = new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}')]);
@@ -49,7 +49,7 @@ export class SignupMembershipComponent implements OnInit {
 				.signup(this.newUser)
 				.subscribe(
 					id => id != null ? this.successfullySignedup() : function(){},
-					error => alert(error)	
+					error => alert(error)
 				);
 		}
 		return false;

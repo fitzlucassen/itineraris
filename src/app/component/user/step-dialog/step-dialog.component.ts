@@ -1,8 +1,7 @@
 import { Component, OnInit, OnChanges, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { MdDialog, MdDialogRef, MaterialModule } from '@angular/material';
-import { MdSnackBar } from '@angular/material';
-import { MapsAPILoader } from '@agm/core';
+import { MdSnackBar, MdDialog, MdDialogRef, MaterialModule } from '@angular/material';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { MapsAPILoader } from '@agm/core';
 
 import { ItineraryStep } from '../../../model/itinerary-step';
 import { ItineraryService } from '../../../service/itinerary.service';
@@ -15,7 +14,7 @@ declare var google: any;
 @Component({
 	selector: 'step-dialog',
 	templateUrl: './step-dialog.component.html',
-	styleUrls: ['./step-dialog.component.css'],
+	styleUrls: ['./step-dialog.component.scss'],
 	providers: [UploadFileComponent, MapsService]
 })
 export class StepDialogComponent implements OnInit, OnChanges {
@@ -27,7 +26,7 @@ export class StepDialogComponent implements OnInit, OnChanges {
 	screenHeight: number;
 	popinHeight: number;
 
-	@ViewChild("search")
+	@ViewChild('search')
 	public searchElementRef: ElementRef;
 
 	city: FormControl;
@@ -59,7 +58,7 @@ export class StepDialogComponent implements OnInit, OnChanges {
 		this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
 
 		window.onresize = (e) => {
-			//ngZone.run will help to run change detection
+			// ngZone.run will help to run change detection
 			this.ngZone.run(() => {
 				this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
 			});
@@ -67,19 +66,19 @@ export class StepDialogComponent implements OnInit, OnChanges {
 	}
 
 	ngOnInit() {
-		var that = this;
+		let that = this;
 
 		this.mapsAPILoader.load().then(() => {
 			let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
 			});
-			autocomplete.addListener("place_changed", () => {
+			autocomplete.addListener('place_changed', () => {
 				this.ngZone.run(() => {
-					//get the place result
+					// get the place result
 					let place: any = autocomplete.getPlace();
 
 					that.city.setValue(place.name);
 
-					//verify result
+					// verify result
 					if (place.geometry === undefined || place.geometry === null) {
 						return;
 					}
@@ -103,8 +102,7 @@ export class StepDialogComponent implements OnInit, OnChanges {
 					id => id != null ? this.updateImages(true, -1) : function () { },
 					error => alert(error)
 				);
-			}
-			else {
+			} else {
 				this.itineraryService.createStep(this.newStep).subscribe(
 					id => id != null ? this.updateImages(false, id.id) : function () { },
 					error => alert(error)
@@ -114,9 +112,9 @@ export class StepDialogComponent implements OnInit, OnChanges {
 		return false;
 	}
 	getCurrentPosition() {
-		var that = this;
+		let that = this;
 
-		if ("geolocation" in navigator) {
+		if ('geolocation' in navigator) {
 			navigator.geolocation.getCurrentPosition((position) => {
 				that.fillFormWithGeolocalisation(position.coords.latitude, position.coords.longitude)
 			}, function () {
@@ -130,15 +128,15 @@ export class StepDialogComponent implements OnInit, OnChanges {
 	}
 
 	private fillFormWithGeolocalisation(latitude: number, longitude: number) {
-		var d = new Date();
+		let d = new Date();
 
 		this.newStep.date = d.getFullYear() + '-' + this.completeNumberWithZero(d.getMonth() + 1) + '-' + this.completeNumberWithZero(d.getDate());
 		this.newStep.lat = latitude;
 		this.newStep.lng = longitude;
 
-		var geocoder = new google.maps.Geocoder();
+		let geocoder = new google.maps.Geocoder();
 
-		var that = this;
+		let that = this;
 
 		geocoder.geocode({
 			'latLng': { lat: latitude, lng: longitude }
@@ -157,11 +155,12 @@ export class StepDialogComponent implements OnInit, OnChanges {
 		});
 	}
 	private updateImages(updated: boolean, stepId: number) {
-		var that = this;
+		let that = this;
 
 		if (this.images.length > 0) {
-			if (stepId != -1)
+			if (stepId != -1) {
 				this.images.map(i => i.stepId = stepId);
+			}
 
 			this.images.map(i => (i.caption = (i.caption == null ? '' : i.caption)));
 
@@ -169,12 +168,12 @@ export class StepDialogComponent implements OnInit, OnChanges {
 				id => updated ? that.successfullyUpdated() : that.successfullyCreated(),
 				error => alert(error)
 			);
-		}
-		else {
-			if (updated)
+		} else {
+			if (updated) {
 				this.successfullyUpdated();
-			else
+			} else {
 				this.successfullyCreated();
+			}
 		}
 	}
 	private successfullyCreated() {
@@ -183,7 +182,7 @@ export class StepDialogComponent implements OnInit, OnChanges {
 			duration: 3000
 		});
 
-		var that = this;
+		let that = this;
 		setTimeout(function () {
 			that.newStep = new ItineraryStep();
 			that.dialogRef.close();
@@ -195,16 +194,17 @@ export class StepDialogComponent implements OnInit, OnChanges {
 			duration: 3000
 		});
 
-		var that = this;
+		let that = this;
 		setTimeout(function () {
 			that.newStep = new ItineraryStep();
 			that.dialogRef.close();
 		}, 500);
 	}
 	private completeNumberWithZero(number: number): string {
-		if ((number + '').length == 1)
+		if ((number + '').length === 1) {
 			return '0' + number + '';
-		else
+		} else {
 			return '' + number;
+		}
 	}
 }

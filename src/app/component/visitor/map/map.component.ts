@@ -12,7 +12,7 @@ declare var google: any;
 @Component({
 	selector: 'app-map',
 	templateUrl: './map.component.html',
-	styleUrls: ['./map.component.css']
+	styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit {
 	multiple: boolean = false;
@@ -58,72 +58,72 @@ export class MapComponent implements OnInit {
 						center: { lat: origin.latitude, lng: origin.longitude },
 						styles: [
 							{
-								"featureType": "road",
-								"stylers": [
+								'featureType': 'road',
+								'stylers': [
 									{
-										"visibility": "off"
+										'visibility': 'off'
 									}
 								]
 							},
 							{
-								"featureType": "transit",
-								"stylers": [
+								'featureType': 'transit',
+								'stylers': [
 									{
-										"visibility": "off"
+										'visibility': 'off'
 									}
 								]
 							},
 							{
-								"featureType": "administrative.province",
-								"stylers": [
+								'featureType': 'administrative.province',
+								'stylers': [
 									{
-										"visibility": "off"
+										'visibility': 'off'
 									}
 								]
 							},
 							{
-								"featureType": "poi.park",
-								"elementType": "geometry",
-								"stylers": [
+								'featureType': 'poi.park',
+								'elementType': 'geometry',
+								'stylers': [
 									{
-										"visibility": "off"
+										'visibility': 'off'
 									}
 								]
 							},
 							{
-								"featureType": "water",
-								"stylers": [
+								'featureType': 'water',
+								'stylers': [
 									{
-										"color": "#3f51b5"
+										'color': '#3f51b5'
 									}
 								]
 							},
 							{
-								"featureType": "landscape.natural",
-								"stylers": [
+								'featureType': 'landscape.natural',
+								'stylers': [
 									{
-										"visibility": "on"
+										'visibility': 'on'
 									},
 									{
-										"color": "#fff6cb"
+										'color': '#fff6cb'
 									}
 								]
 							},
 							{
-								"featureType": "administrative.country",
-								"elementType": "geometry.stroke",
-								"stylers": [
+								'featureType': 'administrative.country',
+								'elementType': 'geometry.stroke',
+								'stylers': [
 									{
-										"visibility": "on"
+										'visibility': 'on'
 									},
 									{
-										"color": "#7f7d7a"
+										'color': '#7f7d7a'
 									},
 									{
-										"lightness": 10
+										'lightness': 10
 									},
 									{
-										"weight": 1
+										'weight': 1
 									}
 								]
 							}
@@ -144,7 +144,7 @@ export class MapComponent implements OnInit {
 				);
 				// Create a marker at the last step of the itinerary if exists
 				if (destination.object.id != null && destination.object.id > 0) {
-					let photos = this.itineraryService.getStepPictures(destination.object.id).subscribe(
+					this.itineraryService.getStepPictures(destination.object.id).subscribe(
 						result => that.createInfoWindowForStep(result, destination.object, markerIndex),
 						error => alert(error)
 					);

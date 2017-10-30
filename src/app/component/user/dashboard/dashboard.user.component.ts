@@ -15,7 +15,7 @@ import { environment } from '../../../../environments/environment';
 @Component({
 	selector: 'app-user-dashboard',
 	templateUrl: './dashboard.user.component.html',
-	styleUrls: ['./dashboard.user.component.css'],
+	styleUrls: ['./dashboard.user.component.scss'],
 	providers: [UserService, ItineraryService, MdDialog],
 })
 export class DashboardUserComponent implements OnInit {
@@ -32,9 +32,9 @@ export class DashboardUserComponent implements OnInit {
 
 	constructor(public itineraryDialog: MdDialog, private userService: UserService, private itineraryService: ItineraryService, private router: Router, private metaService: Meta, private titleService: Title) {
 		this.titleService.setTitle('Itineraris - Dashboard');
-		this.metaService.updateTag({ content: "Itineraris - Dashboard" }, "name='og:title'");
-		this.metaService.updateTag({ content: "Votre tableau de bord, gérez vos itinéraires de voyages" }, "name='description'");
-		this.metaService.updateTag({ content: "Votre tableau de bord, gérez vos itinéraires de voyages" }, "name='og:description'");
+		this.metaService.updateTag({ content: 'Itineraris - Dashboard' }, 'name="og:title"');
+		this.metaService.updateTag({ content: 'Votre tableau de bord, gérez vos itinéraires de voyages' }, 'name="description"');
+		this.metaService.updateTag({ content: 'Votre tableau de bord, gérez vos itinéraires de voyages' }, 'name="og:description"');
 
 		this.currentUser = userService.getCurrentUser();
 		this.mapUrl = 'world/' + this.currentUser.id + '/' + this.sanitize(this.currentUser.name);
@@ -54,7 +54,7 @@ export class DashboardUserComponent implements OnInit {
 		this.dialogRef.componentInstance.newItinerary.users.push(new User({ id: this.currentUser.id }));
 		this.dialogRef.componentInstance.newItinerary.online = true;
 
-		var that = this;
+		let that = this;
 		return this.dialogRef.afterClosed().subscribe(function () {
 			that.itineraryService.getUserItineraries(that.currentUser).subscribe(
 				result => that.assignItineraries(result),
@@ -74,7 +74,7 @@ export class DashboardUserComponent implements OnInit {
 
 		this.dialogRef.componentInstance.isUpdate = true;
 
-		var that = this;
+		let that = this;
 		return this.dialogRef.afterClosed().subscribe(function () {
 			that.itineraryService.getUserItineraries(that.currentUser).subscribe(
 				result => that.assignItineraries(result),
@@ -105,26 +105,27 @@ export class DashboardUserComponent implements OnInit {
 	}
 
 	sanitize(str: string): string {
-		if (!str || str.length == 0)
+		if (!str || str.length === 0) {
 			return str;
+		}
 
-		var tmp = this.replaceAll(str.toLocaleLowerCase(), ' ', '-');
-		tmp = this.replaceAll(tmp, "/\?/", "-");
-		tmp = this.replaceAll(tmp, "/\!/", "-");
-		tmp = this.replaceAll(tmp, "/\:/", "-");
-		tmp = this.replaceAll(tmp, "/\//", "-");
-		tmp = this.replaceAll(tmp, "/\&/", "-");
-		tmp = this.replaceAll(tmp, "/\%/", "-");
-		tmp = this.replaceAll(tmp, "/\*/", "x");
-		tmp = this.replaceAll(tmp, "/\@/", "-");
-		tmp = this.replaceAll(tmp, "/\;/", "-");
-		tmp = this.replaceAll(tmp, "/\,/", "-");
-		tmp = this.replaceAll(tmp, "/\./", "-");
-		tmp = this.replaceAll(tmp, "/\^/", "-");
-		tmp = this.replaceAll(tmp, "/\$/", "-");
-		tmp = this.replaceAll(tmp, "/\€/", "-");
-		tmp = this.replaceAll(tmp, "/\#/", "-");
-		tmp = this.replaceAll(tmp, "/\'/", "-");
+		let tmp = this.replaceAll(str.toLocaleLowerCase(), ' ', '-');
+		tmp = this.replaceAll(tmp, '/\?/', '-');
+		tmp = this.replaceAll(tmp, '/\!/', '-');
+		tmp = this.replaceAll(tmp, '/\:/', '-');
+		tmp = this.replaceAll(tmp, '/\//', '-');
+		tmp = this.replaceAll(tmp, '/\&/', '-');
+		tmp = this.replaceAll(tmp, '/\%/', '-');
+		tmp = this.replaceAll(tmp, '/\*/', 'x');
+		tmp = this.replaceAll(tmp, '/\@/', '-');
+		tmp = this.replaceAll(tmp, '/\;/', '-');
+		tmp = this.replaceAll(tmp, '/\,/', '-');
+		tmp = this.replaceAll(tmp, '/\./', '-');
+		tmp = this.replaceAll(tmp, '/\^/', '-');
+		tmp = this.replaceAll(tmp, '/\$/', '-');
+		tmp = this.replaceAll(tmp, '/\€/', '-');
+		tmp = this.replaceAll(tmp, '/\#/', '-');
+		tmp = this.replaceAll(tmp, '/\'/', '-');
 
 		return encodeURIComponent(tmp);
 	}

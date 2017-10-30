@@ -1,14 +1,14 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
-import { UserService } from "app/service/user.service";
-import { User } from "app/model/user";
-import { Itinerary } from "app/model/itinerary";
+import { UserService } from 'app/service/user.service';
+import { User } from 'app/model/user';
+import { Itinerary } from 'app/model/itinerary';
 
 @Component({
 	selector: 'app-itinerary-user-dialog',
 	templateUrl: './itinerary-user-dialog.component.html',
-	styleUrls: ['./itinerary-user-dialog.component.css']
+	styleUrls: ['./itinerary-user-dialog.component.scss']
 })
 export class ItineraryUserDialogComponent implements OnInit {
 	usedUsers: Array<User>;
@@ -19,13 +19,13 @@ export class ItineraryUserDialogComponent implements OnInit {
 	form: FormGroup;
 	search: FormControl;
 	screenHeight: number;
-	
+
 	constructor(private fb: FormBuilder, private userService: UserService, private ngZone: NgZone) {
 		this.form = this.fb.group({
 			search: this.search,
 		});
 
-		this.userService.getAll("").subscribe(
+		this.userService.getAll('').subscribe(
 			result => {
 				this.users = result;
 			},
@@ -33,9 +33,10 @@ export class ItineraryUserDialogComponent implements OnInit {
 		);
 
 		this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
-		
+
+
 		window.onresize = (e) => {
-			//ngZone.run will help to run change detection
+			// ngZone.run will help to run change detection
 			this.ngZone.run(() => {
 				this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
 			});
@@ -50,16 +51,15 @@ export class ItineraryUserDialogComponent implements OnInit {
 	}
 
 	anonymizeMiddle(email: string): string {
-		var str = '';
+		let str = '';
 
-		for (var index = 0; index < email.length; index++) {
-			if (index <= 1)
+		for (let index = 0; index < email.length; index++) {
+			if (index <= 1) {
 				str += '';
-			else if (index >= email.length - 8) {
+			} else if (index >= email.length - 8) {
 				str += '';
-			}
-			else {
-				str += "x";
+			} else {
+				str += 'x';
 			}
 		}
 
@@ -67,15 +67,14 @@ export class ItineraryUserDialogComponent implements OnInit {
 	}
 
 	anonymizeEnd(email: string): string {
-		var str = '';
+		let str = '';
 
-		for (var index = 0; index < email.length; index++) {
-			if (index <= 1)
+		for (let index = 0; index < email.length; index++) {
+			if (index <= 1) {
 				str += '';
-			else if (index >= email.length - 8) {
+			} else if (index >= email.length - 8) {
 				str += email[index];
-			}
-			else {
+			} else {
 				str += '';
 			}
 		}
@@ -101,7 +100,7 @@ export class ItineraryUserDialogComponent implements OnInit {
 	removeUserInItinerary(userId: number){
 		this.userService.removeFromItinerary(userId, this.currentItinerary.id).subscribe(
 			result => {
-				var index = this.usedUsers.findIndex(u => u.id == userId);
+				let index = this.usedUsers.findIndex(u => u.id == userId);
 				this.usedUsers.splice(index, 1);
 			},
 			error => alert(error)

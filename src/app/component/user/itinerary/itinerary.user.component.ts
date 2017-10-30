@@ -11,15 +11,15 @@ import { ItineraryService } from '../../../service/itinerary.service';
 import { UserService } from '../../../service/user.service';
 import { StepDialogComponent } from '../step-dialog/step-dialog.component';
 import { StopDialogComponent } from '../stop-dialog/stop-dialog.component';
-import { SharingDialogComponent } from "../sharing-dialog/sharing-dialog.component";
-import { ItineraryUserDialogComponent } from "../itinerary-user-dialog/itinerary-user-dialog.component";
+import { SharingDialogComponent } from '../sharing-dialog/sharing-dialog.component';
+import { ItineraryUserDialogComponent } from '../itinerary-user-dialog/itinerary-user-dialog.component';
 
 import { environment } from '../../../../environments/environment';
 
 @Component({
 	selector: 'app-user-itinerary',
 	templateUrl: './itinerary.user.component.html',
-	styleUrls: ['./itinerary.user.component.css'],
+	styleUrls: ['./itinerary.user.component.scss'],
 	providers: [ItineraryService, UserService, MdDialog]
 })
 export class ItineraryUserComponent implements OnInit {
@@ -44,9 +44,9 @@ export class ItineraryUserComponent implements OnInit {
 
 	constructor(public itineraryDialog: MdDialog, public route: ActivatedRoute, private itineraryService: ItineraryService, private userService: UserService, private router: Router, private metaService: Meta, private titleService: Title) {
 		this.titleService.setTitle('Itineraris -  Gérer l\'itinéraire');
-		this.metaService.updateTag({ content: "Itineraris - Gérer l\'itinéraire" }, "name='og:title'");
-		this.metaService.updateTag({ content: "Gérer votre itinéraire en ajoutant une ou plusieurs étapes" }, "name='description'");
-		this.metaService.updateTag({ content: "Gérer votre itinéraire en ajoutant une ou plusieurs étapes" }, "name='og:description'");
+		this.metaService.updateTag({ content: 'Itineraris - Gérer l\'itinéraire' }, 'name="og:title"');
+		this.metaService.updateTag({ content: 'Gérer votre itinéraire en ajoutant une ou plusieurs étapes' }, 'name="description"');
+		this.metaService.updateTag({ content: 'Gérer votre itinéraire en ajoutant une ou plusieurs étapes' }, 'name="og:description"');
 
 		this.currentUser = userService.getCurrentUser();
 		this.showSearch = false;
@@ -71,10 +71,11 @@ export class ItineraryUserComponent implements OnInit {
 		});
 		this.dialogRef.componentInstance.newStep.itineraryId = this.currentItinerary.id;
 
-		if (this.itinerarySteps.length == 0)
+		if (this.itinerarySteps.length === 0) {
 			this.dialogRef.componentInstance.type.disable();
+		}
 
-		var that = this;
+		let that = this;
 		return this.dialogRef.afterClosed().subscribe(function () {
 			that.itineraryService.getItinerarySteps(that.currentItinerary.id).subscribe(
 				result => that.assignItinerarySteps(result),
@@ -83,7 +84,7 @@ export class ItineraryUserComponent implements OnInit {
 		});
 	}
 
-	opencontributorPopup(){
+	opencontributorPopup() {
 		this.contributorRef = this.itineraryDialog.open(ItineraryUserDialogComponent, {
 			disableClose: false,
 		});
@@ -96,8 +97,8 @@ export class ItineraryUserComponent implements OnInit {
 			disableClose: false,
 		});
 
-		var userName = this.currentUser.name;
-		var country = this.currentItinerary.country;
+		let userName = this.currentUser.name;
+		let country = this.currentItinerary.country;
 
 		this.sharingRef.componentInstance.sharingUrl = environment.url + '/visiteur/' + this.mapUrl;
 		this.sharingRef.componentInstance.sharingTitle = 'Itinéraire de voyage de ' + userName + ' - ' + country;
@@ -110,7 +111,7 @@ export class ItineraryUserComponent implements OnInit {
 		});
 		this.dialogRefStop.componentInstance.newStop.itineraryId = this.currentItinerary.id;
 
-		var that = this;
+		let that = this;
 		return this.dialogRefStop.afterClosed().subscribe(function () {
 			that.itineraryService.getItineraryStops(that.currentItinerary.id).subscribe(
 				result => that.assignItineraryStops(result),
@@ -129,7 +130,7 @@ export class ItineraryUserComponent implements OnInit {
 		);
 		this.dialogRef.componentInstance.isUpdate = true;
 
-		var that = this;
+		let that = this;
 		return this.dialogRef.afterClosed().subscribe(function () {
 			that.itineraryService.getItinerarySteps(that.currentItinerary.id).subscribe(
 				result => that.assignItinerarySteps(result),
@@ -148,7 +149,7 @@ export class ItineraryUserComponent implements OnInit {
 		);
 		this.dialogRefStop.componentInstance.isUpdate = true;
 
-		var that = this;
+		let that = this;
 		return this.dialogRefStop.afterClosed().subscribe(function () {
 			that.itineraryService.getItineraryStops(that.currentItinerary.id).subscribe(
 				result => that.assignItineraryStops(result),
@@ -178,26 +179,27 @@ export class ItineraryUserComponent implements OnInit {
 	}
 
 	sanitize(str: string): string {
-		if (!str || str.length == 0)
+		if (!str || str.length === 0) {
 			return str;
+		}
 
-		var tmp = this.replaceAll(str.toLocaleLowerCase(), ' ', '-');
-		tmp = this.replaceAll(tmp, "/\?/", "-");
-		tmp = this.replaceAll(tmp, "/\!/", "-");
-		tmp = this.replaceAll(tmp, "/\:/", "-");
-		tmp = this.replaceAll(tmp, "/\//", "-");
-		tmp = this.replaceAll(tmp, "/\&/", "-");
-		tmp = this.replaceAll(tmp, "/\%/", "-");
-		tmp = this.replaceAll(tmp, "/\*/", "x");
-		tmp = this.replaceAll(tmp, "/\@/", "-");
-		tmp = this.replaceAll(tmp, "/\;/", "-");
-		tmp = this.replaceAll(tmp, "/\,/", "-");
-		tmp = this.replaceAll(tmp, "/\./", "-");
-		tmp = this.replaceAll(tmp, "/\^/", "-");
-		tmp = this.replaceAll(tmp, "/\$/", "-");
-		tmp = this.replaceAll(tmp, "/\€/", "-");
-		tmp = this.replaceAll(tmp, "/\#/", "-");
-		tmp = this.replaceAll(tmp, "/\'/", "-");
+		let tmp = this.replaceAll(str.toLocaleLowerCase(), ' ', '-');
+		tmp = this.replaceAll(tmp, '/\?/', '-');
+		tmp = this.replaceAll(tmp, '/\!/', '-');
+		tmp = this.replaceAll(tmp, '/\:/', '-');
+		tmp = this.replaceAll(tmp, '/\//', '-');
+		tmp = this.replaceAll(tmp, '/\&/', '-');
+		tmp = this.replaceAll(tmp, '/\%/', '-');
+		tmp = this.replaceAll(tmp, '/\*/', 'x');
+		tmp = this.replaceAll(tmp, '/\@/', '-');
+		tmp = this.replaceAll(tmp, '/\;/', '-');
+		tmp = this.replaceAll(tmp, '/\,/', '-');
+		tmp = this.replaceAll(tmp, '/\./', '-');
+		tmp = this.replaceAll(tmp, '/\^/', '-');
+		tmp = this.replaceAll(tmp, '/\$/', '-');
+		tmp = this.replaceAll(tmp, '/\€/', '-');
+		tmp = this.replaceAll(tmp, '/\#/', '-');
+		tmp = this.replaceAll(tmp, '/\'/', '-');
 
 		return encodeURIComponent(tmp);
 	}
@@ -211,7 +213,7 @@ export class ItineraryUserComponent implements OnInit {
 	/***************/
 	isbefore(a, b) {
 		if (a.parentNode == b.parentNode) {
-			for (var cur = a; cur; cur = cur.previousSibling) {
+			for (let cur = a; cur; cur = cur.previousSibling) {
 				if (cur === b) {
 					return true;
 				}
@@ -224,9 +226,8 @@ export class ItineraryUserComponent implements OnInit {
 		if (this.isbefore(this.source, target)) {
 			target.parentNode.insertBefore(this.source, target); // insert before
 
-		}
-		else {
-			target.parentNode.insertBefore(this.source, target.nextSibling); //insert after
+		} else {
+			target.parentNode.insertBefore(this.source, target.nextSibling); // insert after
 		}
 	}
 	dragstart($event) {
@@ -236,14 +237,14 @@ export class ItineraryUserComponent implements OnInit {
 	drop($event: any, step: ItineraryStep) {
 		$event.preventDefault();
 
-		var list = $event.path[1].children;
-		var that = this;
+		let list = $event.path[1].children;
+		let that = this;
 
-		var cpt = 0;
-		for (var i in list) {
+		let cpt = 0;
+		for (let i in list) {
 			if (list.hasOwnProperty(i)) {
-				var id = list[i].id;
-				var stepId = id.split('-')[1];
+				let id = list[i].id;
+				let stepId = id.split('-')[1];
 
 				that.itinerarySteps.find(s => s.id == stepId).position = cpt++;
 				that.itinerarySteps.find(s => s.id == stepId).date = that.itinerarySteps.find(s => s.id == stepId).date.split('T')[0];
@@ -258,14 +259,14 @@ export class ItineraryUserComponent implements OnInit {
 	dropStop($event: any, stop: Stop) {
 		$event.preventDefault();
 
-		var list = $event.path[1].children;
-		var that = this;
+		let list = $event.path[1].children;
+		let that = this;
 
-		var cpt = 0;
-		for (var i in list) {
+		let cpt = 0;
+		for (let i in list) {
 			if (list.hasOwnProperty(i)) {
-				var id = list[i].id;
-				var stepId = id.split('-')[1];
+				let id = list[i].id;
+				let stepId = id.split('-')[1];
 
 				that.itineraryStops.find(s => s.id == stepId).position = cpt++;
 				that.itineraryStops.find(s => s.id == stepId).date = that.itineraryStops.find(s => s.id == stepId).date.split('T')[0];
@@ -286,7 +287,7 @@ export class ItineraryUserComponent implements OnInit {
 
 			this.currentItinerary = new Itinerary();
 
-			var that = this;
+			let that = this;
 			this.itineraryService.getItinerarySteps(id).subscribe(
 				result => that.assignItinerarySteps(result),
 				error => alert(error)
@@ -305,14 +306,14 @@ export class ItineraryUserComponent implements OnInit {
 	}
 
 	private successfullyRemoved() {
-		var that = this;
+		let that = this;
 		this.itineraryService.getItinerarySteps(this.currentItinerary.id).subscribe(
 			result => that.assignItinerarySteps(result),
 			error => alert(error)
 		);
 	}
 	private successfullyRemovedFreeStop() {
-		var that = this;
+		let that = this;
 		this.itineraryService.getItineraryStops(this.currentItinerary.id).subscribe(
 			result => that.assignItineraryStops(result),
 			error => alert(error)
@@ -333,14 +334,14 @@ export class ItineraryUserComponent implements OnInit {
 		this.itineraryStops = result;
 	}
 	private assignItineraryStep(step: ItineraryStep) {
-		var d = step.date.split('T')[0].split('-');
+		let d = step.date.split('T')[0].split('-');
 
 		step.date = d[0] + '-' + d[1] + '-' + d[2];
 
 		this.dialogRef.componentInstance.newStep = step;
 	}
 	private assignItineraryStop(stop: Stop) {
-		var d = stop.date.split('T')[0].split('-');
+		let d = stop.date.split('T')[0].split('-');
 
 		stop.date = d[0] + '-' + d[1] + '-' + d[2];
 

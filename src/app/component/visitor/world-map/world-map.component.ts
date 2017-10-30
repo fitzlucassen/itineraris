@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Renderer } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 
@@ -13,10 +13,10 @@ import { ShareButtonsModule } from 'ng2-sharebuttons';
 @Component({
 	selector: 'app-world-map',
 	templateUrl: './world-map.component.html',
-	styleUrls: ['./world-map.component.css'],
+	styleUrls: ['./world-map.component.scss'],
 	providers: [ItineraryService]
 })
-export class WorldMapComponent implements OnInit {
+export class WorldMapComponent implements OnInit, OnDestroy {
 	steps: Array<Array<ItineraryStep>>;
 	stops: Array<Stop>;
 
@@ -54,11 +54,11 @@ export class WorldMapComponent implements OnInit {
 			this.currentDescription += ' de ' + userName;
 
 			this.titleService.setTitle(this.currentTitle);
-			this.metaService.updateTag({ content: this.currentTitle }, "name='og:title'");
-			this.metaService.updateTag({ content: this.currentDescription }, "name='description'");
-			this.metaService.updateTag({ content: this.currentDescription }, "name='og:description'");
+			this.metaService.updateTag({ content: this.currentTitle }, 'name="og:title"');
+			this.metaService.updateTag({ content: this.currentDescription }, 'name="description"');
+			this.metaService.updateTag({ content: this.currentDescription }, 'name="og:description"');
 
-			var that = this;
+			let that = this;
 
 			this.itineraryService.getItinerariesSteps(userId).subscribe(
 				result => that.assignItinerarySteps(result),
@@ -72,12 +72,12 @@ export class WorldMapComponent implements OnInit {
 			this.renderer.setElementProperty(this.sidenav.nativeElement, 'innerHTML', '<div id="fb-root"></div><div class="fb-comments" data-href="' + this.currentUrl + '" data-numposts="10"></div>');
 
 			(function (d, s, id) {
-				var js, fjs = d.getElementsByTagName(s)[0];
+				let js, fjs = d.getElementsByTagName(s)[0];
 				if (d.getElementById(id) && window['FB']) {
-					window['FB'].XFBML.parse(); //Instead of returning, lets call parse()
+					window['FB'].XFBML.parse(); // Instead of returning, lets call parse()
 				}
 				js = d.createElement(s); js.id = id;
-				js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.8&appId=265963237186602";
+				js.src = '//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.8&appId=265963237186602';
 				fjs.parentNode.insertBefore(js, fjs);
 			}(document, 'script', 'facebook-jssdk'));
 		});
@@ -99,7 +99,7 @@ export class WorldMapComponent implements OnInit {
 	private assignItineraryStops(result: Array<Stop>) {
 		this.stops = result;
 
-		var that = this;
+		let that = this;
 
 		this.stops.forEach(function (element: Stop) {
 			that.itineraryService.getStopPictures(element.id).subscribe(

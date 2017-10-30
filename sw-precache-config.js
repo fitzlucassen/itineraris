@@ -3,6 +3,7 @@ module.exports = {
         'dist/**.html',
         'dist/**.js',
         'dist/**.css',
+        'dist/**.scss',
         'dist/**.png',
         'dist/**.webp',
         'dist/**.eot',

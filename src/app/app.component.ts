@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.component.html',
-	styleUrls: ['./app.component.css']
+	styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
 	title = 'Itineraris';
@@ -12,13 +12,13 @@ export class AppComponent implements OnInit {
 	// lng: number = 13.9502671;
 	// zoom: number = 3;
 
-	constructor(){
+	constructor() {
 
 	}
 
 	ngOnInit() {
-		//set current position
-		//this.setCurrentPosition();
+		// set current position
+		// this.setCurrentPosition();
 	}
 
 	// private setCurrentPosition() {

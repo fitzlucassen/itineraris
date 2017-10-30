@@ -12,7 +12,7 @@ declare var MarkerClusterer;
 @Component({
 	selector: 'search-map',
 	templateUrl: './search-map.component.html',
-	styleUrls: ['./search-map.component.css']
+	styleUrls: ['./search-map.component.scss']
 })
 export class SearchMapComponent implements OnInit {
 	@Input() itineraries: Array<Itinerary> = [];
@@ -34,10 +34,10 @@ export class SearchMapComponent implements OnInit {
 	}
 
 	loadMap() {
-		var that = this;
+		let that = this;
 
 		this.mapsAPILoader.load().then(() => {
-			var element = document.getElementById('searchmap');
+			let element = document.getElementById('searchmap');
 			this.container.nativeElement.style.height = '500px';
 			element.style.height = '100%';
 
@@ -46,11 +46,11 @@ export class SearchMapComponent implements OnInit {
 				center: { lat: 18.5284128, lng: 13.9502671 }
 			});
 
-			var locations = [];
+			let locations = [];
 
 			that.itineraries.forEach(function (element) {
-				var l = { lat: element.stepLat, lng: element.stepLng };
-				var m = new google.maps.Marker({
+				let l = { lat: element.stepLat, lng: element.stepLng };
+				let m = new google.maps.Marker({
 					position: l,
 					icon: '/assets/icon.png'
 				});
@@ -60,13 +60,13 @@ export class SearchMapComponent implements OnInit {
 			});
 
 			setTimeout(function () {
-				var markerCluster = new MarkerClusterer(that.map, locations, { imagePath: '/assets/markers/m' });
+				let markerCluster = new MarkerClusterer(that.map, locations, { imagePath: '/assets/markers/m' });
 			}, 500);
 		});
 	}
 
 	unloadMap() {
-		var element = document.getElementById('searchmap');
+		let element = document.getElementById('searchmap');
 		this.container.nativeElement.style.height = '0';
 
 		element.innerHTML = '';
@@ -74,7 +74,7 @@ export class SearchMapComponent implements OnInit {
 	}
 
 	private createInfoWindowForStep(itinerary: Itinerary, marker: any, location: any) {
-		var content = this.infoWindowTemplate
+		let content = this.infoWindowTemplate
 			.replace('TITLE', itinerary.name + ' - <i>' + itinerary.country + '</i>')
 			.replace('USER', this.replaceAll(itinerary.users[0].name.toLowerCase(), ' ', '-'))
 			.replace('USERNAME', itinerary.users[0].name)
@@ -82,16 +82,16 @@ export class SearchMapComponent implements OnInit {
 			.replace('ITINERARYNAME', this.replaceAll(itinerary.name.toLowerCase(), ' ', '-'))
 			.replace('DESCRIPTION', itinerary.description)
 
-		var that = this;
+		let that = this;
 
 		this.attachClickEvent(marker, location, content);
 	}
 
 	private attachClickEvent(marker: any, location: any, content: string) {
-		var that = this;
+		let that = this;
 
 		google.maps.event.addListener(marker, 'click', function (e) {
-			var infoWindow = new google.maps.InfoWindow({
+			let infoWindow = new google.maps.InfoWindow({
 				content: content,
 				position: location
 			});
@@ -101,11 +101,11 @@ export class SearchMapComponent implements OnInit {
 
 			infoWindow.open(that.map, marker);
 
-			var element = document.getElementsByClassName('gm-style-iw');
+			let element = document.getElementsByClassName('gm-style-iw');
 
 			setTimeout(function () {
-				var preElement: any = document.getElementsByClassName('gm-style-iw')[0].previousElementSibling;
-				var nextElement: any = document.getElementsByClassName('gm-style-iw')[0].nextElementSibling;
+				let preElement: any = document.getElementsByClassName('gm-style-iw')[0].previousElementSibling;
+				let nextElement: any = document.getElementsByClassName('gm-style-iw')[0].nextElementSibling;
 
 				preElement.children[1].style.display = 'none';
 				preElement.children[3].style.display = 'none';
