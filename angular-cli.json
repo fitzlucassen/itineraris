@@ -21,7 +21,7 @@
     "prefix": "app",
     "styles": [
       "styles.scss",
-      "assets/material/material-icons.scss",
+      "assets/libraries/material/material-icons.scss",
       "../node_modules/lightbox2/dist/css/lightbox.min.css",
       "../node_modules/font-awesome/css/font-awesome.css"
     ],

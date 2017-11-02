@@ -21,14 +21,6 @@ export class MapComponent implements OnInit {
 	infoWindows: Array<any> = [];
 	markers: Array<any> = [];
 
-	markersPng: Array<any> = [
-		'/assets/icon.png',
-		'/assets/icon1.png',
-		'/assets/icon2.png',
-		'/assets/icon3.png',
-		'/assets/icon4.png'
-	];
-
 	infoWindowTemplate: string = '<div id="iw-container"><b class="iw-title">TITLE</b><div class="iw-content"><i class="iw-subTitle">Le DATE</i><br/><br/>DESCRIPTION<br/><br/>PICTURES</div><div class="iw-bottom-gradient"></div></div>'
 	infoWindowImgTemplate: string = '<li style="list-style:none;display: inline-block;margin-right: 5px;"><a href="URL1" data-lightbox="image" data-title="CAPTION1"><img class="ui bordered small image" src="URL2" alt="CAPTION2" title="CAPTION3" width="95px" height="95px"/></a></li>';
 
@@ -468,7 +460,7 @@ export class MapComponent implements OnInit {
 		let marker = new google.maps.Marker({
 			position: location,
 			map: map,
-			icon: isStop ? '/assets/icon-stop.svg' : '/assets/icon' + markerIndex + '.svg',
+			icon: isStop ? '/assets/images/icon-stop.svg' : '/assets/images/icon' + markerIndex + '.svg',
 			clickable: true,
 			title: title,
 		});

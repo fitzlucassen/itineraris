@@ -11,7 +11,7 @@ module.exports = {
         'dist/**.woff',
         'dist/**.woff2',
         'dist/**.ttf',
-        'dist/assets/markers/*'
+        'dist/assets/images/markers/*'
     ],
     root: 'dist',
     stripPrefix: 'dist/',

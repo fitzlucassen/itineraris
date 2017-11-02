@@ -1,0 +1,55 @@
+#iw-container .iw-title {
+	font-family: 'verano', 'Open Sans Condensed', sans-serif;
+	font-size: 22px;
+	font-weight: 400;
+	color: $fontColor;
+	padding: 10px;
+	letter-spacing: 1px;
+
+	display: block;
+	background-color: $mainColor;
+	margin: 1px;
+	border-radius: 2px 2px 0 0;
+}
+
+#iw-container .iw-content {
+	max-height: 180px;
+	overflow: auto;
+	
+	line-height: 18px;
+	font-family: 'Open Sans Condensed', sans-serif;
+	text-align: justify;
+	padding: 10px;
+}
+
+.gm-style-iw {
+	background-color: $fontColor;
+	width: 350px !important;
+	top: 15px !important;
+	left: 50% !important;
+
+	transform: translateX(-50%);
+	box-shadow: 0 1px 6px rgba(178, 178, 178, 0.6);
+	border: 1px solid rgba($thirdColor, 0.6);
+	border-radius: 5px;
+}
+
+.gm-style-iw > div {
+	display: block !important;
+	overflow: auto !important;
+	max-height: initial !important;
+	max-width: initial !important;
+	margin-top: 0 !important;
+
+	padding: 0 !important;
+}
+
+.iw-close {
+	opacity: 1;
+	right: 38px;
+	top: 3px !important;
+
+	border: 7px solid $mainColor;
+	border-radius: 13px;
+	box-shadow: 0 0 5px $thirdColor;
+}

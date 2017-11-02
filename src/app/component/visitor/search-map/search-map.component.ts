@@ -52,7 +52,7 @@ export class SearchMapComponent implements OnInit {
 				let l = { lat: element.stepLat, lng: element.stepLng };
 				let m = new google.maps.Marker({
 					position: l,
-					icon: '/assets/icon.png'
+					icon: '/assets/images/icon0.svg'
 				});
 				locations.push(m);
 
@@ -60,7 +60,7 @@ export class SearchMapComponent implements OnInit {
 			});
 
 			setTimeout(function () {
-				let markerCluster = new MarkerClusterer(that.map, locations, { imagePath: '/assets/markers/m' });
+				let markerCluster = new MarkerClusterer(that.map, locations, { imagePath: '/assets/images/markers/m' });
 			}, 500);
 		});
 	}

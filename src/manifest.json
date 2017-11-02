@@ -3,17 +3,17 @@
     "short_name": "Itineraris",
     "icons": [
         {
-            "src": "assets/australie-192x192.png",
+            "src": "assets/images/australie-192x192.png",
             "sizes": "192x192",
             "type": "image\/png"
         },
         {
-            "src": "assets/australie.png",
+            "src": "assets/images/australie.png",
             "sizes": "256x256",
             "type": "image\/png"
         },
         {
-            "src": "assets/australie-512x512.png",
+            "src": "assets/images/australie-512x512.png",
             "sizes": "512x512",
             "type": "image\/png"
         }
