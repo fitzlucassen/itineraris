@@ -1,29 +1,34 @@
-#membership-container h1.big-title{
-	font-family: roboto;
-	font-weight: normal;
-	font-size: 40px;
-	margin-bottom: 5%;
-}
+@import '../../../../assets/styles/typography';
+@import '../../../../assets/styles/variable';
 
-#membership-container md-input-container {
-	width: 80%;
-    height: 60px;
-    font-size: 24px;
-	margin: auto;
-	display: block;
-}
+#membership-container {
+	h1.big-title{
+		font-family: $fontContent;
+		font-weight: normal;
+		font-size: 40px;
+		margin-bottom: 5%;
+	}
 
-#membership-container button{
-	color: white;
-	display: block;
-	margin: auto;
-	width: 60px;
-    height: 60px;
-}
+	md-input-container {
+		width: 80%;
+		height: 60px;
+		font-size: 24px;
+		margin: auto;
+		display: block;
+	}
 
-	#membership-container [md-mini-fab] i, #membership-container [md-mini-fab] md-icon {
+	button{
+		color: $fontColor;
+		display: block;
+		margin: auto;
+		width: 60px;
+		height: 60px;
+	}
+
+	[md-mini-fab] i, [md-mini-fab] md-icon {
 		line-height: 32px;
 	}
+}
 
 md-spinner{
     display: block;
@@ -33,7 +38,9 @@ md-spinner{
 }
 
 @media screen and (max-width: 950px) {
-	#membership-container h1.big-title{
-		font-size: 30px;
+	#membership-container {
+		h1.big-title{
+			font-size: 30px;
+		}
 	}
 }

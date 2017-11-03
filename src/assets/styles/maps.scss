@@ -1,5 +1,5 @@
 #iw-container .iw-title {
-	font-family: 'verano', 'Open Sans Condensed', sans-serif;
+	font-family: $fontTravelTitle;
 	font-size: 22px;
 	font-weight: 400;
 	color: $fontColor;
@@ -17,7 +17,7 @@
 	overflow: auto;
 	
 	line-height: 18px;
-	font-family: 'Open Sans Condensed', sans-serif;
+	font-family: $fontContent;
 	text-align: justify;
 	padding: 10px;
 }

@@ -1,59 +1,61 @@
 {
-  "project": {
-    "name": "itineraris"
-  },
-  "apps": [{
-    "root": "src",
-    "outDir": "dist",
-    "assets": [
-      "assets",
-      "favicon.ico",
-      "manifest.json",
-      "sitemap.xml",
-      "web.config",
-      "robots.txt",
-      "modernizr-custom.js"
-    ],
-    "index": "index.html",
-    "main": "main.ts",
-    "test": "test.ts",
-    "tsconfig": "tsconfig.json",
-    "prefix": "app",
-    "styles": [
-      "styles.scss",
-      "assets/libraries/material/material-icons.scss",
-      "../node_modules/lightbox2/dist/css/lightbox.min.css",
-      "../node_modules/font-awesome/css/font-awesome.css"
-    ],
-    "scripts": [
-      "../node_modules/jquery/dist/jquery.js",
-      "../node_modules/lightbox2/dist/js/lightbox.min.js"
-    ],
-    "environmentSource": "environments/environment.ts",
-    "environments": {
-      "dev": "environments/environment.ts",
-      "prod": "environments/environment.prod.ts"
-    }
-  }],
-  "e2e": {
-    "protractor": {
-      "config": "./protractor.conf.js"
-    }
-  },
-  "test": {
-    "karma": {
-      "config": "./karma.conf.js"
-    }
-  },
-  "defaults": {
-    "styleExt": "scss",
-    "class": {
-      "spec": false
-    },
-    "component": {
-      "spec": true,
-      "inlineStyle": false,
-      "inlineTemplate": false
-    }
-  }
+	"project": {
+		"name": "itineraris"
+	},
+	"apps": [
+		{
+			"root": "src",
+			"outDir": "dist",
+			"assets": [
+				"assets",
+				"favicon.ico",
+				"manifest.json",
+				"sitemap.xml",
+				"web.config",
+				"robots.txt",
+				"modernizr-custom.js"
+			],
+			"index": "index.html",
+			"main": "main.ts",
+			"test": "test.ts",
+			"tsconfig": "tsconfig.json",
+			"prefix": "app",
+			"styles": [
+				"styles.scss",
+				"assets/libraries/material/material-icons.scss",
+				"../node_modules/lightbox2/dist/css/lightbox.min.css",
+				"../node_modules/font-awesome/css/font-awesome.css"
+			],
+			"scripts": [
+				"../node_modules/jquery/dist/jquery.js",
+				"../node_modules/lightbox2/dist/js/lightbox.min.js"
+			],
+			"environmentSource": "environments/environment.ts",
+			"environments": {
+				"dev": "environments/environment.ts",
+				"prod": "environments/environment.prod.ts"
+			}
+		}
+	],
+	"e2e": {
+		"protractor": {
+			"config": "./protractor.conf.js"
+		}
+	},
+	"test": {
+		"karma": {
+			"config": "./karma.conf.js"
+		}
+	},
+	"defaults": {
+		"styleExt": "scss",
+		"class": {
+			"spec": false
+		},
+		"component": {
+			"spec": true,
+			"inlineStyle": false,
+			"inlineTemplate": false
+		}
+	}
 }

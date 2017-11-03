@@ -1,3 +1,4 @@
+// Reset
 html, body {
 	height: 100%;
 	width: 100%;
@@ -5,10 +6,12 @@ html, body {
 	display: block;
 }
 
+// Usefull helpers
 .clear {
 	clear: both;
 }
 
+// Manage page container
 .webp .big-container {
 	background: transparent url(/assets/images/bg2.webp) center center no-repeat;
 }
@@ -27,10 +30,27 @@ html, body {
 	background-attachment: fixed;
 }
 
+// Manage Toolbar style
+md-toolbar {
+	.mat-input-placeholder {
+		color: $fontColor !important;
+	}
+}
+
 .md-dialog-container {
 	height: 100% !important;
 }
 
-md-toolbar .mat-input-placeholder {
-	color: $fontColor !important;
+// Manage tabs styles
+md-tab-header {
+	margin-bottom: 2.5%;
+
+	.mat-tab-label {
+		font-size: 16px !important;
+	}
+
+	.mat-tab-label[aria-selected="true"] {
+		opacity: 1 !important;
+		background-color: rgba(197, 202, 233, .3);
+	}
 }

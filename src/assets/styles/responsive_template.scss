@@ -1,0 +1,14 @@
+@media screen and (max-width: 950px) {
+	app-membership-home, app-membership-signup {
+		position: static;
+		top: 0;
+		width: 95%;
+		margin: auto;
+		display: block;
+
+		transform: none;
+	}
+	.only-responsive {
+		display: none;
+	}
+}

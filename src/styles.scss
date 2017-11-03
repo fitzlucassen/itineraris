@@ -1,7 +1,8 @@
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
 @import './assets/styles/typography';
 @import './assets/styles/variable';
-@import './assets/styles/structure';
+@import './assets/styles/template';
 @import './assets/styles/maps';
 
 app-root .tempDiv {
@@ -9,13 +10,6 @@ app-root .tempDiv {
 	height: 100%;
 	background: $fontColor;
 	text-align: center;
-}
-
-app-user-dashboard {
-	height: 100%;
-	width: 100%;
-	margin: 0;
-	display: block;
 }
 
 app-membership-home, app-membership-signup {
@@ -36,30 +30,4 @@ app-membership-home, app-membership-signup {
 	width: 300px !important;
 }
 
-md-tab-header {
-	margin-bottom: 2.5%;
-}
-
-.mat-tab-label {
-	font-size: 16px !important;
-}
-
-.mat-tab-label[aria-selected="true"] {
-	opacity: 1 !important;
-	background-color: rgba(197, 202, 233, .3);
-}
-
-@media screen and (max-width: 950px) {
-	app-membership-home, app-membership-signup {
-		position: static;
-		top: 0;
-		width: 95%;
-		margin: auto;
-		display: block;
-
-		transform: none;
-	}
-	.only-responsive {
-		display: none;
-	}
-}
+@import './assets/styles/responsive_template';
