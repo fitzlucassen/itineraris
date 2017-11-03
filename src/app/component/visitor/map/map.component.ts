@@ -39,7 +39,7 @@ export class MapComponent implements OnInit {
 				let directionsService = new google.maps.DirectionsService;
 				let directionsDisplay = new google.maps.DirectionsRenderer({
 					polylineOptions: {
-						strokeColor: '#ff4081'
+						strokeColor: '#FF5E5B'
 					}
 				});
 
@@ -78,15 +78,16 @@ export class MapComponent implements OnInit {
 								'elementType': 'geometry',
 								'stylers': [
 									{
-										'visibility': 'off'
+										'color': '#A4B494'
 									}
 								]
 							},
+
 							{
 								'featureType': 'water',
 								'stylers': [
 									{
-										'color': '#3f51b5'
+										'color': '#1F5180'
 									}
 								]
 							},
@@ -97,7 +98,7 @@ export class MapComponent implements OnInit {
 										'visibility': 'on'
 									},
 									{
-										'color': '#fff6cb'
+										'color': '#D8D8D8'
 									}
 								]
 							},
@@ -308,7 +309,7 @@ export class MapComponent implements OnInit {
 
 		if (mode === 'flight') {
 			let line = new google.maps.Polyline({
-				strokeColor: '#693668',
+				strokeColor: '#8C3432',
 				strokeOpacity: 0,
 				icons: [{
 					icon: {

@@ -1,119 +1,61 @@
-md-sidenav-container{
-    margin: 0;
-    background: transparent;
-    box-shadow: 1px 1px 3px #000;
-}
-md-sidenav{
-    width: 300px;
-}
-h1.big-title{
-	font-family: 'Segoe UI';
-	font-weight: normal;
-	font-size: 40px;
+@import '../../../../assets/styles/typography';
+@import '../../../../assets/styles/variable';
+
+h1.big-title {
     text-align: center;
-	margin-top: 15%;
+    margin-top: 15%;
 }
-    md-icon{
-        width: initial !important;
-        height: initial !important;
-    }
 
-    .myself{
-        text-align: center;
-        padding: 15px;
-        height: auto;
-        min-height: 128px;
-        background-color: rgb(40,53,147);
-        color: rgba(255,255,255,0.87);
-        
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-        position: relative;
-        z-index: 2;
-        font-size: 20px;
-        width: 100%;
+md-icon {
+    width: initial !important;
+    height: initial !important;
+}
 
-        font-family: RobotoDraft,Roboto,'Helvetica Neue',sans-serif;
-    }
-
-        md-sidenav:not(.md-sidenav-list) .md-avatar {
-            height: 64px;
-            width: 64px;
-            font-size: 60px
-        }
-        md-sidenav:not(.md-sidenav-list) md-icon {
-            fill: #737373;
-            position: relative;
-        }
-        md-toolbar.md-hue-2 md-icon {
-            color: rgba(255,255,255,0.87);
-        }
-        .md-body-2{
-            font-size: 14px;
-            font-weight: 500;
-            letter-spacing: .01em;
-            line-height: 24px;
-            background-color: rgb(40,53,147);
-            color: rgba(255,255,255,0.87)
-        }
-
-
-.md-whiteframe-z1 {
-    box-shadow: 0 3px 1px -2px rgba(0,0,0,.14), 0 2px 2px 0 rgba(0,0,0,.098), 0 1px 5px 0 rgba(0,0,0,.084);
-        box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    z-index: 2;
+.myself {
+    font-family: $fontContent;
     font-size: 20px;
-    min-height: 64px;
+    text-align: center;
+    color: rgba($fontColor, 0.87);
+    padding: 15px;
+
+    position: relative;
+    display: flex;
     width: 100%;
-}
-md-toolbar.md-whiteframe-z1 {
-    background-color: rgb(53,71,171);
-    color: rgba(255,255,255,0.87);
-}
-    .md-toolbar-tools {
-        font-weight: 400;
-        display: flex;
-        align-items: center;
-        flex-direction: row;
-        width: 100%;
-        height: 64px;
-        max-height: 64px;
-        padding: 0 16px;
-        margin: 0;
+    height: auto;
+    min-height: 128px;
+    background-color: $secondColor;
+    z-index: 2;
+
+    box-sizing: border-box;
+    flex-direction: column;
+
+    .md-body-2 {
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: .01em;
+        line-height: 24px;
+        color: rgba($fontColor, 0.87)
     }
-        .md-toolbar-tools h3 {
-            font-size: inherit;
-            font-weight: inherit;
-            margin: inherit;
-        }
-
-        .md-toolbar-tools md-icon{
-            position: absolute;
-            right: 10%;
-            cursor: pointer;
-        }
-
-p.helper{
-    display: inline-block; text-align: center;width:48%;
-    font-family: Roboto;
 }
-    p.helper span{
-        color: #ff4081;
-    }
 
-div.arrow-container{
-    position: relative;height:40px;
+p.helper {
+    font-family: $fontContent;
+    text-align: center;
+
+    display: inline-block;
+    width: 48%;
+
+    span {
+        color: $cutColor;
+    }
 }
-    div.arrow-container img{
-        display: block;position: absolute;
-    }
 
-@media screen and (max-width: 950px) {
-	h1.big-title{
-		font-size: 30px;
-	}
+div.arrow-container {
+    position: relative;
+    height: 40px;
+
+    img {
+        display: block;
+        position: absolute;
+    }
 }

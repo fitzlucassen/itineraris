@@ -4,11 +4,27 @@ html, body {
 	width: 100%;
 	margin: 0;
 	display: block;
+
+	font-family: $fontContent;
 }
 
 // Usefull helpers
 .clear {
 	clear: both;
+}
+h1.big-title{
+	font-family: $fontTravelTitle;
+	font-weight: normal;
+	font-size: 50px;
+}
+
+// Buttons
+.mat-mini-fab {
+	background-color: $mainColor;
+
+	&.gray {
+		background-color: $secondColor;	
+	}
 }
 
 // Manage page container
@@ -30,10 +46,85 @@ html, body {
 	background-attachment: fixed;
 }
 
+// Manage sidenav style
+md-sidenav-container {
+    margin: 0 !important;
+	background-color: transparent !important;
+	box-shadow: 1px 1px 3px $thirdColor !important;
+	
+	md-sidenav{
+		width: 300px;
+
+		&:not(.md-sidenav-list) {
+			.md-avatar {
+				height: 64px;
+				width: 64px;
+				font-size: 60px
+			}
+		
+			md-icon {
+				fill: $fontColor;
+				position: relative;
+			}
+		}
+	}
+}
+
 // Manage Toolbar style
 md-toolbar {
 	.mat-input-placeholder {
 		color: $fontColor !important;
+	}
+
+	&.md-hue-2{
+		md-icon {
+			color: rgba($fontColor, 0.87);
+		}
+	}
+
+	&.mat-toolbar.mat-primary{
+		background-color: $mainColor;
+	}
+
+	&.md-whiteframe-z1 {
+		color: rgba($fontColor, 0.87);
+		font-size: 20px;
+		
+		position: relative;
+		display: flex;
+		width: 100%;
+		min-height: 64px;
+		z-index: 2;
+		background-color: $secondColor;
+	
+		box-shadow: 0 3px 1px -2px rgba($thirdColor, .14), 0 2px 2px 0 rgba($thirdColor, .098), 0 1px 5px 0 rgba($thirdColor, .084);
+		box-sizing: border-box;
+		flex-direction: column;
+	
+		.md-toolbar-tools {
+			font-weight: 400;
+			padding: 0 16px;
+			
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			width: 100%;
+			height: 64px;
+			max-height: 64px;
+			margin: 0;
+	
+			h3 {
+				font-size: inherit;
+				font-weight: inherit;
+				margin: inherit;
+			}
+	
+			md-icon {
+				position: absolute;
+				right: 10%;
+				cursor: pointer;
+			}
+		}
 	}
 }
 

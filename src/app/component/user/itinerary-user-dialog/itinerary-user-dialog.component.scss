@@ -1,35 +1,49 @@
-[md-raised-button]{
+@import '../../../../assets/styles/typography';
+@import '../../../../assets/styles/variable';
+
+[md-raised-button] {
     float: right;
 }
-md-input-container{
+
+md-input-container {
     width: 100% !important;
 }
-md-spinner{
+
+md-spinner {
     display: block;
     margin: auto;
     width: 40px;
     height: 40px;
 }
 
-h2, h3{
-    font-family: 'Segoe UI';
+h2, h3 {
+    font-family: $fontTravelTitle;
     font-weight: normal;
     font-size: 28px;
 }
-h3{
+
+h3 {
     font-size: 24px;
 }
 
-.mat-mini-fab{
+.mat-mini-fab {
     width: 36px;
     height: 36px;
+
+    .mat-icon, i {
+        line-height: 20px;
+        height: 20px;
+        width: 20px;
+        font-size: 20px !important;
+    }
 }
-.mat-mini-fab.gray{
-    background-color: #3f51b5;
-}
-.mat-mini-fab .mat-icon, .mat-mini-fab i{
-    line-height: 20px;
-    height: 20px;
-    width: 20px;
-    font-size: 20px !important;
+
+md-nav-list{
+    md-icon.mat-list-avatar{
+        color: $mainColor;
+    }
+
+        span {
+            color: $mainColor;
+        }
 }

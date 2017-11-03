@@ -4,12 +4,14 @@
 h1{
     font-family: $fontTravelTitle;
     font-size: 150px;
+    font-weight: normal;
     color: $mainColor;
     margin: 5%;
 }
 
 h2{
     font-family: $fontTravelTitle;
+    font-weight: normal;
     font-size: 40px;
     color: $mainColor;
 }
@@ -36,7 +38,7 @@ nav{
                 border: 1px solid $fontColor;
                 border-radius: 2px;
             
-                font-family: $fontContent;
+                font-family: $fontLightTitle;
                 color: $fontColor;
                 font-size: 40px;
                 text-decoration: none;

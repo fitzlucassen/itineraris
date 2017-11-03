@@ -11,8 +11,8 @@
 
 	<md-nav-list flex style="max-height:200px;overflow:auto;">
 		<md-list-item class="md-2-line" *ngFor="let user of users | SearchUserPipe: searchText" role="link">
-			<md-icon md-list-avatar style="color:#3f51b5; width: initial;height:initial;">face</md-icon>
-			<p md-line href="">{{user.name}} - <i>{{anonymizeStart(user.email)}}<span style="color:#3f51b5">{{anonymizeMiddle(user.email)}}</span>{{anonymizeEnd(user.email)}}</i></p>
+			<md-icon md-list-avatar style="width: initial;height:initial;">face</md-icon>
+			<p md-line href="">{{user.name}} - <i>{{anonymizeStart(user.email)}}<span>{{anonymizeMiddle(user.email)}}</span>{{anonymizeEnd(user.email)}}</i></p>
 
 			<button md-mini-fab *ngIf="userAlreadyExists(user.id)" (click)="addUserInItinerary(user.id)"><md-icon>check</md-icon></button>
 			<button md-mini-fab *ngIf="!userAlreadyExists(user.id)" (click)="removeUserInItinerary(user.id)" class="gray"><md-icon>delete</md-icon></button>
