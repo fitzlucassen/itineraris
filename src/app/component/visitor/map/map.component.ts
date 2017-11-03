@@ -21,6 +21,12 @@ export class MapComponent implements OnInit {
 	infoWindows: Array<any> = [];
 	markers: Array<any> = [];
 
+	flightLineColor: '#8C3432';
+	roadLineColor: '#FF5E5B';
+	waterColor: '#1F5180';
+	landColor: '#D8D8D8';
+	parkColor: '#A4B494';
+
 	infoWindowTemplate: string = '<div id="iw-container"><b class="iw-title">TITLE</b><div class="iw-content"><i class="iw-subTitle">Le DATE</i><br/><br/>DESCRIPTION<br/><br/>PICTURES</div><div class="iw-bottom-gradient"></div></div>'
 	infoWindowImgTemplate: string = '<li style="list-style:none;display: inline-block;margin-right: 5px;"><a href="URL1" data-lightbox="image" data-title="CAPTION1"><img class="ui bordered small image" src="URL2" alt="CAPTION2" title="CAPTION3" width="95px" height="95px"/></a></li>';
 
@@ -39,7 +45,7 @@ export class MapComponent implements OnInit {
 				let directionsService = new google.maps.DirectionsService;
 				let directionsDisplay = new google.maps.DirectionsRenderer({
 					polylineOptions: {
-						strokeColor: '#FF5E5B'
+						strokeColor: this.roadLineColor
 					}
 				});
 
@@ -49,77 +55,13 @@ export class MapComponent implements OnInit {
 						zoom: 3,
 						center: { lat: origin.latitude, lng: origin.longitude },
 						styles: [
-							{
-								'featureType': 'road',
-								'stylers': [
-									{
-										'visibility': 'off'
-									}
-								]
-							},
-							{
-								'featureType': 'transit',
-								'stylers': [
-									{
-										'visibility': 'off'
-									}
-								]
-							},
-							{
-								'featureType': 'administrative.province',
-								'stylers': [
-									{
-										'visibility': 'off'
-									}
-								]
-							},
-							{
-								'featureType': 'poi.park',
-								'elementType': 'geometry',
-								'stylers': [
-									{
-										'color': '#A4B494'
-									}
-								]
-							},
-
-							{
-								'featureType': 'water',
-								'stylers': [
-									{
-										'color': '#1F5180'
-									}
-								]
-							},
-							{
-								'featureType': 'landscape.natural',
-								'stylers': [
-									{
-										'visibility': 'on'
-									},
-									{
-										'color': '#D8D8D8'
-									}
-								]
-							},
-							{
-								'featureType': 'administrative.country',
-								'elementType': 'geometry.stroke',
-								'stylers': [
-									{
-										'visibility': 'on'
-									},
-									{
-										'color': '#7f7d7a'
-									},
-									{
-										'lightness': 10
-									},
-									{
-										'weight': 1
-									}
-								]
-							}
+							{ 'featureType': 'road', 								'stylers': [{ 'visibility': 'off' }] },
+							{ 'featureType': 'water', 								'stylers': [{ 'color': this.waterColor }] },
+							{ 'featureType': 'transit', 							'stylers': [{ 'visibility': 'off' }] },
+							{ 'featureType': 'landscape.natural', 					'stylers': [{ 'visibility': 'on' }, { 'color': this.landColor }]},
+							{ 'featureType': 'administrative.province', 			'stylers': [{ 'visibility': 'off' }] },
+							{ 'featureType': 'poi.park', 'elementType': 'geometry', 'stylers': [{ 'color': this.parkColor }] },
+							{ 'featureType': 'administrative.country', 'elementType': 'geometry.stroke', 'stylers': [{ 'visibility': 'on' }, { 'color': '#7f7d7a' }, { 'lightness': 10 }, { 'weight': 1 }] }
 						]
 					});
 				}
@@ -309,7 +251,7 @@ export class MapComponent implements OnInit {
 
 		if (mode === 'flight') {
 			let line = new google.maps.Polyline({
-				strokeColor: '#8C3432',
+				strokeColor: this.flightLineColor,
 				strokeOpacity: 0,
 				icons: [{
 					icon: {
