@@ -1,0 +1,21 @@
+<div id="iw-container">
+	<div class="main-img-container">
+		<img src="{{mainPicture}}" alt="" />
+	</div>
+	<div class="iw-title">
+		{{title}}
+		<br/>
+		<i class="iw-subTitle">Le {{date}}</i>
+	</div>
+	<div class="iw-content">
+		{{description}}
+		<br/>
+		<br/>
+		<div class="iw-footer" *ngIf="isTherePictures">
+			<a href="{{firstPictureUrl}}" data-lightbox="image" data-title="{{firstPictureCaption}}">Voir les photos</a>
+		</div>
+		<div [innerHTML]="pictures"></div>
+	</div>
+	<div class="iw-bottom-gradient"></div>
+</div>
+

@@ -1,10 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 
 import { ItineraryStep } from '../../../model/itinerary-step';
 import { Picture } from '../../../model/picture';
 import { Stop } from '../../../model/stop';
 import { ItineraryService } from '../../../service/itinerary.service';
+import { IInfoWindowComponent } from '../i-info-window/i-info-window.component';
 import { environment } from '../../../../environments/environment';
 
 declare var google: any;
@@ -17,20 +18,42 @@ declare var google: any;
 export class MapComponent implements OnInit {
 	multiple: boolean = false;
 	serviceUrl: string;
+
+	@ViewChild('app-i-info-window')
+	infoWindowHTMLTemplate: IInfoWindowComponent;
+
 	map: any = null;
 	infoWindows: Array<any> = [];
 	markers: Array<any> = [];
 
-	flightLineColor: '#8C3432';
-	roadLineColor: '#FF5E5B';
-	waterColor: '#1F5180';
-	landColor: '#D8D8D8';
-	parkColor: '#A4B494';
+	flightLineColor = '#8C3432' // darken(cutColor, 10%);
+	roadLineColor = '#FF5E5B' // Cut Color;
+	waterColor = '#1F5180' // Second Color;
+	landColor = '#D8D8D8' // Font Color;
+	parkColor = '#A4B494';
 
-	infoWindowTemplate: string = '<div id="iw-container"><b class="iw-title">TITLE</b><div class="iw-content"><i class="iw-subTitle">Le DATE</i><br/><br/>DESCRIPTION<br/><br/>PICTURES</div><div class="iw-bottom-gradient"></div></div>'
-	infoWindowImgTemplate: string = '<li style="list-style:none;display: inline-block;margin-right: 5px;"><a href="URL1" data-lightbox="image" data-title="CAPTION1"><img class="ui bordered small image" src="URL2" alt="CAPTION2" title="CAPTION3" width="95px" height="95px"/></a></li>';
+	infoWindowTemplate: string = '';
+	infoWindowImgTemplate: string = '';
 
-	constructor(private mapsAPILoader: MapsAPILoader, private itineraryService: ItineraryService) { }
+	constructor(private mapsAPILoader: MapsAPILoader, private itineraryService: ItineraryService) {
+		this.infoWindowTemplate += '<div id="iw-container">';
+		this.infoWindowTemplate += '<div class="main-img-container">';
+		this.infoWindowTemplate += '<img src="MAINPICTURE" alt=""/>';
+		this.infoWindowTemplate += '</div>';
+		this.infoWindowTemplate += '<div class="iw-title">TITLE<br/><i class="iw-subTitle">Le DATE</i></div>';
+		this.infoWindowTemplate += '<div class="iw-content">';
+		this.infoWindowTemplate += 'DESCRIPTION<br/><br/>';
+		this.infoWindowTemplate += 'PICTURES';
+		this.infoWindowTemplate += '</div>';
+		this.infoWindowTemplate += '<div class="iw-bottom-gradient"></div>';
+		this.infoWindowTemplate += '</div>';
+
+		this.infoWindowImgTemplate += '<li>';
+		this.infoWindowImgTemplate += '<a href="URL1" data-lightbox="image" data-title="CAPTION1">';
+		this.infoWindowImgTemplate += '<img class="ui bordered small image" src="URL2" alt="CAPTION2" title="CAPTION3"/>';
+		this.infoWindowImgTemplate += '</a>';
+		this.infoWindowImgTemplate += '</li>';
+	}
 
 	ngOnInit() {
 		this.serviceUrl = environment.apiUrl;
@@ -55,12 +78,12 @@ export class MapComponent implements OnInit {
 						zoom: 3,
 						center: { lat: origin.latitude, lng: origin.longitude },
 						styles: [
-							{ 'featureType': 'road', 								'stylers': [{ 'visibility': 'off' }] },
-							{ 'featureType': 'water', 								'stylers': [{ 'color': this.waterColor }] },
-							{ 'featureType': 'transit', 							'stylers': [{ 'visibility': 'off' }] },
-							{ 'featureType': 'landscape.natural', 					'stylers': [{ 'visibility': 'on' }, { 'color': this.landColor }]},
-							{ 'featureType': 'administrative.province', 			'stylers': [{ 'visibility': 'off' }] },
-							{ 'featureType': 'poi.park', 'elementType': 'geometry', 'stylers': [{ 'color': this.parkColor }] },
+							{ 'featureType': 'road', 'stylers': [{ 'visibility': 'off' }] },
+							{ 'featureType': 'water', 'stylers': [{ 'color': that.waterColor }] },
+							{ 'featureType': 'transit', 'stylers': [{ 'visibility': 'off' }] },
+							{ 'featureType': 'landscape.natural', 'stylers': [{ 'visibility': 'on' }, { 'color': that.landColor }] },
+							{ 'featureType': 'administrative.province', 'stylers': [{ 'visibility': 'off' }] },
+							{ 'featureType': 'poi.park', 'elementType': 'geometry', 'stylers': [{ 'color': that.parkColor }] },
 							{ 'featureType': 'administrative.country', 'elementType': 'geometry.stroke', 'stylers': [{ 'visibility': 'on' }, { 'color': '#7f7d7a' }, { 'lightness': 10 }, { 'weight': 1 }] }
 						]
 					});
@@ -151,32 +174,6 @@ export class MapComponent implements OnInit {
 					that.updateDirections(origin, destination, waypoints, iconMarkerIndex);
 				}, 500);
 			}
-		});
-	}
-
-	createInfoWindowForStop(pictures: Array<Picture>, origin: Stop) {
-		this.mapsAPILoader.load().then(() => {
-			let content = this.infoWindowTemplate
-				.replace('TITLE', origin.city)
-				.replace('DESCRIPTION', origin.description)
-				.replace('DATE', origin.date.split('T')[0]);
-
-			let that = this;
-			let picturesHtml = '<ul style="padding: 0;">';
-			pictures.forEach(function (element) {
-				picturesHtml += that.infoWindowImgTemplate
-					.replace('URL1', that.serviceUrl + '/' + element.url)
-					.replace('URL2', that.serviceUrl + '/' + element.url)
-					.replace('CAPTION1', element.caption)
-					.replace('CAPTION3', element.caption)
-					.replace('CAPTION2', element.caption);
-			});
-			picturesHtml += '</ul>';
-			content = content.replace('PICTURES', picturesHtml);
-
-			let marker = this.createMarker({ lat: origin.lat, lng: origin.lng }, this.map, origin.city, true, null);
-
-			this.attachClickEvent(marker, { lat: origin.lat, lng: origin.lng }, content);
 		});
 	}
 
@@ -374,29 +371,50 @@ export class MapComponent implements OnInit {
 		return combinedResults;
 	}
 
-	private createInfoWindowForStep(pictures: Array<Picture>, origin: ItineraryStep, markerIndex) {
-		let content = this.infoWindowTemplate
-			.replace('TITLE', origin.city)
-			.replace('DESCRIPTION', origin.description)
-			.replace('DATE', origin.date.split('T')[0]);
+	createInfoWindowForStop(pictures: Array<Picture>, origin: Stop) {
+		this.createInfoWindow(pictures, origin.city, origin.description, origin.date, origin.lat, origin.lng, null);
+	}
 
-		let that = this;
-		let picturesHtml = '<ul style="padding: 0;">';
+	createInfoWindowForStep(pictures: Array<Picture>, origin: ItineraryStep, markerIndex) {
+		this.createInfoWindow(pictures, origin.city, origin.description, origin.date, origin.lat, origin.lng, markerIndex);
+	}
 
-		pictures.forEach(function (element) {
-			picturesHtml += that.infoWindowImgTemplate
-				.replace('URL1', that.serviceUrl + '/' + element.url)
-				.replace('URL2', that.serviceUrl + '/' + element.url)
-				.replace('CAPTION1', element.caption)
-				.replace('CAPTION3', element.caption)
-				.replace('CAPTION2', element.caption);
+	private createInfoWindow(pictures: Array<Picture>, city, description, date, lat, lng, markerIndex) {
+		this.mapsAPILoader.load().then(() => {
+			let content = this.infoWindowTemplate
+				.replace('TITLE', city)
+				.replace('DESCRIPTION', description)
+				.replace('MAINPICTURE', pictures == null || pictures.length === 0 ? '/assets/images/default.png' : this.serviceUrl + '/' + pictures[0].url)
+				.replace('DATE', date.split('T')[0]);
+
+			let picturesHtml = '';
+
+			if (pictures != null && pictures.length > 0) {
+				picturesHtml += '<div class="iw-footer"><a href="URL1" data-lightbox="image" data-title="CAPTION1">Voir les photos</a></div>';
+				picturesHtml = picturesHtml.replace('URL1', this.serviceUrl + '/' + pictures[0].url).replace('CAPTION1', pictures[0].caption)
+			}
+
+			let that = this;
+
+			picturesHtml += '<ul style="padding: 0;">';
+
+			pictures.forEach(function (element) {
+				if (element.url !== pictures[0].url) {
+					picturesHtml += that.infoWindowImgTemplate
+						.replace('URL1', that.serviceUrl + '/' + element.url)
+						.replace('URL2', that.serviceUrl + '/' + element.url)
+						.replace('CAPTION1', element.caption)
+						.replace('CAPTION3', element.caption)
+						.replace('CAPTION2', element.caption);
+				}
+			});
+			picturesHtml += '</ul>';
+			content = content.replace('PICTURES', picturesHtml);
+
+			let marker = this.createMarker({ lat: lat, lng: lng }, this.map, city, markerIndex == null ? true : false, markerIndex);
+
+			this.attachClickEvent(marker, { lat: lat, lng: lng }, content);
 		});
-		picturesHtml += '</ul>';
-		content = content.replace('PICTURES', picturesHtml);
-
-		let marker = this.createMarker({ lat: origin.lat, lng: origin.lng }, this.map, origin.city, false, markerIndex);
-
-		this.attachClickEvent(marker, { lat: origin.lat, lng: origin.lng }, content);
 	}
 
 	private createMarker(location: any, map: any, title: string, isStop: boolean = false, markerIndex) {

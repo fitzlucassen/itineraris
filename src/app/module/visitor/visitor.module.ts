@@ -12,6 +12,7 @@ import { MapComponent } from '../../component/visitor/map/map.component';
 import { SearchItineraryPipe } from '../../pipe/search-itinerary.pipe';
 import { SearchMapComponent } from '../../component/visitor/search-map/search-map.component';
 import { WorldMapComponent } from '../../component/visitor/world-map/world-map.component';
+import { IInfoWindowComponent } from '../../component/visitor/i-info-window/i-info-window.component';
 
 import { ShareButtonsModule } from 'ng2-sharebuttons';
 
@@ -33,7 +34,8 @@ import { routing } from '../../routing/visitor.routing';
 		MapComponent,
 		HomeVisitorComponent,
 		SearchMapComponent,
-		WorldMapComponent,		
+		WorldMapComponent,
+		IInfoWindowComponent,
 		SearchItineraryPipe
 	]
 })

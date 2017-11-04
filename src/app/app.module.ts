@@ -31,7 +31,7 @@ import { ShareButtonsModule } from 'ng2-sharebuttons';
 		HttpModule,
 		AgmCoreModule.forRoot({
 			apiKey: 'AIzaSyDR6MQEKvMFKiYTS0uZZTA-YIKe2yRcfng',
-			libraries: ["places"]
+			libraries: ['places']
 		}),
 		MaterialModule,
 		routing

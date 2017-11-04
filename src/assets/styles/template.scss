@@ -1,5 +1,6 @@
 // Reset
 html, body {
+	background: #ffffff;
 	height: 100%;
 	width: 100%;
 	margin: 0;
@@ -23,7 +24,7 @@ h1.big-title{
 	background-color: $mainColor;
 
 	&.gray {
-		background-color: $secondColor;	
+		background-color: $cutColor;	
 	}
 }
 
@@ -144,4 +145,40 @@ md-tab-header {
 		opacity: 1 !important;
 		background-color: rgba(197, 202, 233, .3);
 	}
+
+	.mat-ink-bar{
+		background-color: $mainColor;
+	}
 }
+
+// Manage input styles
+.mat-input-underline .mat-input-ripple{
+	background-color: $mainColor;
+}
+.mat-focused .mat-input-placeholder{
+	color: $mainColor;
+}
+
+.mat-slide-toggle.mat-checked:not(.mat-disabled) {
+	.mat-slide-toggle-thumb{
+		background-color: $cutColor;
+	}
+	.mat-slide-toggle-bar{
+		background-color: lighten($cutColor, 10%);
+	}
+}
+
+.mat-option.mat-selected.mat-primary, .mat-primary .mat-option.mat-selected {
+	color: $mainColor;
+}
+
+.mat-select:focus:not(.mat-select-disabled).mat-primary { 
+	.mat-select-arrow, .mat-select-trigger {
+		color: $mainColor;
+	}
+
+	.mat-select-underline{
+		background-color: $mainColor;
+	}
+}
+
