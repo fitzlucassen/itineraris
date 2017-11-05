@@ -37,6 +37,9 @@ import { routing } from '../../routing/visitor.routing';
 		WorldMapComponent,
 		IInfoWindowComponent,
 		SearchItineraryPipe
+	],
+	entryComponents: [
+		IInfoWindowComponent
 	]
 })
 export class VisitorModule { }
