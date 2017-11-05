@@ -8,16 +8,16 @@
 		<i class="iw-subTitle">Le {{date}}</i>
 	</div>
 	<div class="iw-content">
-		<md-tab-group (selectChange)="toggleIsSumUp()">
-			<md-tab label="Résumé">
+		<mat-tab-group (selectChange)="toggleIsSumUp()">
+			<mat-tab label="Résumé">
 				{{description}}
 				<br/>
 				<br/>
-			</md-tab>
-			<md-tab label="Logistique">
+			</mat-tab>
+			<mat-tab label="Logistique">
 				<p>coucou balbalbla</p>
-			</md-tab>
-		</md-tab-group>
+			</mat-tab>
+		</mat-tab-group>
 
 		<div class="iw-footer" *ngIf="isTherePictures">
 			<a href="{{mainPictureUrl}}" data-lightbox="image" data-title="{{mainPictureCaption}}">Voir les photos</a>

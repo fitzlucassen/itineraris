@@ -1,16 +1,16 @@
-md-input-container {
+mat-input-container {
     width: 43% !important;
 }
 
-textarea, select, md-select {
+textarea, select, mat-select {
     width: 100%;
 }
 
-[md-raised-button] {
+[mat-raised-button] {
     float: right;
 }
 
-md-spinner {
+mat-spinner {
     display: block;
     margin: auto;
     width: 40px;

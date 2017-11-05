@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone, OnChanges, SimpleChanges } from '@angular/core';
-import { MdSnackBar, MdDialog, MdDialogRef, MaterialModule } from '@angular/material';
+import { MatSnackBar, MatDialog, MatDialogRef } from '@angular/material';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 import { MapsAPILoader } from '@agm/core';
@@ -12,7 +12,7 @@ declare var google: any;
 	selector: 'itinerary-dialog',
 	templateUrl: './itinerary-dialog.component.html',
 	styleUrls: ['./itinerary-dialog.component.scss'],
-	providers: [MdDialog, ItineraryService]
+	providers: [MatDialog, ItineraryService]
 })
 export class ItineraryDialogComponent implements OnInit {
 	newItinerary: Itinerary = new Itinerary();
@@ -31,9 +31,9 @@ export class ItineraryDialogComponent implements OnInit {
 	constructor(
 		private mapsAPILoader: MapsAPILoader,
 		private ngZone: NgZone,
-		public snackBar: MdSnackBar,
+		public snackBar: MatSnackBar,
 		private fb: FormBuilder,
-		public dialogRef: MdDialogRef<ItineraryDialogComponent>,
+		public dialogRef: MatDialogRef<ItineraryDialogComponent>,
 		private itineraryService: ItineraryService) {
 		this.name = new FormControl('', [Validators.required, Validators.minLength(3)]);
 		this.country = new FormControl('', [Validators.required]);

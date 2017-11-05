@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { MaterialModule, MdNativeDateModule } from '@angular/material';
+import { MatSlideToggleModule, MatNativeDateModule, MatButtonModule, MatCheckboxModule, MatIconModule, MatToolbarModule, MatSidenavModule, MatListModule, MatCardModule, MatInputModule, MatMenuModule, MatSelectModule, MatSliderModule, MatSnackBarModule, MatFormFieldModule, MatDatepickerModule } from '@angular/material';
 import { AgmCoreModule } from '@agm/core';
 
 import { HomeMembershipComponent } from '../../component/membership/home/home.membership.component';
@@ -49,15 +49,14 @@ import { ShareButtonsModule } from "ng2-sharebuttons";
 		StepDialogComponent,
 		StopDialogComponent,
 		SharingDialogComponent,
-		ItineraryUserDialogComponent,		
+		ItineraryUserDialogComponent,
 	],
 	imports: [
 		ReactiveFormsModule,
 		FormsModule,
 		CommonModule,
 		HttpModule,
-		MaterialModule,
-		MdNativeDateModule,
+		MatSlideToggleModule, MatNativeDateModule, MatButtonModule, MatCheckboxModule, MatIconModule, MatToolbarModule, MatSidenavModule, MatListModule, MatCardModule, MatInputModule, MatMenuModule, MatSelectModule, MatSliderModule, MatSnackBarModule, MatFormFieldModule, MatDatepickerModule,
 		ShareButtonsModule.forRoot(),
 		routing
 	]

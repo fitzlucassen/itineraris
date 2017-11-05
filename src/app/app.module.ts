@@ -5,7 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AgmCoreModule } from '@agm/core';
-import { MaterialModule } from '@angular/material';
 import { RouterModule, Routes } from '@angular/router';
 
 import { UserService } from './service/user.service';
@@ -33,7 +32,6 @@ import { ShareButtonsModule } from 'ng2-sharebuttons';
 			apiKey: 'AIzaSyDR6MQEKvMFKiYTS0uZZTA-YIKe2yRcfng',
 			libraries: ['places']
 		}),
-		MaterialModule,
 		routing
 	],
 	providers: [UserService, AuthGuard, NoAuthGuard],

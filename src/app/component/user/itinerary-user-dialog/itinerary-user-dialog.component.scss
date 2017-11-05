@@ -1,15 +1,15 @@
 @import '../../../../assets/styles/typography';
 @import '../../../../assets/styles/variable';
 
-[md-raised-button] {
+[mat-raised-button] {
     float: right;
 }
 
-md-input-container {
+mat-input-container {
     width: 100% !important;
 }
 
-md-spinner {
+mat-spinner {
     display: block;
     margin: auto;
     width: 40px;
@@ -38,8 +38,8 @@ h3 {
     }
 }
 
-md-nav-list{
-    md-icon.mat-list-avatar{
+mat-nav-list{
+    mat-icon.mat-list-avatar{
         color: $mainColor;
     }
 

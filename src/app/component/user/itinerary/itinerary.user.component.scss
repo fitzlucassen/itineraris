@@ -1,7 +1,7 @@
 @import '../../../../assets/styles/typography';
 @import '../../../../assets/styles/variable';
 
-md-sidenav-container {
+mat-sidenav-container {
     height: 100%;
 }
 
@@ -10,7 +10,7 @@ h1.big-title {
     margin-top: 15%;
 }
 
-md-icon {
+mat-icon {
     width: initial !important;
     height: initial !important;
 
@@ -37,7 +37,7 @@ md-icon {
     box-sizing: border-box;
     flex-direction: column;
 
-    .md-body-2 {
+    .mat-body-2 {
         font-size: 14px;
         font-weight: 500;
         letter-spacing: .01em;

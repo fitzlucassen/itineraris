@@ -40,7 +40,7 @@
 		transform: translateY(-50%);
 	}
 
-	md-input-container {
+	mat-input-container {
 		width: 80%;
 		height: 60px;
 		font-size: 24px;
@@ -61,7 +61,7 @@
 		height: 60px;
 	}
 
-	[md-mini-fab] i, [md-mini-fab] md-icon {
+	[mat-mini-fab] i, [mat-mini-fab] mat-icon {
 		line-height: 32px;
 	}
 }

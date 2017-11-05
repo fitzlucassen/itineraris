@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { MaterialModule } from '@angular/material';
 import { AgmCoreModule } from '@agm/core';
+import { MatButtonModule, MatCheckboxModule, MatIconModule, MatToolbarModule, MatSidenavModule, MatListModule, MatCardModule, MatInputModule, MatMenuModule, MatSelectModule, MatSliderModule, MatSnackBarModule, MatFormFieldModule, MatDatepickerModule } from '@angular/material';
 
 import { HomeVisitorComponent } from '../../component/visitor/home/home.visitor.component';
 import { UserMapComponent } from '../../component/visitor/user-map/user-map.component';
@@ -25,7 +25,7 @@ import { routing } from '../../routing/visitor.routing';
 		FormsModule,
 		CommonModule,
 		HttpModule,
-		MaterialModule,
+		MatButtonModule, MatCheckboxModule, MatIconModule, MatToolbarModule, MatSidenavModule, MatListModule, MatCardModule, MatInputModule, MatMenuModule, MatSelectModule, MatSliderModule, MatSnackBarModule, MatFormFieldModule, MatDatepickerModule,
 		ShareButtonsModule.forRoot(),
 		routing
 	],

@@ -26,7 +26,7 @@ export class MapComponent implements OnInit {
 	flightLineColor = '#8C3432' // darken(cutColor, 10%);
 	roadLineColor = '#FF5E5B' // Cut Color;
 	waterColor = '#1F5180' // Second Color;
-	landColor = '#D8D8D8' // Font Color;
+	landColor = '#DADADA' // Font Color;
 	parkColor = '#A4B494';
 
 	constructor(private mapsAPILoader: MapsAPILoader, private itineraryService: ItineraryService, private componentFactoryResolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef) {

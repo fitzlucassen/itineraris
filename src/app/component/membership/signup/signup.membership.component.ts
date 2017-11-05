@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 import { User } from '../../../model/user';
@@ -11,7 +11,7 @@ import { UserService } from '../../../service/user.service';
 	selector: 'app-membership-signup',
 	templateUrl: './signup.membership.component.html',
 	styleUrls: ['./signup.membership.component.scss'],
-	providers: [UserService, MdSnackBar]
+	providers: [UserService, MatSnackBar]
 })
 export class SignupMembershipComponent implements OnInit {
 	newUser: User = new User();
@@ -22,7 +22,7 @@ export class SignupMembershipComponent implements OnInit {
 	password: FormControl;
 	form: FormGroup;
 
-	constructor(public snackBar: MdSnackBar, private fb: FormBuilder, private userService: UserService, private router: Router, private metaService: Meta, private titleService: Title) {
+	constructor(public snackBar: MatSnackBar, private fb: FormBuilder, private userService: UserService, private router: Router, private metaService: Meta, private titleService: Title) {
 		this.titleService.setTitle('Itineraris - Inscription');
 		this.metaService.updateTag({content: 'Itineraris - Inscription'}, 'name="og:title"');
 		this.metaService.updateTag({content: 'Inscrivez-vous afin de créer vos itinéraires de voyages'}, 'name="description"');
