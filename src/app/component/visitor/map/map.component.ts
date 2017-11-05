@@ -16,10 +16,11 @@ declare var google: any;
 	styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit {
+	isSumUp: boolean = false;
 	multiple: boolean = false;
 	serviceUrl: string;
 
-	@ViewChild('app-i-info-window')
+	@ViewChild(IInfoWindowComponent)
 	infoWindowHTMLTemplate: IInfoWindowComponent;
 
 	map: any = null;
@@ -32,22 +33,10 @@ export class MapComponent implements OnInit {
 	landColor = '#D8D8D8' // Font Color;
 	parkColor = '#A4B494';
 
-	infoWindowTemplate: string = '';
 	infoWindowImgTemplate: string = '';
+	infoWindowSeeImgTemplate: string = '<a href="firstPictureUrl" data-lightbox="image" data-title="firstPictureCaption">Voir les photos</a>';
 
 	constructor(private mapsAPILoader: MapsAPILoader, private itineraryService: ItineraryService) {
-		this.infoWindowTemplate += '<div id="iw-container">';
-		this.infoWindowTemplate += '<div class="main-img-container">';
-		this.infoWindowTemplate += '<img src="MAINPICTURE" alt=""/>';
-		this.infoWindowTemplate += '</div>';
-		this.infoWindowTemplate += '<div class="iw-title">TITLE<br/><i class="iw-subTitle">Le DATE</i></div>';
-		this.infoWindowTemplate += '<div class="iw-content">';
-		this.infoWindowTemplate += 'DESCRIPTION<br/><br/>';
-		this.infoWindowTemplate += 'PICTURES';
-		this.infoWindowTemplate += '</div>';
-		this.infoWindowTemplate += '<div class="iw-bottom-gradient"></div>';
-		this.infoWindowTemplate += '</div>';
-
 		this.infoWindowImgTemplate += '<li>';
 		this.infoWindowImgTemplate += '<a href="URL1" data-lightbox="image" data-title="CAPTION1">';
 		this.infoWindowImgTemplate += '<img class="ui bordered small image" src="URL2" alt="CAPTION2" title="CAPTION3"/>';
@@ -57,6 +46,10 @@ export class MapComponent implements OnInit {
 
 	ngOnInit() {
 		this.serviceUrl = environment.apiUrl;
+	}
+
+	toggleIsSumUp() {
+		this.isSumUp = !this.isSumUp;
 	}
 
 	updateDirections(origin, destination, waypoints, markerIndex = 0) {
@@ -381,22 +374,25 @@ export class MapComponent implements OnInit {
 
 	private createInfoWindow(pictures: Array<Picture>, city, description, date, lat, lng, markerIndex) {
 		this.mapsAPILoader.load().then(() => {
-			let content = this.infoWindowTemplate
-				.replace('TITLE', city)
-				.replace('DESCRIPTION', description)
-				.replace('MAINPICTURE', pictures == null || pictures.length === 0 ? '/assets/images/default.png' : this.serviceUrl + '/' + pictures[0].url)
-				.replace('DATE', date.split('T')[0]);
+			let infoWindowTemplate = this.infoWindowHTMLTemplate.getHtmlContent();
 
-			let picturesHtml = '';
+			let content = infoWindowTemplate
+				.replace('eventToPut', '(selectChange)="toggleIsSumUp()"')
+				.replace('city', city)
+				.replace('description', description)
+				.replace('mainPicture', pictures == null || pictures.length === 0 ? '/assets/images/default.png' : this.serviceUrl + '/' + pictures[0].url)
+				.replace('date', date.split('T')[0]);
 
 			if (pictures != null && pictures.length > 0) {
-				picturesHtml += '<div class="iw-footer"><a href="URL1" data-lightbox="image" data-title="CAPTION1">Voir les photos</a></div>';
-				picturesHtml = picturesHtml.replace('URL1', this.serviceUrl + '/' + pictures[0].url).replace('CAPTION1', pictures[0].caption)
+				content = content.replace('seePicturesLink', this.infoWindowSeeImgTemplate);
+				content = content.replace('firstPictureUrl', this.serviceUrl + '/' + pictures[0].url).replace('firstPictureCaption', pictures[0].caption)
+			} else {
+				content = content.replace('seePicturesLink', '');
 			}
 
 			let that = this;
 
-			picturesHtml += '<ul style="padding: 0;">';
+			let picturesHtml = '<ul style="padding: 0;">';
 
 			pictures.forEach(function (element) {
 				if (element.url !== pictures[0].url) {
@@ -409,7 +405,7 @@ export class MapComponent implements OnInit {
 				}
 			});
 			picturesHtml += '</ul>';
-			content = content.replace('PICTURES', picturesHtml);
+			content = content.replace('pictures', picturesHtml);
 
 			let marker = this.createMarker({ lat: lat, lng: lng }, this.map, city, markerIndex == null ? true : false, markerIndex);
 
