@@ -7,11 +7,11 @@
 				<mat-hint *ngIf="!city.untouched && !city.valid && city.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">2 caractères minimum</mat-hint>
 			</mat-input-container>
 			<mat-input-container>
-				<input matInput type="text" [matDatepicker]="myDatepicker" class="big-form" placeholder="Date de l'étape" formControlName="date" [(ngModel)]="newStep.date" required flex/>
-				<button matSuffix [matDatepickerToggle]="myDatepicker"></button>
+				<input matInput type="text" [matDatepicker]="picker" class="big-form" placeholder="Date de l'étape" formControlName="date" [(ngModel)]="newStep.date" required flex/>
+				<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 				<mat-hint *ngIf="!date.untouched && !date.valid && date.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">date requise</mat-hint>
 			</mat-input-container>
-			<mat-datepicker #myDatepicker touchUi="true"></mat-datepicker>
+			<mat-datepicker #picker></mat-datepicker>
 			<button mat-mini-fab type="button" (click)="getCurrentPosition()" style="margin-right: 0;float:right;">
 				<mat-icon class="">location_searching</mat-icon>
 			</button>
