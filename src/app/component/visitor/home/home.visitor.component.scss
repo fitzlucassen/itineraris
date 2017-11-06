@@ -55,6 +55,10 @@ mat-icon {
     background-color: $secondColor;
 }
 
+.mat-card > form {
+    margin-bottom: 24px;
+}
+
 .list-item-right {
     min-width: 70px;
     text-align: right;
