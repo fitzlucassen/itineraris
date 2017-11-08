@@ -12,16 +12,6 @@ app-root .tempDiv {
 	text-align: center;
 }
 
-app-membership-home, app-membership-signup {
-	position: relative;
-	top: 50%;
-	width: 60%;
-	margin: auto;
-	display: block;
-
-	transform: translateY(-50%);
-}
-
 .mat-overlay-pane {
 	width: 600px;
 }

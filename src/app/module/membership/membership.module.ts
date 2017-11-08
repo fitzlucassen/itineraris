@@ -14,7 +14,7 @@ import { StepDialogComponent } from '../../component/user/step-dialog/step-dialo
 import { StopDialogComponent } from '../../component/user/stop-dialog/stop-dialog.component';
 import { UploadFileComponent } from '../../component/upload-file/upload-file.component';
 import { ItineraryUserComponent } from '../../component/user/itinerary/itinerary.user.component';
-import { SharingDialogComponent } from '../../component/user/sharing-dialog/sharing-dialog.component';
+import { SharingDialogComponent } from '../../component/sharing-dialog/sharing-dialog.component';
 import { ItineraryUserDialogComponent } from '../../component/user/itinerary-user-dialog/itinerary-user-dialog.component';
 
 import { SearchPipe } from '../../pipe/search.pipe';

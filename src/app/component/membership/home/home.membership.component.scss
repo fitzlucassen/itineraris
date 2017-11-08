@@ -1,6 +1,22 @@
 @import '../../../../assets/styles/typography';
 @import '../../../../assets/styles/variable';
 
+.mat-padding {
+    width: 90%;
+    text-align: center;
+    margin: 2.5% auto;
+}
+
+mat-sidenav-container {
+    height: calc(100% - 64px);
+    padding-bottom: 5%;
+}
+
+mat-icon {
+    width: initial !important;
+    height: initial !important;
+}
+
 #membership-container .c3{
 	display: inline-block;
 	vertical-align: middle;

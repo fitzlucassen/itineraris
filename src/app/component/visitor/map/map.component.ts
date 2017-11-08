@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ComponentFactoryResolver, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, Input, ComponentFactoryResolver, ViewContainerRef, ComponentRef } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 
 import { ItineraryStep } from '../../../model/itinerary-step';
@@ -382,12 +382,13 @@ export class MapComponent implements OnInit {
 		google.maps.event.addListener(marker, 'click', function (e) {
 			let infoWindow = that.createComponent();
 
-			infoWindow.create(location.lat, location.lng, city, date, description, pictures);
-			that.infoWindows.push(infoWindow);
+			infoWindow.instance.create(location.lat, location.lng, city, 'Le ' + date, description, pictures);
+			that.infoWindows.push(infoWindow.instance);
 
 			that.infoWindows.forEach(element => { element.close(); });
 
-			infoWindow.open(that.map, marker);
+			infoWindow.instance.open(that.map, marker);
+			infoWindow.changeDetectorRef.detectChanges();
 
 			let preElement: any = document.getElementsByClassName('gm-style-iw')[0].previousElementSibling;
 			let nextElement: any = document.getElementsByClassName('gm-style-iw')[0].nextElementSibling;
@@ -398,11 +399,11 @@ export class MapComponent implements OnInit {
 		});
 	}
 
-	private createComponent(): IInfoWindowComponent {
+	private createComponent(): ComponentRef<IInfoWindowComponent> {
 		const factory = this.componentFactoryResolver.resolveComponentFactory(IInfoWindowComponent);
 		const ref = this.viewContainerRef.createComponent(factory);
 		ref.changeDetectorRef.detectChanges();
 
-		return ref.instance;
+		return ref;
 	}
 }

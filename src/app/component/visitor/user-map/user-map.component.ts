@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, NgZone, Renderer } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
+import { MatDialogRef, MatDialog } from '@angular/material';
 
 import { UserService } from '../../../service/user.service';
 import { ItineraryService } from '../../../service/itinerary.service';
@@ -9,8 +10,7 @@ import { Stop } from '../../../model/stop';
 import { Itinerary } from '../../../model/itinerary';
 import { ItineraryStep } from '../../../model/itinerary-step';
 import { MapComponent } from '../map/map.component';
-
-import { ShareButtonsModule } from 'ng2-sharebuttons';
+import { SharingDialogComponent } from '../../sharing-dialog/sharing-dialog.component';
 
 @Component({
 	selector: 'app-user-map',
@@ -31,10 +31,13 @@ export class UserMapComponent implements OnInit, OnDestroy {
 	currentTitle: string = 'Itinéraire de voyage';
 	currentDescription: string = 'Voici l\'itinéraire de voyage';
 
+	sharingRef: MatDialogRef<SharingDialogComponent>;
+
 	@ViewChild(MapComponent) public map: MapComponent;
 	@ViewChild('toAppend') public sidenav: ElementRef;
 
 	constructor(
+		public itineraryDialog: MatDialog, 
 		public route: ActivatedRoute,
 		private userService: UserService,
 		private itineraryService: ItineraryService,
@@ -90,8 +93,17 @@ export class UserMapComponent implements OnInit, OnDestroy {
 		delete window['FB'];
 	}
 
-	sumCounts(count) {
-		this.totalShare += count;
+	openSharingPopup() {
+		this.sharingRef = this.itineraryDialog.open(SharingDialogComponent, {
+			disableClose: false,
+		});
+
+		let userName = this.title;
+		let country = this.itinerary.country;
+
+		this.sharingRef.componentInstance.sharingUrl = this.currentUrl;
+		this.sharingRef.componentInstance.sharingTitle = 'Itinéraire de voyage de ' + userName + ' - ' + country;
+		this.sharingRef.componentInstance.sharingDescription = 'Voici l\'itinéraire de voyage de ' + userName + ' - ' + country + ' - Restez en contact avec lui et laissez lui un message !';
 	}
 
 	private assignItinerary(result: Itinerary) {

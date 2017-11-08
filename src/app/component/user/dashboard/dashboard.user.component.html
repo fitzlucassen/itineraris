@@ -82,8 +82,8 @@
 			<mat-nav-list flex>
 				<mat-list-item class="mat-2-line" *ngFor="let itinerary of itineraries | SearchPipe : search" role="link">
 					<mat-icon mat-list-avatar>airplanemode_active</mat-icon>
-					<a mat-line href="/compte/itinéraire/{{itinerary.id}}/{{replaceAll(itinerary.name.toLowerCase(), ' ', '-')}}"><b>{{itinerary.name}}</b></a>
-					<a mat-line href="/compte/itinéraire/{{itinerary.id}}/{{replaceAll(itinerary.name.toLowerCase(), ' ', '-')}}">{{itinerary.description}}</a>
+					<a mat-line href="/compte/itinéraire/{{itinerary.id}}/{{sanitize(itinerary.name)}}"><b>{{itinerary.name}}</b></a>
+					<a mat-line href="/compte/itinéraire/{{itinerary.id}}/{{sanitize(itinerary.name)}}">{{itinerary.description}}</a>
 
 					<div>
 						<mat-icon class="little-icon" (click)="editItinerary(itinerary.id)">mode_edit</mat-icon>

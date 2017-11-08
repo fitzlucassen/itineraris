@@ -59,6 +59,12 @@ mat-icon {
     margin-bottom: 24px;
 }
 
+mat-list-item {
+    a i span {
+        color: $cutColor;
+    }
+}
+
 .list-item-right {
     min-width: 70px;
     text-align: right;

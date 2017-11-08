@@ -1,4 +1,5 @@
-import { Component, OnInit, ElementRef, ViewChild, Injectable } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Injectable, AfterViewChecked } from '@angular/core';
+import { MatTabGroup, MatTabChangeEvent } from '@angular/material';
 
 import { Picture } from '../../../model/picture';
 import { environment } from '../../../../environments/environment';
@@ -10,7 +11,7 @@ declare var google: any;
 	templateUrl: './i-info-window.component.html',
 	styleUrls: ['./i-info-window.component.scss']
 })
-export class IInfoWindowComponent implements OnInit {
+export class IInfoWindowComponent implements OnInit, AfterViewChecked {
 	title: string = '';
 	date: string = '';
 	description: string = '';
@@ -21,10 +22,12 @@ export class IInfoWindowComponent implements OnInit {
 
 	isTherePictures: boolean = false;
 	serviceUrl: string;
-	isSumUp: boolean = true;
 
 	mainContainer: ElementRef;
 
+	@ViewChild(MatTabGroup)
+	tabGroup: MatTabGroup;
+	
 	lat: number;
 	lng: number;
 	infoWindow: any;
@@ -60,8 +63,7 @@ export class IInfoWindowComponent implements OnInit {
 		this.serviceUrl = environment.apiUrl;
 	}
 
-	toggleIsSumUp() {
-		this.isSumUp = !this.isSumUp;
+	ngAfterViewChecked(): void {
 	}
 
 	open(map: any, marker: any) {

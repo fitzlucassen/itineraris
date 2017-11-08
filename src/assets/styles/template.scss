@@ -21,10 +21,10 @@ h1.big-title{
 
 // Buttons
 .mat-mini-fab {
-	background-color: $mainColor;
+	background-color: $mainColor !important;
 
 	&.gray {
-		background-color: $cutColor;	
+		background-color: $cutColor !important;	
 	}
 }
 

@@ -5,19 +5,12 @@
 	<div class="iw-title">
 		{{title}}
 		<br/>
-		<i class="iw-subTitle">Le {{date}}</i>
+		<i class="iw-subTitle">{{date}}</i>
 	</div>
 	<div class="iw-content">
-		<mat-tab-group (selectChange)="toggleIsSumUp()">
-			<mat-tab label="Résumé">
-				{{description}}
-				<br/>
-				<br/>
-			</mat-tab>
-			<mat-tab label="Logistique">
-				<p>coucou balbalbla</p>
-			</mat-tab>
-		</mat-tab-group>
+		<div [innerHTML]="description">
+		</div>
+		<br/>
 
 		<div class="iw-footer" *ngIf="isTherePictures">
 			<a href="{{mainPictureUrl}}" data-lightbox="image" data-title="{{mainPictureCaption}}">Voir les photos</a>

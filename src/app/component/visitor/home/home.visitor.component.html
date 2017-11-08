@@ -35,8 +35,8 @@
 					<mat-nav-list flex>
 						<mat-list-item class="mat-2-line" *ngFor="let itinerary of itineraries | SearchItineraryPipe: searchText" role="link">
 							<mat-icon mat-list-avatar>airplanemode_active</mat-icon>
-							<a mat-line href="/visiteur/{{replaceAll(itinerary.users[0].name.toLowerCase(), ' ', '-')}}/{{itinerary.id}}/{{replaceAll(itinerary.name.toLowerCase(), ' ', '-')}}"><b>{{itinerary.name}} <i>- {{itinerary.country}}</i></b></a>
-							<a mat-line href="/visiteur/{{replaceAll(itinerary.users[0].name.toLowerCase(), ' ', '-')}}/{{itinerary.id}}/{{replaceAll(itinerary.name.toLowerCase(), ' ', '-')}}">{{itinerary.date.substr(0, itinerary.date.indexOf('T'))}}</a>
+							<a mat-line href="/visiteur/{{sanitize(itinerary.users[0].name)}}/{{itinerary.id}}/{{sanitize(itinerary.name)}}"><b>{{itinerary.name}} <i>- <span>{{itinerary.country}}</span></i></b></a>
+							<a mat-line href="/visiteur/{{sanitize(itinerary.users[0].name)}}/{{itinerary.id}}/{{sanitize(itinerary.name)}}">{{itinerary.date.substr(0, itinerary.date.indexOf('T'))}}</a>
 
 							<div class="list-item-right">
 								<span style="display:inline-block;">{{itinerary.likes}}</span>
