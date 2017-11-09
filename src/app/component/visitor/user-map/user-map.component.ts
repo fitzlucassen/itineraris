@@ -10,7 +10,7 @@ import { Stop } from '../../../model/stop';
 import { Itinerary } from '../../../model/itinerary';
 import { ItineraryStep } from '../../../model/itinerary-step';
 import { MapComponent } from '../map/map.component';
-import { SharingDialogComponent } from '../../sharing-dialog/sharing-dialog.component';
+import { SharingDialogComponent } from '../../common/sharing-dialog/sharing-dialog.component';
 
 @Component({
 	selector: 'app-user-map',

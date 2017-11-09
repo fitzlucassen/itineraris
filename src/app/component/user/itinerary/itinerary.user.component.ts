@@ -11,7 +11,7 @@ import { ItineraryService } from '../../../service/itinerary.service';
 import { UserService } from '../../../service/user.service';
 import { StepDialogComponent } from '../step-dialog/step-dialog.component';
 import { StopDialogComponent } from '../stop-dialog/stop-dialog.component';
-import { SharingDialogComponent } from '../../sharing-dialog/sharing-dialog.component';
+import { SharingDialogComponent } from '../../common/sharing-dialog/sharing-dialog.component';
 import { ItineraryUserDialogComponent } from '../itinerary-user-dialog/itinerary-user-dialog.component';
 
 import { environment } from '../../../../environments/environment';

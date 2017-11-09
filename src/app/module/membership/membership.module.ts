@@ -12,9 +12,9 @@ import { DashboardUserComponent } from '../../component/user/dashboard/dashboard
 import { ItineraryDialogComponent } from '../../component/user/itinerary-dialog/itinerary-dialog.component';
 import { StepDialogComponent } from '../../component/user/step-dialog/step-dialog.component';
 import { StopDialogComponent } from '../../component/user/stop-dialog/stop-dialog.component';
-import { UploadFileComponent } from '../../component/upload-file/upload-file.component';
+import { UploadFileComponent } from '../../component/common/upload-file/upload-file.component';
 import { ItineraryUserComponent } from '../../component/user/itinerary/itinerary.user.component';
-import { SharingDialogComponent } from '../../component/sharing-dialog/sharing-dialog.component';
+import { SharingDialogComponent } from '../../component/common/sharing-dialog/sharing-dialog.component';
 import { ItineraryUserDialogComponent } from '../../component/user/itinerary-user-dialog/itinerary-user-dialog.component';
 
 import { SearchPipe } from '../../pipe/search.pipe';

@@ -24,13 +24,12 @@
 			</mat-list-item>
 
 			<mat-divider></mat-divider>
-		</mat-nav-list>
 
-		<h2>Partagez les voyages de <span>{{title}}</span></h2>
-		<share-buttons class="withCount" [url]="currentUrl" [title]="currentTitle" [description]="currentDescription" [whatsApp]="false"
-		 [reddit]="false" [stumbleUpOn]="false" [tumblr]="false" [pinterest]="false" [showCount]="true" (count)="sumCounts($event)"></share-buttons>
+			<mat-list-item>
+                <mat-icon mat-list-avatar>share</mat-icon>
+                <a mat-line (click)="openSharingPopup()">Partager</a>
+            </mat-list-item>
 
-		<mat-nav-list>
 			<mat-divider></mat-divider>
 		</mat-nav-list>
 		<br/>

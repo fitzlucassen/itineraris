@@ -6,7 +6,7 @@ import { MapsAPILoader } from '@agm/core';
 import { ItineraryStep } from '../../../model/itinerary-step';
 import { ItineraryService } from '../../../service/itinerary.service';
 import { MapsService } from '../../../service/maps.service';
-import { UploadFileComponent } from '../../upload-file/upload-file.component';
+import { UploadFileComponent } from '../../common/upload-file/upload-file.component';
 import { Picture } from '../../../model/picture';
 
 declare var google: any;

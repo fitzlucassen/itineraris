@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { MatSnackBar, MatDialogRef } from '@angular/material';
 import { MapsAPILoader } from '@agm/core';
 
-import { UploadFileComponent } from '../../upload-file/upload-file.component';
+import { UploadFileComponent } from '../../common/upload-file/upload-file.component';
 import { ItineraryService } from '../../../service/itinerary.service';
 
 import { Picture } from '../../../model/picture';
