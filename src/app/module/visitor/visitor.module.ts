@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { MaterialModule } from '@angular/material';
 import { AgmCoreModule } from '@agm/core';
+import { MatTabsModule, MatButtonModule, MatCheckboxModule, MatIconModule, MatToolbarModule, MatSidenavModule, MatListModule, MatCardModule, MatInputModule, MatMenuModule, MatSelectModule, MatSliderModule, MatSnackBarModule, MatFormFieldModule, MatDatepickerModule } from '@angular/material';
 
 import { HomeVisitorComponent } from '../../component/visitor/home/home.visitor.component';
 import { UserMapComponent } from '../../component/visitor/user-map/user-map.component';
@@ -13,8 +13,6 @@ import { SearchItineraryPipe } from '../../pipe/search-itinerary.pipe';
 import { SearchMapComponent } from '../../component/visitor/search-map/search-map.component';
 import { WorldMapComponent } from '../../component/visitor/world-map/world-map.component';
 import { IInfoWindowComponent } from '../../component/visitor/i-info-window/i-info-window.component';
-
-import { ShareButtonsModule } from 'ng2-sharebuttons';
 
 import { routing } from '../../routing/visitor.routing';
 
@@ -25,8 +23,7 @@ import { routing } from '../../routing/visitor.routing';
 		FormsModule,
 		CommonModule,
 		HttpModule,
-		MaterialModule,
-		ShareButtonsModule.forRoot(),
+		MatTabsModule, MatButtonModule, MatCheckboxModule, MatIconModule, MatToolbarModule, MatSidenavModule, MatListModule, MatCardModule, MatInputModule, MatMenuModule, MatSelectModule, MatSliderModule, MatSnackBarModule, MatFormFieldModule, MatDatepickerModule,
 		routing
 	],
 	declarations: [
@@ -37,6 +34,9 @@ import { routing } from '../../routing/visitor.routing';
 		WorldMapComponent,
 		IInfoWindowComponent,
 		SearchItineraryPipe
+	],
+	entryComponents: [
+		IInfoWindowComponent
 	]
 })
 export class VisitorModule { }

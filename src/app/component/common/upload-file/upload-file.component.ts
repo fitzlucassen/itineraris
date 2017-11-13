@@ -1,8 +1,8 @@
 import { Component, OnInit, OnChanges, ViewChild, ElementRef, Input } from '@angular/core';
 
-import { ItineraryService } from '../../service/itinerary.service';
-import { environment } from '../../../environments/environment';
-import { Picture } from '../../model/picture';
+import { ItineraryService } from '../../../service/itinerary.service';
+import { environment } from '../../../../environments/environment';
+import { Picture } from '../../../model/picture';
 
 @Component({
 	selector: 'app-upload-file',

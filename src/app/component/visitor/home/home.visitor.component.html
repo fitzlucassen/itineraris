@@ -1,58 +1,58 @@
-<md-toolbar color="primary">
-	<button md-icon-button (click)="start.toggle()">
-        <md-icon>menu</md-icon>
+<mat-toolbar color="primary">
+	<button mat-icon-button (click)="start.toggle()">
+        <mat-icon>menu</mat-icon>
     </button> &nbsp; &nbsp;
 	<span>Rechercher un itinéraire</span>
-</md-toolbar>
+</mat-toolbar>
 
-<md-sidenav-container class="left-navigation" [ngStyle]="{'height': screenHeight + 'px'}">
-	<md-sidenav #start mode="side" opened="false">
-		<md-nav-list>
-			<md-list-item>
-				<md-icon md-list-avatar>home</md-icon>
-				<a md-line href="/">Accueil</a>
-			</md-list-item>
-			<md-list-item>
-				<md-icon md-list-avatar>person</md-icon>
-				<a md-line href="/compte/connexion.html">Espace membre</a>
-			</md-list-item>
-		</md-nav-list>
-	</md-sidenav>
+<mat-sidenav-container class="left-navigation" [ngStyle]="{'height': screenHeight + 'px'}">
+	<mat-sidenav #start mode="side" opened="false">
+		<mat-nav-list>
+			<mat-list-item>
+				<mat-icon mat-list-avatar>home</mat-icon>
+				<a mat-line href="/">Accueil</a>
+			</mat-list-item>
+			<mat-list-item>
+				<mat-icon mat-list-avatar>person</mat-icon>
+				<a mat-line href="/compte/connexion.html">Espace membre</a>
+			</mat-list-item>
+		</mat-nav-list>
+	</mat-sidenav>
 
-	<div class="md-padding">
+	<div class="mat-padding">
 		<h2>Vous cherchez l'<span>itinéraire d'un proche</span> ?<br/>Vous souhaitez vous inspirer d'un <span>itinéraire existant</span>			? C'est ici !</h2>
 
-		<md-tab-group (selectChange)="toggleIsMap()">
-			<md-tab label="Liste">
-				<md-card style="text-align: left;">
+		<mat-tab-group (selectChange)="toggleIsMap()">
+			<mat-tab label="Liste">
+				<mat-card style="text-align: left;">
 					<form name="userForm" [formGroup]="form">
-						<md-input-container>
-							<input #search mdInput type="text" class="big-form" placeholder="Nom de l'itinéraire, nom de l'utilisateur, pays de l'itinéraire..."
+						<mat-form-field>
+							<input #search matInput type="text" class="big-form" placeholder="Nom de l'itinéraire, nom de l'utilisateur, pays de l'itinéraire..."
 							 formControlName="search" [(ngModel)]="searchText" flex/>
-						</md-input-container>
+						</mat-form-field>
 					</form>
 
-					<md-nav-list flex>
-						<md-list-item class="md-2-line" *ngFor="let itinerary of itineraries | SearchItineraryPipe: searchText" role="link">
-							<md-icon md-list-avatar>airplanemode_active</md-icon>
-							<a md-line href="/visiteur/{{replaceAll(itinerary.users[0].name.toLowerCase(), ' ', '-')}}/{{itinerary.id}}/{{replaceAll(itinerary.name.toLowerCase(), ' ', '-')}}"><b>{{itinerary.name}} <i>- {{itinerary.country}}</i></b></a>
-							<a md-line href="/visiteur/{{replaceAll(itinerary.users[0].name.toLowerCase(), ' ', '-')}}/{{itinerary.id}}/{{replaceAll(itinerary.name.toLowerCase(), ' ', '-')}}">{{itinerary.date.substr(0, itinerary.date.indexOf('T'))}}</a>
+					<mat-nav-list flex>
+						<mat-list-item class="mat-2-line" *ngFor="let itinerary of itineraries | SearchItineraryPipe: searchText" role="link">
+							<mat-icon mat-list-avatar>airplanemode_active</mat-icon>
+							<a mat-line href="/visiteur/{{sanitize(itinerary.users[0].name)}}/{{itinerary.id}}/{{sanitize(itinerary.name)}}"><b>{{itinerary.name}} <i>- <span>{{itinerary.country}}</span></i></b></a>
+							<a mat-line href="/visiteur/{{sanitize(itinerary.users[0].name)}}/{{itinerary.id}}/{{sanitize(itinerary.name)}}">{{itinerary.date.substr(0, itinerary.date.indexOf('T'))}}</a>
 
 							<div class="list-item-right">
 								<span style="display:inline-block;">{{itinerary.likes}}</span>
-								<md-icon class="little-icon" [ngClass]="{'liked': isBlue(itinerary.id)}" style="display:inline-block;vertical-align:bottom;" (click)="like(itinerary.id)">thumb_up</md-icon>
+								<mat-icon class="little-icon" [ngClass]="{'liked': isBlue(itinerary.id)}" style="display:inline-block;vertical-align:bottom;" (click)="like(itinerary.id)">thumb_up</mat-icon>
 							</div>
-						</md-list-item>
-						<md-list-item *ngIf="(itineraries | SearchItineraryPipe: searchText).length === 0">
-							<a md-line href="javascript: void(0);">Aucun résultat...</a>
-						</md-list-item>
-					</md-nav-list>
-				</md-card>
-			</md-tab>
-			<md-tab label="Carte">
+						</mat-list-item>
+						<mat-list-item *ngIf="(itineraries | SearchItineraryPipe: searchText).length === 0">
+							<a mat-line href="javascript: void(0);">Aucun résultat...</a>
+						</mat-list-item>
+					</mat-nav-list>
+				</mat-card>
+			</mat-tab>
+			<mat-tab label="Carte">
 				<search-map [itineraries]="itineraries"></search-map>
-			</md-tab>
-		</md-tab-group>
+			</mat-tab>
+		</mat-tab-group>
 	</div>
 
-</md-sidenav-container>
+</mat-sidenav-container>

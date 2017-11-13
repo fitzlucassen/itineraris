@@ -1,15 +1,15 @@
 @import '../../../../assets/styles/typography';
 @import '../../../../assets/styles/variable';
 
-[md-raised-button] {
+[mat-raised-button] {
     float: right;
 }
 
-md-input-container {
+mat-form-field{
     width: 100% !important;
 }
 
-md-spinner {
+mat-spinner {
     display: block;
     margin: auto;
     width: 40px;

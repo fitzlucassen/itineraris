@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { MdSnackBar, MdDialogRef } from '@angular/material';
+import { MatSnackBar, MatDialogRef } from '@angular/material';
 import { MapsAPILoader } from '@agm/core';
 
-import { UploadFileComponent } from '../../upload-file/upload-file.component';
+import { UploadFileComponent } from '../../common/upload-file/upload-file.component';
 import { ItineraryService } from '../../../service/itinerary.service';
 
 import { Picture } from '../../../model/picture';
@@ -37,9 +37,9 @@ export class StopDialogComponent implements OnInit {
 	constructor(
 		private mapsAPILoader: MapsAPILoader,
 		private ngZone: NgZone,
-		public snackBar: MdSnackBar,
+		public snackBar: MatSnackBar,
 		private fb: FormBuilder,
-		public dialogRef: MdDialogRef<StopDialogComponent>,
+		public dialogRef: MatDialogRef<StopDialogComponent>,
 		private itineraryService: ItineraryService) {
 		this.city = new FormControl('', [Validators.required, Validators.minLength(2)]);
 		this.date = new FormControl('', [Validators.required]);

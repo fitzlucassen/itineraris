@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ComponentFactoryResolver, ViewContainerRef, ComponentRef } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 
 import { ItineraryStep } from '../../../model/itinerary-step';
@@ -16,12 +16,8 @@ declare var google: any;
 	styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit {
-	isSumUp: boolean = false;
 	multiple: boolean = false;
 	serviceUrl: string;
-
-	@ViewChild(IInfoWindowComponent)
-	infoWindowHTMLTemplate: IInfoWindowComponent;
 
 	map: any = null;
 	infoWindows: Array<any> = [];
@@ -30,26 +26,14 @@ export class MapComponent implements OnInit {
 	flightLineColor = '#8C3432' // darken(cutColor, 10%);
 	roadLineColor = '#FF5E5B' // Cut Color;
 	waterColor = '#1F5180' // Second Color;
-	landColor = '#D8D8D8' // Font Color;
+	landColor = '#DADADA' // Font Color;
 	parkColor = '#A4B494';
 
-	infoWindowImgTemplate: string = '';
-	infoWindowSeeImgTemplate: string = '<a href="firstPictureUrl" data-lightbox="image" data-title="firstPictureCaption">Voir les photos</a>';
-
-	constructor(private mapsAPILoader: MapsAPILoader, private itineraryService: ItineraryService) {
-		this.infoWindowImgTemplate += '<li>';
-		this.infoWindowImgTemplate += '<a href="URL1" data-lightbox="image" data-title="CAPTION1">';
-		this.infoWindowImgTemplate += '<img class="ui bordered small image" src="URL2" alt="CAPTION2" title="CAPTION3"/>';
-		this.infoWindowImgTemplate += '</a>';
-		this.infoWindowImgTemplate += '</li>';
+	constructor(private mapsAPILoader: MapsAPILoader, private itineraryService: ItineraryService, private componentFactoryResolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef) {
 	}
 
 	ngOnInit() {
 		this.serviceUrl = environment.apiUrl;
-	}
-
-	toggleIsSumUp() {
-		this.isSumUp = !this.isSumUp;
 	}
 
 	updateDirections(origin, destination, waypoints, markerIndex = 0) {
@@ -374,42 +358,9 @@ export class MapComponent implements OnInit {
 
 	private createInfoWindow(pictures: Array<Picture>, city, description, date, lat, lng, markerIndex) {
 		this.mapsAPILoader.load().then(() => {
-			let infoWindowTemplate = this.infoWindowHTMLTemplate.getHtmlContent();
-
-			let content = infoWindowTemplate
-				.replace('eventToPut', '(selectChange)="toggleIsSumUp()"')
-				.replace('city', city)
-				.replace('description', description)
-				.replace('mainPicture', pictures == null || pictures.length === 0 ? '/assets/images/default.png' : this.serviceUrl + '/' + pictures[0].url)
-				.replace('date', date.split('T')[0]);
-
-			if (pictures != null && pictures.length > 0) {
-				content = content.replace('seePicturesLink', this.infoWindowSeeImgTemplate);
-				content = content.replace('firstPictureUrl', this.serviceUrl + '/' + pictures[0].url).replace('firstPictureCaption', pictures[0].caption)
-			} else {
-				content = content.replace('seePicturesLink', '');
-			}
-
-			let that = this;
-
-			let picturesHtml = '<ul style="padding: 0;">';
-
-			pictures.forEach(function (element) {
-				if (element.url !== pictures[0].url) {
-					picturesHtml += that.infoWindowImgTemplate
-						.replace('URL1', that.serviceUrl + '/' + element.url)
-						.replace('URL2', that.serviceUrl + '/' + element.url)
-						.replace('CAPTION1', element.caption)
-						.replace('CAPTION3', element.caption)
-						.replace('CAPTION2', element.caption);
-				}
-			});
-			picturesHtml += '</ul>';
-			content = content.replace('pictures', picturesHtml);
-
 			let marker = this.createMarker({ lat: lat, lng: lng }, this.map, city, markerIndex == null ? true : false, markerIndex);
 
-			this.attachClickEvent(marker, { lat: lat, lng: lng }, content);
+			this.attachClickEvent(marker, { lat: lat, lng: lng }, city, date, description, pictures);
 		});
 	}
 
@@ -425,19 +376,19 @@ export class MapComponent implements OnInit {
 
 		return marker;
 	}
-	private attachClickEvent(marker: any, location: any, content: string) {
+	private attachClickEvent(marker: any, location: any, city, date, description, pictures) {
 		let that = this;
 
 		google.maps.event.addListener(marker, 'click', function (e) {
-			let infoWindow = new google.maps.InfoWindow({
-				content: content,
-				position: location
-			});
-			that.infoWindows.push(infoWindow);
+			let infoWindow = that.createComponent();
 
-			that.infoWindows.forEach(function (element) { element.close(); });
+			infoWindow.instance.create(location.lat, location.lng, city, 'Le ' + date, description, pictures);
+			that.infoWindows.push(infoWindow.instance);
 
-			infoWindow.open(that.map, marker);
+			that.infoWindows.forEach(element => { element.close(); });
+
+			infoWindow.instance.open(that.map, marker);
+			infoWindow.changeDetectorRef.detectChanges();
 
 			let preElement: any = document.getElementsByClassName('gm-style-iw')[0].previousElementSibling;
 			let nextElement: any = document.getElementsByClassName('gm-style-iw')[0].nextElementSibling;
@@ -446,5 +397,13 @@ export class MapComponent implements OnInit {
 			preElement.children[3].style.display = 'none';
 			nextElement.className = 'iw-close';
 		});
+	}
+
+	private createComponent(): ComponentRef<IInfoWindowComponent> {
+		const factory = this.componentFactoryResolver.resolveComponentFactory(IInfoWindowComponent);
+		const ref = this.viewContainerRef.createComponent(factory);
+		ref.changeDetectorRef.detectChanges();
+
+		return ref;
 	}
 }

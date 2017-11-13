@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MdDialog, MdDialogRef, MdInputDirective } from '@angular/material';
+import { MatDialog, MatDialogRef, MatInput } from '@angular/material';
 import { Meta, Title } from '@angular/platform-browser';
 
 import { Itinerary } from '../../../model/itinerary';
@@ -11,7 +11,7 @@ import { ItineraryService } from '../../../service/itinerary.service';
 import { UserService } from '../../../service/user.service';
 import { StepDialogComponent } from '../step-dialog/step-dialog.component';
 import { StopDialogComponent } from '../stop-dialog/stop-dialog.component';
-import { SharingDialogComponent } from '../sharing-dialog/sharing-dialog.component';
+import { SharingDialogComponent } from '../../common/sharing-dialog/sharing-dialog.component';
 import { ItineraryUserDialogComponent } from '../itinerary-user-dialog/itinerary-user-dialog.component';
 
 import { environment } from '../../../../environments/environment';
@@ -20,7 +20,7 @@ import { environment } from '../../../../environments/environment';
 	selector: 'app-user-itinerary',
 	templateUrl: './itinerary.user.component.html',
 	styleUrls: ['./itinerary.user.component.scss'],
-	providers: [ItineraryService, UserService, MdDialog]
+	providers: [ItineraryService, UserService, MatDialog]
 })
 export class ItineraryUserComponent implements OnInit {
 	currentItinerary: Itinerary;
@@ -28,10 +28,10 @@ export class ItineraryUserComponent implements OnInit {
 	itinerarySteps: Array<ItineraryStep>;
 	itineraryStops: Array<Stop>;
 
-	dialogRef: MdDialogRef<StepDialogComponent>;
-	dialogRefStop: MdDialogRef<StopDialogComponent>;
-	sharingRef: MdDialogRef<SharingDialogComponent>;
-	contributorRef: MdDialogRef<ItineraryUserDialogComponent>;
+	dialogRef: MatDialogRef<StepDialogComponent>;
+	dialogRefStop: MatDialogRef<StopDialogComponent>;
+	sharingRef: MatDialogRef<SharingDialogComponent>;
+	contributorRef: MatDialogRef<ItineraryUserDialogComponent>;
 	showSearch: boolean;
 	isStop: boolean = false;
 	search: string;
@@ -40,9 +40,9 @@ export class ItineraryUserComponent implements OnInit {
 
 	source: any;
 
-	@ViewChild(MdInputDirective) input: any;
+	@ViewChild(MatInput) input: any;
 
-	constructor(public itineraryDialog: MdDialog, public route: ActivatedRoute, private itineraryService: ItineraryService, private userService: UserService, private router: Router, private metaService: Meta, private titleService: Title) {
+	constructor(public itineraryDialog: MatDialog, public route: ActivatedRoute, private itineraryService: ItineraryService, private userService: UserService, private router: Router, private metaService: Meta, private titleService: Title) {
 		this.titleService.setTitle('Itineraris -  Gérer l\'itinéraire');
 		this.metaService.updateTag({ content: 'Itineraris - Gérer l\'itinéraire' }, 'name="og:title"');
 		this.metaService.updateTag({ content: 'Gérer votre itinéraire en ajoutant une ou plusieurs étapes' }, 'name="description"');

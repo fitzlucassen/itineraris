@@ -1,4 +1,4 @@
-md-input-container {
+mat-form-field {
     width: 49% !important;
 }
 
@@ -6,11 +6,11 @@ textarea {
     width: 100%;
 }
 
-[md-raised-button] {
+[mat-raised-button] {
     float: right;
 }
 
-md-spinner {
+mat-spinner {
     display: block;
     margin: auto;
     width: 40px;

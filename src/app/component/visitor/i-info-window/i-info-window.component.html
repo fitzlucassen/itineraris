@@ -1,28 +1,49 @@
 <div id="iw-container">
 	<div class="main-img-container">
-		<img src="mainPicture" alt="" />
+		<img src="{{mainPictureUrl}}" alt="{{mainPictureCaption}}" />
 	</div>
 	<div class="iw-title">
-		city
+		{{title}}
 		<br/>
-		<i class="iw-subTitle">Le date</i>
+		<i class="iw-subTitle">{{date}}</i>
 	</div>
 	<div class="iw-content">
-		<md-tab-group eventToPut>
-			<md-tab label="Résumé">
-				description
-				<br/>
-				<br/>
-			</md-tab>
-			<md-tab label="Logistique">
-				astuces
-			</md-tab>
-		</md-tab-group>
-
-		<div class="iw-footer">
-			seePicturesLink
+		<div class="tab-group">
+			<div class="tab-headers">
+				<p class="tab-header" [class.active]="isSumupTabActive" (click)="toggleSumup($event)">
+					<mat-icon>subject</mat-icon>&nbsp;&nbsp;
+					<span>Résumé</span>
+				</p>
+				<p class="tab-header" [class.active]="!isSumupTabActive" (click)="toggleSumup($event)">
+					<mat-icon>near_me</mat-icon>&nbsp;&nbsp;
+					<span>Logistique</span>
+				</p>
+				<div class="ink-bar"></div>
+			</div>
+			<div class="tab-contents">
+				<div class="tab-content" [class.active]="isSumupTabActive" [innerHTML]="description">
+				</div>
+				<div class="tab-content" [class.active]="!isSumupTabActive">
+					<i>à venir...</i>
+				</div>
+			</div>
 		</div>
-		<div>pictures</div>
+
+		<br/>
+
+		<div class="iw-footer" *ngIf="isTherePictures">
+			<a href="{{mainPictureUrl}}" data-lightbox="image" data-title="{{mainPictureCaption}}">Voir les photos</a>
+		</div>
+		<div>
+			<ul style="padding: 0;">
+				<li *ngFor="let picture of pictures">
+					<a href="{{serviceUrl + '/' + picture.url}}" data-lightbox="image" data-title="{{picture.caption}}" *ngIf="picture.url != pictures[0].url">
+						<img class="ui bordered small image" src="{{serviceUrl + '/' + picture.url}}" alt="{{picture.caption}}" title="{{picture.caption}}"
+						/>
+					</a>
+				</li>
+			</ul>
+		</div>
 	</div>
 	<div class="iw-bottom-gradient"></div>
 </div>

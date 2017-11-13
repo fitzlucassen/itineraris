@@ -92,6 +92,32 @@ export class HomeVisitorComponent implements OnInit {
 	ngOnInit() {
 	}
 
+	sanitize(str: string): string {
+		if (!str || str.length === 0) {
+			return str;
+		}
+
+		let tmp = this.replaceAll(str.toLocaleLowerCase(), ' ', '-');
+		tmp = this.replaceAll(tmp, '/\?/', '-');
+		tmp = this.replaceAll(tmp, '/\!/', '-');
+		tmp = this.replaceAll(tmp, '/\:/', '-');
+		tmp = this.replaceAll(tmp, '/\//', '-');
+		tmp = this.replaceAll(tmp, '/\&/', '-');
+		tmp = this.replaceAll(tmp, '/\%/', '-');
+		tmp = this.replaceAll(tmp, '/\*/', 'x');
+		tmp = this.replaceAll(tmp, '/\@/', '-');
+		tmp = this.replaceAll(tmp, '/\;/', '-');
+		tmp = this.replaceAll(tmp, '/\,/', '-');
+		tmp = this.replaceAll(tmp, '/\./', '-');
+		tmp = this.replaceAll(tmp, '/\^/', '-');
+		tmp = this.replaceAll(tmp, '/\$/', '-');
+		tmp = this.replaceAll(tmp, '/\€/', '-');
+		tmp = this.replaceAll(tmp, '/\#/', '-');
+		tmp = this.replaceAll(tmp, '/\'/', '-');
+
+		return encodeURIComponent(tmp);
+	}
+
 	private assignItineraries(result: Array<Itinerary>) {
 		this.itineraries = result.sort(this.sorter);
 	}

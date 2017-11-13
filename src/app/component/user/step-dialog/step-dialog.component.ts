@@ -1,12 +1,12 @@
 import { Component, OnInit, OnChanges, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { MdSnackBar, MdDialog, MdDialogRef, MaterialModule } from '@angular/material';
+import { MatSnackBar, MatDialog, MatDialogRef } from '@angular/material';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MapsAPILoader } from '@agm/core';
 
 import { ItineraryStep } from '../../../model/itinerary-step';
 import { ItineraryService } from '../../../service/itinerary.service';
 import { MapsService } from '../../../service/maps.service';
-import { UploadFileComponent } from '../../upload-file/upload-file.component';
+import { UploadFileComponent } from '../../common/upload-file/upload-file.component';
 import { Picture } from '../../../model/picture';
 
 declare var google: any;
@@ -38,9 +38,9 @@ export class StepDialogComponent implements OnInit, OnChanges {
 	constructor(
 		private mapsAPILoader: MapsAPILoader,
 		private ngZone: NgZone,
-		public snackBar: MdSnackBar,
+		public snackBar: MatSnackBar,
 		private fb: FormBuilder,
-		public dialogRef: MdDialogRef<StepDialogComponent>,
+		public dialogRef: MatDialogRef<StepDialogComponent>,
 		private itineraryService: ItineraryService,
 		private mapsService: MapsService) {
 		this.city = new FormControl('', [Validators.required, Validators.minLength(2)]);

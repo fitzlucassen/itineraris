@@ -1,45 +1,44 @@
 <div id="fb-root"></div>
 
-<md-toolbar color="primary">
-	<button md-icon-button (click)="start.toggle()">
-        <md-icon>menu</md-icon>
+<mat-toolbar color="primary">
+	<button mat-icon-button (click)="start.toggle()">
+        <mat-icon>menu</mat-icon>
     </button> &nbsp; &nbsp;
 	<span>Tous les itinéraires de {{title}}</span>
-</md-toolbar>
+</mat-toolbar>
 
-<md-sidenav-container class="left-navigation" [ngStyle]="{'height': screenHeight + 'px'}">
-	<md-sidenav #start mode="side" opened="false">
-		<md-nav-list>
-			<md-list-item>
-				<md-icon md-list-avatar>home</md-icon>
-				<a md-line href="/">Accueil</a>
-			</md-list-item>
-			<md-list-item>
-				<md-icon md-list-avatar>person</md-icon>
-				<a md-line href="/compte/connexion.html">Espace membre</a>
-			</md-list-item>
-			<md-list-item>
-				<md-icon md-list-avatar>search</md-icon>
-				<a md-line href="/visiteur/itineraires.html">Recherche</a>
-			</md-list-item>
+<mat-sidenav-container class="left-navigation" [ngStyle]="{'height': screenHeight + 'px'}">
+	<mat-sidenav #start mode="side" opened="false">
+		<mat-nav-list>
+			<mat-list-item>
+				<mat-icon mat-list-avatar>home</mat-icon>
+				<a mat-line href="/">Accueil</a>
+			</mat-list-item>
+			<mat-list-item>
+				<mat-icon mat-list-avatar>person</mat-icon>
+				<a mat-line href="/compte/connexion.html">Espace membre</a>
+			</mat-list-item>
+			<mat-list-item>
+				<mat-icon mat-list-avatar>search</mat-icon>
+				<a mat-line href="/visiteur/itineraires.html">Recherche</a>
+			</mat-list-item>
 
-			<md-divider></md-divider>
-		</md-nav-list>
+			<mat-divider></mat-divider>
 
-		<h2>Partagez les voyages de <span>{{title}}</span></h2>
-		<share-buttons class="withCount" [url]="currentUrl" [title]="currentTitle" [description]="currentDescription" [whatsApp]="false"
-		 [reddit]="false" [stumbleUpOn]="false" [tumblr]="false" [pinterest]="false" [showCount]="true" (count)="sumCounts($event)"></share-buttons>
+			<mat-list-item>
+                <mat-icon mat-list-avatar>share</mat-icon>
+                <a mat-line (click)="openSharingPopup()">Partager</a>
+            </mat-list-item>
 
-		<md-nav-list>
-			<md-divider></md-divider>
-		</md-nav-list>
+			<mat-divider></mat-divider>
+		</mat-nav-list>
 		<br/>
 
 		<h1>Réagissez aux voyages de <span>{{title}}</span></h1>
 		<br/>
 		<div #toAppend>
 		</div>
-	</md-sidenav>
+	</mat-sidenav>
 
 	<app-map></app-map>
-</md-sidenav-container>
+</mat-sidenav-container>

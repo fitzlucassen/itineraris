@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, ViewContainerRef, ComponentFactoryResolver, ComponentRef } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 
 import { ItineraryService } from '../../../service/itinerary.service';
 import { Itinerary } from '../../../model/itinerary';
+import { IInfoWindowComponent } from 'app/component/visitor/i-info-window/i-info-window.component';
 
 import 'js-marker-clusterer/src/markerclusterer.js';
 
@@ -18,12 +19,15 @@ export class SearchMapComponent implements OnInit {
 	@Input() itineraries: Array<Itinerary> = [];
 
 	map: any = null;
-	infoWindowTemplate: string = '<div id="iw-container"><b class="iw-title">TITLE</b><div class="iw-content"><i class="iw-subTitle"><a target="_blank" rel="noopener" href="/visiteur/USER/ID/ITINERARYNAME">Voir l\'itinéraire de USERNAME</a></i><br/><br/>DESCRIPTION<br/></div><div class="iw-bottom-gradient"></div></div>'
 	infoWindows: Array<any> = [];
+
+	waterColor = '#1F5180' // Second Color;
+	landColor = '#DADADA' // Font Color;
+	parkColor = '#A4B494';
 
 	@ViewChild('container') container: ElementRef;
 
-	constructor(private mapsAPILoader: MapsAPILoader, private itineraryService: ItineraryService) {
+	constructor(private mapsAPILoader: MapsAPILoader, private itineraryService: ItineraryService, private componentFactoryResolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef) {
 	}
 
 	ngOnInit() {
@@ -43,7 +47,16 @@ export class SearchMapComponent implements OnInit {
 
 			that.map = new google.maps.Map(element, {
 				zoom: 2,
-				center: { lat: 18.5284128, lng: 13.9502671 }
+				center: { lat: 18.5284128, lng: 13.9502671 },
+				styles: [
+					{ 'featureType': 'road', 'stylers': [{ 'visibility': 'off' }] },
+					{ 'featureType': 'water', 'stylers': [{ 'color': that.waterColor }] },
+					{ 'featureType': 'transit', 'stylers': [{ 'visibility': 'off' }] },
+					{ 'featureType': 'landscape.natural', 'stylers': [{ 'visibility': 'on' }, { 'color': that.landColor }] },
+					{ 'featureType': 'administrative.province', 'stylers': [{ 'visibility': 'off' }] },
+					{ 'featureType': 'poi.park', 'elementType': 'geometry', 'stylers': [{ 'color': that.parkColor }] },
+					{ 'featureType': 'administrative.country', 'elementType': 'geometry.stroke', 'stylers': [{ 'visibility': 'on' }, { 'color': '#7f7d7a' }, { 'lightness': 10 }, { 'weight': 1 }] }
+				]
 			});
 
 			let locations = [];
@@ -74,32 +87,30 @@ export class SearchMapComponent implements OnInit {
 	}
 
 	private createInfoWindowForStep(itinerary: Itinerary, marker: any, location: any) {
-		let content = this.infoWindowTemplate
-			.replace('TITLE', itinerary.name + ' - <i>' + itinerary.country + '</i>')
-			.replace('USER', this.replaceAll(itinerary.users[0].name.toLowerCase(), ' ', '-'))
-			.replace('USERNAME', itinerary.users[0].name)
-			.replace('ID', itinerary.id + '')
-			.replace('ITINERARYNAME', this.replaceAll(itinerary.name.toLowerCase(), ' ', '-'))
-			.replace('DESCRIPTION', itinerary.description)
+		let content = itinerary.description;
+		let username = itinerary.users[0].name;
+		let itineraryid = itinerary.id;
+
+		content += '<br/><p><a href="/visiteur/' + this.sanitize(username) + '/' + itineraryid + '/' + this.sanitize(itinerary.name) + '" target="_blank" rel="noopener">Voir l\'itinéraire de ' + username + '</a></p>';
 
 		let that = this;
 
-		this.attachClickEvent(marker, location, content);
+		this.attachClickEvent(marker, location, itinerary.name, itinerary.country, content);
 	}
 
-	private attachClickEvent(marker: any, location: any, content: string) {
+	private attachClickEvent(marker: any, location: any, title: string, country: string, description: string) {
 		let that = this;
 
 		google.maps.event.addListener(marker, 'click', function (e) {
-			let infoWindow = new google.maps.InfoWindow({
-				content: content,
-				position: location
-			});
-			that.infoWindows.push(infoWindow);
+			let infoWindow = that.createComponent();
 
-			that.infoWindows.forEach(function (element) { element.close(); });
+			infoWindow.instance.create(location.lat, location.lng, title, country, description, null);
+			that.infoWindows.push(infoWindow.instance);
 
-			infoWindow.open(that.map, marker);
+			that.infoWindows.forEach(element => { element.close(); });
+
+			infoWindow.instance.open(that.map, marker);
+			infoWindow.changeDetectorRef.detectChanges();
 
 			let element = document.getElementsByClassName('gm-style-iw');
 
@@ -112,5 +123,39 @@ export class SearchMapComponent implements OnInit {
 				nextElement.className = 'iw-close';
 			}, 200);
 		});
+	}
+	
+	private createComponent(): ComponentRef<IInfoWindowComponent> {
+		const factory = this.componentFactoryResolver.resolveComponentFactory(IInfoWindowComponent);
+		const ref = this.viewContainerRef.createComponent(factory);
+		ref.changeDetectorRef.detectChanges();
+
+		return ref;
+	}
+
+	private sanitize(str: string): string {
+		if (!str || str.length === 0) {
+			return str;
+		}
+
+		let tmp = this.replaceAll(str.toLocaleLowerCase(), ' ', '-');
+		tmp = this.replaceAll(tmp, '/\?/', '-');
+		tmp = this.replaceAll(tmp, '/\!/', '-');
+		tmp = this.replaceAll(tmp, '/\:/', '-');
+		tmp = this.replaceAll(tmp, '/\//', '-');
+		tmp = this.replaceAll(tmp, '/\&/', '-');
+		tmp = this.replaceAll(tmp, '/\%/', '-');
+		tmp = this.replaceAll(tmp, '/\*/', 'x');
+		tmp = this.replaceAll(tmp, '/\@/', '-');
+		tmp = this.replaceAll(tmp, '/\;/', '-');
+		tmp = this.replaceAll(tmp, '/\,/', '-');
+		tmp = this.replaceAll(tmp, '/\./', '-');
+		tmp = this.replaceAll(tmp, '/\^/', '-');
+		tmp = this.replaceAll(tmp, '/\$/', '-');
+		tmp = this.replaceAll(tmp, '/\€/', '-');
+		tmp = this.replaceAll(tmp, '/\#/', '-');
+		tmp = this.replaceAll(tmp, '/\'/', '-');
+
+		return encodeURIComponent(tmp);
 	}
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MdDialog, MdDialogRef, MdInputDirective } from '@angular/material';
+import { MatDialog, MatDialogRef, MatInput } from '@angular/material';
 import { Router, CanActivate } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 
@@ -16,21 +16,21 @@ import { environment } from '../../../../environments/environment';
 	selector: 'app-user-dashboard',
 	templateUrl: './dashboard.user.component.html',
 	styleUrls: ['./dashboard.user.component.scss'],
-	providers: [UserService, ItineraryService, MdDialog],
+	providers: [UserService, ItineraryService, MatDialog],
 })
 export class DashboardUserComponent implements OnInit {
 	currentUser: User;
 	itineraries: Array<Itinerary>;
-	dialogRef: MdDialogRef<ItineraryDialogComponent>;
+	dialogRef: MatDialogRef<ItineraryDialogComponent>;
 	showSearch: boolean;
 	search: string;
 	screenHeight: number;
 	isLoading: boolean = false;
 	mapUrl: string;
 
-	@ViewChild(MdInputDirective) input: any;
+	@ViewChild(MatInput) input: any;
 
-	constructor(public itineraryDialog: MdDialog, private userService: UserService, private itineraryService: ItineraryService, private router: Router, private metaService: Meta, private titleService: Title) {
+	constructor(public itineraryDialog: MatDialog, private userService: UserService, private itineraryService: ItineraryService, private router: Router, private metaService: Meta, private titleService: Title) {
 		this.titleService.setTitle('Itineraris - Dashboard');
 		this.metaService.updateTag({ content: 'Itineraris - Dashboard' }, 'name="og:title"');
 		this.metaService.updateTag({ content: 'Votre tableau de bord, gérez vos itinéraires de voyages' }, 'name="description"');

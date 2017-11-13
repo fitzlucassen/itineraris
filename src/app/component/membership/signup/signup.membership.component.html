@@ -1,28 +1,52 @@
-<div id="membership-container">
-	<h1 class="big-title">Entrez vos informations d'identification afin de créer un compte</h1>
+<mat-toolbar color="primary">
+	<button mat-icon-button (click)="start.toggle();">
+		<mat-icon>menu</mat-icon>
+	</button> &nbsp; &nbsp;
+	<span>Créez votre espace</span>
+</mat-toolbar>
+	
+<mat-sidenav-container class="left-navigation" [ngStyle]="{'height': screenHeight + 'px'}">
+	<mat-sidenav #start mode="side" opened="false">
+		<mat-nav-list>
+			<mat-list-item>
+				<mat-icon mat-list-avatar>home</mat-icon>
+				<a mat-line href="/">Accueil</a>
+			</mat-list-item>
+			<mat-list-item>
+				<mat-icon mat-list-avatar>person</mat-icon>
+				<a mat-line href="/compte/connexion.html">Espace membre</a>
+			</mat-list-item>
+		</mat-nav-list>
+	</mat-sidenav>
+	
+	<div class="mat-padding">
+		<div id="membership-container">
+			<h1 class="big-title">Entrez vos informations d'identification afin de créer un compte</h1>
 
-	<form [formGroup]="form" (ngSubmit)="signup($event)">
-		<md-input-container >
-			<input mdInput class="big-form" placeholder="Pseudo" required formControlName="name" [(ngModel)]="newUser.name"/>
-			<md-hint *ngIf="!name.untouched && !name.valid && name.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">name requis</md-hint>
-			<md-hint *ngIf="!name.untouched && !name.valid && name.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">3 caractères minimum</md-hint>
-		</md-input-container>
+			<form [formGroup]="form" (ngSubmit)="signup($event)">
+				<mat-form-field >
+					<input matInput class="big-form" placeholder="Pseudo" required formControlName="name" [(ngModel)]="newUser.name"/>
+					<mat-hint *ngIf="!name.untouched && !name.valid && name.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">name requis</mat-hint>
+					<mat-hint *ngIf="!name.untouched && !name.valid && name.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">3 caractères minimum</mat-hint>
+				</mat-form-field>
 
-		<br class="only-responsive"/>
-		<md-input-container >
-			<input mdInput class="big-form" placeholder="E-mail" required type="email" formControlName="email" [(ngModel)]="newUser.email"/>
-			<md-hint *ngIf="!email.untouched && !email.valid && email.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">e-mail requis</md-hint>
-			<md-hint *ngIf="!email.untouched && !email.valid && email.errors.pattern" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">email must be like aaa@yyy.zzz</md-hint>
-		</md-input-container>
-		<br class="only-responsive"/>
-		<md-input-container >
-			<input mdInput class="big-form" placeholder="Mot de passe" required type="password" formControlName="password" [(ngModel)]="newUser.password"/>
-			<md-hint *ngIf="!password.untouched && !password.valid && password.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">mot de passe requis</md-hint>
-			<md-hint *ngIf="!password.untouched && !password.valid && password.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">3 caractères minimum</md-hint>
-		</md-input-container>
-		<br/>
-		<md-spinner *ngIf="isLoading"></md-spinner>
-		<br/>
-		<button md-mini-fab><md-icon>check</md-icon></button>
-	</form>
-</div>
+				<br class="only-responsive"/>
+				<mat-form-field >
+					<input matInput class="big-form" placeholder="E-mail" required type="email" formControlName="email" [(ngModel)]="newUser.email"/>
+					<mat-hint *ngIf="!email.untouched && !email.valid && email.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">e-mail requis</mat-hint>
+					<mat-hint *ngIf="!email.untouched && !email.valid && email.errors.pattern" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">email must be like aaa@yyy.zzz</mat-hint>
+				</mat-form-field>
+				<br class="only-responsive"/>
+				<mat-form-field >
+					<input matInput class="big-form" placeholder="Mot de passe" required type="password" formControlName="password" [(ngModel)]="newUser.password"/>
+					<mat-hint *ngIf="!password.untouched && !password.valid && password.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">mot de passe requis</mat-hint>
+					<mat-hint *ngIf="!password.untouched && !password.valid && password.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">3 caractères minimum</mat-hint>
+				</mat-form-field>
+				<br/>
+				<mat-spinner *ngIf="isLoading"></mat-spinner>
+				<br/>
+				<button mat-mini-fab><mat-icon>check</mat-icon></button>
+			</form>
+		</div>
+	</div>
+</mat-sidenav-container>

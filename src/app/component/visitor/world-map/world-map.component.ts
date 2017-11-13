@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Renderer } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 import { ItineraryStep } from '../../../model/itinerary-step';
 import { Stop } from '../../../model/stop';
 import { MapComponent } from '../map/map.component';
 import { UserService } from '../../../service/user.service';
 import { ItineraryService } from '../../../service/itinerary.service';
-
-import { ShareButtonsModule } from 'ng2-sharebuttons';
+import { SharingDialogComponent } from '../../common/sharing-dialog/sharing-dialog.component';
 
 @Component({
 	selector: 'app-world-map',
@@ -23,7 +23,8 @@ export class WorldMapComponent implements OnInit, OnDestroy {
 	title: string;
 	screenHeight: number;
 	totalShare: number = 0;
-
+	sharingRef: MatDialogRef<SharingDialogComponent>;
+	
 	currentUrl: string;
 	currentTitle: string = 'Les voyages';
 	currentDescription: string = 'Visualisation des itinéraires de voyage';
@@ -32,6 +33,7 @@ export class WorldMapComponent implements OnInit, OnDestroy {
 	@ViewChild('toAppend') public sidenav: ElementRef;
 
 	constructor(
+		public itineraryDialog: MatDialog,
 		public route: ActivatedRoute,
 		private userService: UserService,
 		private itineraryService: ItineraryService,
@@ -87,8 +89,16 @@ export class WorldMapComponent implements OnInit, OnDestroy {
 		delete window['FB'];
 	}
 
-	sumCounts(count) {
-		this.totalShare += count;
+	openSharingPopup() {
+		this.sharingRef = this.itineraryDialog.open(SharingDialogComponent, {
+			disableClose: false,
+		});
+
+		let userName = this.title;
+
+		this.sharingRef.componentInstance.sharingUrl = this.currentUrl;
+		this.sharingRef.componentInstance.sharingTitle = 'Tous les Itinéraires de voyage de ' + userName;
+		this.sharingRef.componentInstance.sharingDescription = 'Voici tous les itinéraires de voyage de ' + userName + ' - Restez en contact avec lui et laissez lui un message !';
 	}
 
 	private assignItinerarySteps(result: Array<Array<ItineraryStep>>) {
