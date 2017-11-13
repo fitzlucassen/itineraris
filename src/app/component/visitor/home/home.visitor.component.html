@@ -26,10 +26,10 @@
 			<mat-tab label="Liste">
 				<mat-card style="text-align: left;">
 					<form name="userForm" [formGroup]="form">
-						<mat-input-container>
+						<mat-form-field>
 							<input #search matInput type="text" class="big-form" placeholder="Nom de l'itinéraire, nom de l'utilisateur, pays de l'itinéraire..."
 							 formControlName="search" [(ngModel)]="searchText" flex/>
-						</mat-input-container>
+						</mat-form-field>
 					</form>
 
 					<mat-nav-list flex>

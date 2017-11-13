@@ -57,9 +57,9 @@
 					<h3 *ngIf="!showSearch">
 						Vos itinéraires
 					</h3>
-					<mat-input-container *ngIf="showSearch">
+					<mat-form-field *ngIf="showSearch">
 						<input matInput mat-theme="input" matInputDirective="focused" [(ngModel)]="search" style="color: white;" placeholder="nom de l'itinéraire" />
-					</mat-input-container>
+					</mat-form-field>
 					<span flex *ngIf="!showSearch"></span>
 
 					<mat-icon *ngIf="!showSearch" (click)="toggleSearch()">search</mat-icon>

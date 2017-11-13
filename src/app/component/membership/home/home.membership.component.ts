@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, NgZone } from '@angular/core';
 import { Router, CanActivate } from '@angular/router';
 import { Meta, Title } from '@angular/platform-browser';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
@@ -19,7 +19,9 @@ export class HomeMembershipComponent implements OnInit {
 	password: FormControl;
 	form: FormGroup;
 
-	constructor(private fb: FormBuilder, private userService: UserService, private router: Router, private metaService: Meta, private titleService: Title) {
+	screenHeight: number;
+
+	constructor(private ngZone: NgZone, private fb: FormBuilder, private userService: UserService, private router: Router, private metaService: Meta, private titleService: Title) {
 		this.titleService.setTitle('Itineraris - Connexion');
 		this.metaService.updateTag({ content: 'Itineraris - Connexion' }, 'name="og:title"');
 		this.metaService.updateTag({ content: 'Connectez-vous à votre compte et créez vos itinéraires de voyages' }, 'name="description"');
@@ -32,6 +34,14 @@ export class HomeMembershipComponent implements OnInit {
 			pseudo: this.pseudo,
 			password: this.password,
 		});
+
+		this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
+		window.onresize = (e) => {
+			// ngZone.run will help to run change detection
+			this.ngZone.run(() => {
+				this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
+			});
+		};
 	}
 
 	ngOnInit() {

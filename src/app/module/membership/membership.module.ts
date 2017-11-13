@@ -14,7 +14,6 @@ import { StepDialogComponent } from '../../component/user/step-dialog/step-dialo
 import { StopDialogComponent } from '../../component/user/stop-dialog/stop-dialog.component';
 import { UploadFileComponent } from '../../component/common/upload-file/upload-file.component';
 import { ItineraryUserComponent } from '../../component/user/itinerary/itinerary.user.component';
-import { SharingDialogComponent } from '../../component/common/sharing-dialog/sharing-dialog.component';
 import { ItineraryUserDialogComponent } from '../../component/user/itinerary-user-dialog/itinerary-user-dialog.component';
 
 import { SearchPipe } from '../../pipe/search.pipe';
@@ -25,8 +24,6 @@ import { AuthGuard } from '../../guard/auth-guard';
 import { NoAuthGuard } from '../../guard/no-auth-guard';
 
 import { routing } from '../../routing/membership.routing';
-
-import { ShareButtonsModule } from "ng2-sharebuttons";
 
 @NgModule({
 	declarations: [
@@ -41,14 +38,12 @@ import { ShareButtonsModule } from "ng2-sharebuttons";
 		StopDialogComponent,
 		SearchStepPipe,
 		UploadFileComponent,
-		SharingDialogComponent,
 		SearchUserPipe
 	],
 	entryComponents: [
 		ItineraryDialogComponent,
 		StepDialogComponent,
 		StopDialogComponent,
-		SharingDialogComponent,
 		ItineraryUserDialogComponent,
 	],
 	imports: [
@@ -57,7 +52,6 @@ import { ShareButtonsModule } from "ng2-sharebuttons";
 		CommonModule,
 		HttpModule,
 		MatSlideToggleModule, MatNativeDateModule, MatButtonModule, MatCheckboxModule, MatIconModule, MatToolbarModule, MatSidenavModule, MatListModule, MatCardModule, MatInputModule, MatMenuModule, MatSelectModule, MatSliderModule, MatSnackBarModule, MatFormFieldModule, MatDatepickerModule,
-		ShareButtonsModule.forRoot(),
 		routing
 	]
 })

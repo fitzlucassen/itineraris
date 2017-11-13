@@ -13,9 +13,6 @@ import { SearchItineraryPipe } from '../../pipe/search-itinerary.pipe';
 import { SearchMapComponent } from '../../component/visitor/search-map/search-map.component';
 import { WorldMapComponent } from '../../component/visitor/world-map/world-map.component';
 import { IInfoWindowComponent } from '../../component/visitor/i-info-window/i-info-window.component';
-import { SharingDialogComponent } from '../../component/common/sharing-dialog/sharing-dialog.component';
-
-import { ShareButtonsModule } from 'ng2-sharebuttons';
 
 import { routing } from '../../routing/visitor.routing';
 
@@ -27,7 +24,6 @@ import { routing } from '../../routing/visitor.routing';
 		CommonModule,
 		HttpModule,
 		MatTabsModule, MatButtonModule, MatCheckboxModule, MatIconModule, MatToolbarModule, MatSidenavModule, MatListModule, MatCardModule, MatInputModule, MatMenuModule, MatSelectModule, MatSliderModule, MatSnackBarModule, MatFormFieldModule, MatDatepickerModule,
-		ShareButtonsModule.forRoot(),
 		routing
 	],
 	declarations: [
@@ -37,12 +33,10 @@ import { routing } from '../../routing/visitor.routing';
 		SearchMapComponent,
 		WorldMapComponent,
 		IInfoWindowComponent,
-		SharingDialogComponent,
 		SearchItineraryPipe
 	],
 	entryComponents: [
-		IInfoWindowComponent,
-		SharingDialogComponent,
+		IInfoWindowComponent
 	]
 })
 export class VisitorModule { }

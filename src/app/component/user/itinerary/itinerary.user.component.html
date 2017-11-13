@@ -80,9 +80,9 @@
 						<span *ngIf="!isStop">Vos étapes</span>
 						<span *ngIf="isStop">Vos free-stops</span>
 					</h3>
-					<mat-input-container [style.display]="showSearch ? 'inline-block': 'none'">
+					<mat-form-field [style.display]="showSearch ? 'inline-block': 'none'">
 						<input matInput matInputDirective="focused" mat-theme="input" [(ngModel)]="search" placeholder="ville de l'étape"/>
-					</mat-input-container>
+					</mat-form-field>
 					<span flex *ngIf="!showSearch"></span>
 
 					<mat-icon *ngIf="!showSearch" (click)="toggleSearch()">search</mat-icon>

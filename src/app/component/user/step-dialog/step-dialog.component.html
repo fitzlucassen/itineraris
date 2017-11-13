@@ -1,26 +1,26 @@
 <div class="mat-padding" style="overflow: auto;" [style.max-height]="screenHeight + 'px'">
 	<form name="userForm" [formGroup]="form" (ngSubmit)="registerStep()">
 		<div layout layout-sm="column">
-			<mat-input-container>
+			<mat-form-field>
 				<input matInput class="big-form" placeholder="Ville de l'étape" focus="window.scrollTo(0, 0);document.body.scrollTop = 0;" formControlName="city" [(ngModel)]="newStep.city" required flex autocorrect="off" autocapitalize="off" spellcheck="off" class="form-control" #search />
 				<mat-hint *ngIf="!city.untouched && !city.valid && city.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">ville requise</mat-hint>
 				<mat-hint *ngIf="!city.untouched && !city.valid && city.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">2 caractères minimum</mat-hint>
-			</mat-input-container>
-			<mat-input-container>
+			</mat-form-field>
+			<mat-form-field>
 				<input matInput type="text" [matDatepicker]="picker" class="big-form" placeholder="Date de l'étape" formControlName="date" [(ngModel)]="newStep.date" required flex/>
 				<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 				<mat-hint *ngIf="!date.untouched && !date.valid && date.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">date requise</mat-hint>
-			</mat-input-container>
+			</mat-form-field>
 			<mat-datepicker #picker></mat-datepicker>
 			<button mat-mini-fab type="button" (click)="getCurrentPosition()" style="margin-right: 0;float:right;">
 				<mat-icon class="">location_searching</mat-icon>
 			</button>
 		</div>
-		<mat-input-container style="width:100% !important;">
+		<mat-form-field style="width:100% !important;">
 			<textarea matInput class="big-form" placeholder="Description de l'étape" formControlName="description" [(ngModel)]="newStep.description" required flex></textarea>
 			<mat-hint *ngIf="!description.untouched && !description.valid && description.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">description requise</mat-hint>
 			<mat-hint *ngIf="!description.untouched && !description.valid && description.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">3 caractères minimum</mat-hint>
-		</mat-input-container>
+		</mat-form-field>
 		<br/>
 		<br/>
 		<mat-select placeholder="Type de transport" formControlName="type" [(ngModel)]="newStep.type" required flex>

@@ -1,5 +1,5 @@
 <mat-toolbar color="primary">
-	<button mat-icon-button (click)="start.toggle();next.close();">
+	<button mat-icon-button (click)="start.toggle();">
 		<mat-icon>menu</mat-icon>
 	</button> &nbsp; &nbsp;
 	<span>Connectez-vous à votre espace</span>
@@ -25,17 +25,17 @@
 				<h2 class="big-title">Connectez-vous</h2>
 		
 				<form [formGroup]="form" (ngSubmit)="signin()">
-					<mat-input-container >
+					<mat-form-field >
 						<input matInput class="big-form" required formControlName="pseudo" placeholder="Pseudo ou e-mail" [(ngModel)]="newUser.email"/>
 						<mat-hint *ngIf="!pseudo.untouched && !pseudo.valid && pseudo.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">pseudo ou e-mail est requis</mat-hint>
 						<mat-hint *ngIf="!pseudo.untouched && !pseudo.valid && pseudo.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">3 caractères minimum</mat-hint>
-					</mat-input-container>
+					</mat-form-field>
 					<br class="only-responsive"/>
-					<mat-input-container >
+					<mat-form-field >
 						<input matInput class="big-form" required formControlName="password" placeholder="Mot de passe" type="password" [(ngModel)]="newUser.password"/>
 						<mat-hint *ngIf="!password.untouched && !password.valid && password.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">mot de passe requis</mat-hint>
 						<mat-hint *ngIf="!password.untouched && !password.valid && password.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">3 caractères minimum</mat-hint>
-					</mat-input-container>
+					</mat-form-field>
 					<br class="only-responsive"/>
 					<button mat-mini-fab><mat-icon>check</mat-icon></button>
 				</form>
