@@ -8,8 +8,27 @@
 		<i class="iw-subTitle">{{date}}</i>
 	</div>
 	<div class="iw-content">
-		<div [innerHTML]="description">
+		<div class="tab-group">
+			<div class="tab-headers">
+				<p class="tab-header" [class.active]="isSumupTabActive" (click)="toggleSumup($event)">
+					<mat-icon>subject</mat-icon>&nbsp;&nbsp;
+					<span>Résumé</span>
+				</p>
+				<p class="tab-header" [class.active]="!isSumupTabActive" (click)="toggleSumup($event)">
+					<mat-icon>near_me</mat-icon>&nbsp;&nbsp;
+					<span>Logistique</span>
+				</p>
+				<div class="ink-bar"></div>
+			</div>
+			<div class="tab-contents">
+				<div class="tab-content" [class.active]="isSumupTabActive" [innerHTML]="description">
+				</div>
+				<div class="tab-content" [class.active]="!isSumupTabActive">
+					<i>à venir...</i>
+				</div>
+			</div>
 		</div>
+
 		<br/>
 
 		<div class="iw-footer" *ngIf="isTherePictures">
@@ -19,7 +38,8 @@
 			<ul style="padding: 0;">
 				<li *ngFor="let picture of pictures">
 					<a href="{{serviceUrl + '/' + picture.url}}" data-lightbox="image" data-title="{{picture.caption}}" *ngIf="picture.url != pictures[0].url">
-						<img class="ui bordered small image" src="{{serviceUrl + '/' + picture.url}}" alt="{{picture.caption}}" title="{{picture.caption}}" />
+						<img class="ui bordered small image" src="{{serviceUrl + '/' + picture.url}}" alt="{{picture.caption}}" title="{{picture.caption}}"
+						/>
 					</a>
 				</li>
 			</ul>

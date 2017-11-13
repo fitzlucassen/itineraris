@@ -21,19 +21,46 @@ export class IInfoWindowComponent implements OnInit, AfterViewChecked {
 	astuces: Array<any>;
 
 	isTherePictures: boolean = false;
+	isSumupTabActive: boolean = true;
 	serviceUrl: string;
-
 	mainContainer: ElementRef;
 
 	@ViewChild(MatTabGroup)
 	tabGroup: MatTabGroup;
-	
+
 	lat: number;
 	lng: number;
 	infoWindow: any;
 
 	constructor(currentElement: ElementRef) {
 		this.mainContainer = currentElement;
+	}
+
+	toggleSumup($event: MouseEvent) {
+		let currentIndex = 0;
+
+		if ($event.srcElement.className.indexOf('tab-header') >= 0) {
+			for (let i = 0; i < $event.srcElement.parentElement.children.length; i++) {
+				$event.srcElement.parentElement.children.item(i).classList.remove('active');
+
+				if ($event.srcElement == $event.srcElement.parentElement.children.item(i)) {
+					currentIndex = i;
+				}
+			}
+
+			$event.srcElement.classList.add('active');
+			$event.srcElement.parentElement.children.item($event.srcElement.parentElement.children.length - 1).setAttribute('style', 'left: ' + currentIndex * 160 + 'px');
+
+			let bodies = $event.srcElement.parentElement.parentElement.lastElementChild.children
+
+			for (let i = 0; i < bodies.length; i++) {
+				bodies.item(i).classList.remove('active');
+			}
+
+			bodies.item(currentIndex).classList.add('active');
+		} else {
+			$event.srcElement.parentElement.click();
+		}
 	}
 
 	create(lat: number, lng: number, title: string, date: string, description: string, pictures: Array<Picture>) {
