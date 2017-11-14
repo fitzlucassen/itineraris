@@ -42,6 +42,13 @@
 			<mat-divider></mat-divider>
 
 			<mat-list-item>
+				<mat-icon mat-list-avatar>near_me</mat-icon>
+				<a mat-line href="javascript: void(0);" (click)="openStepDetailDialog()">Ajouter des détails</a>
+			</mat-list-item>
+			
+			<mat-divider></mat-divider>
+
+			<mat-list-item>
 				<mat-icon mat-list-avatar>map</mat-icon>
 				<a mat-line href="/visiteur/{{mapUrl}}" target="_blank" rel="noopener">Voir la carte</a>
 			</mat-list-item>

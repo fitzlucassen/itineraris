@@ -15,6 +15,7 @@ import { StopDialogComponent } from '../../component/user/stop-dialog/stop-dialo
 import { UploadFileComponent } from '../../component/common/upload-file/upload-file.component';
 import { ItineraryUserComponent } from '../../component/user/itinerary/itinerary.user.component';
 import { ItineraryUserDialogComponent } from '../../component/user/itinerary-user-dialog/itinerary-user-dialog.component';
+import { StepDetailDialogComponent } from '../../component/user/step-detail-dialog/step-detail-dialog.component';
 
 import { SearchPipe } from '../../pipe/search.pipe';
 import { SearchStepPipe } from '../../pipe/search-step.pipe';
@@ -33,11 +34,12 @@ import { routing } from '../../routing/membership.routing';
 		ItineraryUserComponent,
 		ItineraryDialogComponent,
 		ItineraryUserDialogComponent,
-		SearchPipe,
 		StepDialogComponent,
 		StopDialogComponent,
-		SearchStepPipe,
 		UploadFileComponent,
+		StepDetailDialogComponent,	
+		SearchPipe,
+		SearchStepPipe,
 		SearchUserPipe
 	],
 	entryComponents: [

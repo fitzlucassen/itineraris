@@ -120,6 +120,10 @@ export class ItineraryUserComponent implements OnInit {
 		});
 	}
 
+	openStepDetailDialog() {
+		
+	}
+
 	editStep(id: string) {
 		this.dialogRef = this.itineraryDialog.open(StepDialogComponent, {
 			disableClose: false,
