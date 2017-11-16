@@ -13,6 +13,7 @@ import { StepDialogComponent } from '../step-dialog/step-dialog.component';
 import { StopDialogComponent } from '../stop-dialog/stop-dialog.component';
 import { SharingDialogComponent } from '../../common/sharing-dialog/sharing-dialog.component';
 import { ItineraryUserDialogComponent } from '../itinerary-user-dialog/itinerary-user-dialog.component';
+import { StepDetailDialogComponent } from '../step-detail-dialog/step-detail-dialog.component';
 
 import { environment } from '../../../../environments/environment';
 
@@ -32,6 +33,8 @@ export class ItineraryUserComponent implements OnInit {
 	dialogRefStop: MatDialogRef<StopDialogComponent>;
 	sharingRef: MatDialogRef<SharingDialogComponent>;
 	contributorRef: MatDialogRef<ItineraryUserDialogComponent>;
+	stepDetailDialogRef: MatDialogRef<StepDetailDialogComponent>;
+
 	showSearch: boolean;
 	isStop: boolean = false;
 	search: string;
@@ -121,7 +124,10 @@ export class ItineraryUserComponent implements OnInit {
 	}
 
 	openStepDetailDialog() {
-		
+		this.stepDetailDialogRef = this.itineraryDialog.open(StepDetailDialogComponent, {
+			disableClose: false,
+		});
+		this.stepDetailDialogRef.componentInstance.itineraryId = this.currentItinerary.id;
 	}
 
 	editStep(id: string) {

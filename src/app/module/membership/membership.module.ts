@@ -37,7 +37,7 @@ import { routing } from '../../routing/membership.routing';
 		StepDialogComponent,
 		StopDialogComponent,
 		UploadFileComponent,
-		StepDetailDialogComponent,	
+		StepDetailDialogComponent,
 		SearchPipe,
 		SearchStepPipe,
 		SearchUserPipe
@@ -47,6 +47,7 @@ import { routing } from '../../routing/membership.routing';
 		StepDialogComponent,
 		StopDialogComponent,
 		ItineraryUserDialogComponent,
+		StepDetailDialogComponent
 	],
 	imports: [
 		ReactiveFormsModule,

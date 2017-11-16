@@ -75,7 +75,7 @@ export class UserService {
 		localStorage.setItem('current_user', null);
 
 		callback();
-		
+
 		return this;
 	}
 
