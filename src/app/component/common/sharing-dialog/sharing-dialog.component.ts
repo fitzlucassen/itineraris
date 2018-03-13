@@ -1,5 +1,4 @@
 import { Component, OnInit, NgZone, Input } from '@angular/core';
-import { ShareButtonsModule } from 'ng2-sharebuttons';
 
 @Component({
 	selector: 'app-sharing-dialog',

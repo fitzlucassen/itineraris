@@ -193,23 +193,9 @@ export class ItineraryUserComponent implements OnInit {
 			return str;
 		}
 
-		let tmp = this.replaceAll(str.toLocaleLowerCase(), ' ', '-');
-		tmp = this.replaceAll(tmp, '/\?/', '-');
-		tmp = this.replaceAll(tmp, '/\!/', '-');
-		tmp = this.replaceAll(tmp, '/\:/', '-');
-		tmp = this.replaceAll(tmp, '/\//', '-');
-		tmp = this.replaceAll(tmp, '/\&/', '-');
-		tmp = this.replaceAll(tmp, '/\%/', '-');
-		tmp = this.replaceAll(tmp, '/\*/', 'x');
-		tmp = this.replaceAll(tmp, '/\@/', '-');
-		tmp = this.replaceAll(tmp, '/\;/', '-');
-		tmp = this.replaceAll(tmp, '/\,/', '-');
-		tmp = this.replaceAll(tmp, '/\./', '-');
-		tmp = this.replaceAll(tmp, '/\^/', '-');
-		tmp = this.replaceAll(tmp, '/\$/', '-');
-		tmp = this.replaceAll(tmp, '/\€/', '-');
-		tmp = this.replaceAll(tmp, '/\#/', '-');
-		tmp = this.replaceAll(tmp, '/\'/', '-');
+		let tmp = this.replaceAll(str.toLocaleLowerCase().trim(), ' ', '-');
+		tmp = this.replaceAll(tmp, '[^a-z0-9éèàôûîïêù]', '-');
+        tmp = this.replaceAll(tmp, '[--]+', '-');
 
 		return encodeURIComponent(tmp);
 	}

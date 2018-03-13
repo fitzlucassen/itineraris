@@ -3,9 +3,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { AgmCoreModule } from '@agm/core';
 import { RouterModule, Routes } from '@angular/router';
+import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { MatFormFieldModule, MatInputModule } from '@angular/material';
+import { AgmCoreModule } from '@agm/core';
 
 import { UserService } from './service/user.service';
 import { AuthGuard } from './guard/auth-guard';
@@ -17,33 +18,34 @@ import { SharingDialogComponent } from './component/common/sharing-dialog/sharin
 
 import { routing } from './routing/app.routing';
 
-import { ShareButtonsModule, ShareButtonComponent } from 'ng2-sharebuttons';
+import { ShareButtonsModule } from '@ngx-share/buttons';
 
 @NgModule({
-	declarations: [
-		AppComponent,
-		HomeComponent,
-		SharingDialogComponent
-	],
-	entryComponents: [
-		SharingDialogComponent,
-		ShareButtonComponent
-	],
-	imports: [
-		BrowserModule,
-		BrowserAnimationsModule,
-		ReactiveFormsModule,
-		FormsModule,
-		HttpModule,
-		MatFormFieldModule, MatInputModule, 
-		AgmCoreModule.forRoot({
-			apiKey: 'AIzaSyDR6MQEKvMFKiYTS0uZZTA-YIKe2yRcfng',
-			libraries: ['places']
-		}),
-		ShareButtonsModule.forRoot(),
-		routing
-	],
-	providers: [UserService, AuthGuard, NoAuthGuard],
-	bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        HomeComponent,
+        SharingDialogComponent
+    ],
+    entryComponents: [
+        SharingDialogComponent
+    ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        ReactiveFormsModule,
+        FormsModule,
+        HttpModule,
+        HttpClientModule,      // (Required) for share counts
+        HttpClientJsonpModule, // (Optional) For linkedIn & Tumblr counts
+        ShareButtonsModule.forRoot(),
+		MatFormFieldModule, MatInputModule,
+        AgmCoreModule.forRoot({
+            apiKey: 'AIzaSyDR6MQEKvMFKiYTS0uZZTA-YIKe2yRcfng',
+            libraries: ['places']
+        }),
+        routing
+    ],
+    providers: [UserService, AuthGuard, NoAuthGuard],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
