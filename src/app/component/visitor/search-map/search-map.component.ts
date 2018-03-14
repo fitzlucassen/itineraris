@@ -3,7 +3,7 @@ import { MapsAPILoader } from '@agm/core';
 
 import { ItineraryService } from '../../../service/itinerary.service';
 import { Itinerary } from '../../../model/itinerary';
-import { IInfoWindowComponent } from 'app/component/visitor/i-info-window/i-info-window.component';
+import { IInfoWindowComponent } from '../../../component/visitor/i-info-window/i-info-window.component';
 
 import 'js-marker-clusterer/src/markerclusterer.js';
 
@@ -11,137 +11,137 @@ declare var google: any;
 declare var MarkerClusterer;
 
 @Component({
-	selector: 'search-map',
-	templateUrl: './search-map.component.html',
-	styleUrls: ['./search-map.component.scss']
+    selector: 'app-search-map',
+    templateUrl: './search-map.component.html',
+    styleUrls: ['./search-map.component.scss']
 })
 export class SearchMapComponent implements OnInit {
-	@Input() itineraries: Array<Itinerary> = [];
+    @Input() itineraries: Array<Itinerary> = [];
 
-	map: any = null;
-	infoWindows: Array<any> = [];
+    map: any = null;
+    infoWindows: Array<any> = [];
 
-	waterColor = '#1F5180' // Second Color;
-	landColor = '#DADADA' // Font Color;
-	parkColor = '#A4B494';
+    waterColor = '#1F5180'; // Second Color;
+    landColor = '#DADADA'; // Font Color;
+    parkColor = '#A4B494';
 
-	@ViewChild('container') container: ElementRef;
+    @ViewChild('container') container: ElementRef;
 
-	constructor(private mapsAPILoader: MapsAPILoader, private itineraryService: ItineraryService, private componentFactoryResolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef) {
-	}
+    constructor(private mapsAPILoader: MapsAPILoader, private itineraryService: ItineraryService, private componentFactoryResolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef) {
+    }
 
-	ngOnInit() {
-	}
+    ngOnInit() {
+    }
 
-	replaceAll(str: string, replace: string, value: string): string {
-		return str.replace(new RegExp(replace, 'g'), value);
-	}
+    replaceAll(str: string, replace: string, value: string): string {
+        return str.replace(new RegExp(replace, 'g'), value);
+    }
 
-	loadMap() {
-		let that = this;
+    loadMap() {
+        const that = this;
 
-		this.mapsAPILoader.load().then(() => {
-			let element = document.getElementById('searchmap');
-			this.container.nativeElement.style.height = '500px';
-			element.style.height = '100%';
+        this.mapsAPILoader.load().then(() => {
+            const element = document.getElementById('searchmap');
+            this.container.nativeElement.style.height = '500px';
+            element.style.height = '100%';
 
-			that.map = new google.maps.Map(element, {
-				zoom: 2,
-				center: { lat: 18.5284128, lng: 13.9502671 },
-				styles: [
-					{ 'featureType': 'road', 'stylers': [{ 'visibility': 'off' }] },
-					{ 'featureType': 'water', 'stylers': [{ 'color': that.waterColor }] },
-					{ 'featureType': 'transit', 'stylers': [{ 'visibility': 'off' }] },
-					{ 'featureType': 'landscape.natural', 'stylers': [{ 'visibility': 'on' }, { 'color': that.landColor }] },
-					{ 'featureType': 'administrative.province', 'stylers': [{ 'visibility': 'off' }] },
-					{ 'featureType': 'poi.park', 'elementType': 'geometry', 'stylers': [{ 'color': that.parkColor }] },
-					{ 'featureType': 'administrative.country', 'elementType': 'geometry.stroke', 'stylers': [{ 'visibility': 'on' }, { 'color': '#7f7d7a' }, { 'lightness': 10 }, { 'weight': 1 }] }
-				]
-			});
+            that.map = new google.maps.Map(element, {
+                zoom: 2,
+                center: { lat: 18.5284128, lng: 13.9502671 },
+                styles: [
+                    { 'featureType': 'road', 'stylers': [{ 'visibility': 'off' }] },
+                    { 'featureType': 'water', 'stylers': [{ 'color': that.waterColor }] },
+                    { 'featureType': 'transit', 'stylers': [{ 'visibility': 'off' }] },
+                    { 'featureType': 'landscape.natural', 'stylers': [{ 'visibility': 'on' }, { 'color': that.landColor }] },
+                    { 'featureType': 'administrative.province', 'stylers': [{ 'visibility': 'off' }] },
+                    { 'featureType': 'poi.park', 'elementType': 'geometry', 'stylers': [{ 'color': that.parkColor }] },
+                    { 'featureType': 'administrative.country', 'elementType': 'geometry.stroke', 'stylers': [{ 'visibility': 'on' }, { 'color': '#7f7d7a' }, { 'lightness': 10 }, { 'weight': 1 }] }
+                ]
+            });
 
-			let locations = [];
+            const locations = [];
 
-			that.itineraries.forEach(function (element) {
-				let l = { lat: element.stepLat, lng: element.stepLng };
-				let m = new google.maps.Marker({
-					position: l,
-					icon: '/assets/images/icon0.svg'
-				});
-				locations.push(m);
+            that.itineraries.forEach(function (element) {
+                const l = { lat: element.stepLat, lng: element.stepLng };
+                const m = new google.maps.Marker({
+                    position: l,
+                    icon: '/assets/images/icon0.svg'
+                });
+                locations.push(m);
 
-				that.createInfoWindowForStep(element, m, l);
-			});
+                that.createInfoWindowForStep(element, m, l);
+            });
 
-			setTimeout(function () {
-				let markerCluster = new MarkerClusterer(that.map, locations, { imagePath: '/assets/images/markers/m' });
-			}, 500);
-		});
-	}
+            setTimeout(function () {
+                const markerCluster = new MarkerClusterer(that.map, locations, { imagePath: '/assets/images/markers/m' });
+            }, 500);
+        });
+    }
 
-	unloadMap() {
-		let element = document.getElementById('searchmap');
-		this.container.nativeElement.style.height = '0';
+    unloadMap() {
+        const element = document.getElementById('searchmap');
+        this.container.nativeElement.style.height = '0';
 
-		element.innerHTML = '';
-		element.style.height = '0';
-	}
+        element.innerHTML = '';
+        element.style.height = '0';
+    }
 
-	private createInfoWindowForStep(itinerary: Itinerary, marker: any, location: any) {
-		let content = itinerary.description;
-		let username = itinerary.users[0].name;
-		let itineraryid = itinerary.id;
+    private createInfoWindowForStep(itinerary: Itinerary, marker: any, location: any) {
+        let content = itinerary.description;
+        const username = itinerary.users[0].name;
+        const itineraryid = itinerary.id;
 
-		content += '<br/><p><a href="/visiteur/' + this.sanitize(username) + '/' + itineraryid + '/' + this.sanitize(itinerary.name) + '" target="_blank" rel="noopener">Voir l\'itinéraire de ' + username + '</a></p>';
+        content += '<br/><p><a href="/visiteur/' + this.sanitize(username) + '/' + itineraryid + '/' + this.sanitize(itinerary.name) + '" target="_blank" rel="noopener">Voir l\'itinéraire de ' + username + '</a></p>';
 
-		let that = this;
+        const that = this;
 
-		this.attachClickEvent(marker, location, itinerary.name, itinerary.country, content);
-	}
+        this.attachClickEvent(marker, location, itinerary.name, itinerary.country, content);
+    }
 
-	private attachClickEvent(marker: any, location: any, title: string, country: string, description: string) {
-		let that = this;
+    private attachClickEvent(marker: any, location: any, title: string, country: string, description: string) {
+        const that = this;
 
-		google.maps.event.addListener(marker, 'click', function (e) {
-			let infoWindow = that.createComponent();
+        google.maps.event.addListener(marker, 'click', function (e) {
+            const infoWindow = that.createComponent();
 
-			infoWindow.instance.create(location.lat, location.lng, title, country, description, null);
-			that.infoWindows.push(infoWindow.instance);
+            infoWindow.instance.create(location.lat, location.lng, title, country, description, null);
+            that.infoWindows.push(infoWindow.instance);
 
-			that.infoWindows.forEach(element => { element.close(); });
+            that.infoWindows.forEach(element => { element.close(); });
 
-			infoWindow.instance.open(that.map, marker);
-			infoWindow.changeDetectorRef.detectChanges();
+            infoWindow.instance.open(that.map, marker);
+            infoWindow.changeDetectorRef.detectChanges();
 
-			let element = document.getElementsByClassName('gm-style-iw');
+            const element = document.getElementsByClassName('gm-style-iw');
 
-			setTimeout(function () {
-				let preElement: any = document.getElementsByClassName('gm-style-iw')[0].previousElementSibling;
-				let nextElement: any = document.getElementsByClassName('gm-style-iw')[0].nextElementSibling;
+            setTimeout(function () {
+                const preElement: any = document.getElementsByClassName('gm-style-iw')[0].previousElementSibling;
+                const nextElement: any = document.getElementsByClassName('gm-style-iw')[0].nextElementSibling;
 
-				preElement.children[1].style.display = 'none';
-				preElement.children[3].style.display = 'none';
-				nextElement.className = 'iw-close';
-			}, 200);
-		});
-	}
-	
-	private createComponent(): ComponentRef<IInfoWindowComponent> {
-		const factory = this.componentFactoryResolver.resolveComponentFactory(IInfoWindowComponent);
-		const ref = this.viewContainerRef.createComponent(factory);
-		ref.changeDetectorRef.detectChanges();
+                preElement.children[1].style.display = 'none';
+                preElement.children[3].style.display = 'none';
+                nextElement.className = 'iw-close';
+            }, 200);
+        });
+    }
 
-		return ref;
-	}
+    private createComponent(): ComponentRef<IInfoWindowComponent> {
+        const factory = this.componentFactoryResolver.resolveComponentFactory(IInfoWindowComponent);
+        const ref = this.viewContainerRef.createComponent(factory);
+        ref.changeDetectorRef.detectChanges();
 
-	private sanitize(str: string): string {
-		if (!str || str.length === 0) {
-			return str;
-		}
+        return ref;
+    }
 
-		let tmp = this.replaceAll(str.toLocaleLowerCase().trim(), ' ', '-');
-		tmp = this.replaceAll(tmp, '[^a-z0-9éèàôûîïêù]', '-');
+    private sanitize(str: string): string {
+        if (!str || str.length === 0) {
+            return str;
+        }
+
+        let tmp = this.replaceAll(str.toLocaleLowerCase().trim(), ' ', '-');
+        tmp = this.replaceAll(tmp, '[^a-z0-9éèàôûîïêù]', '-');
         tmp = this.replaceAll(tmp, '[--]+', '-');
 
-		return encodeURIComponent(tmp);
-	}
+        return encodeURIComponent(tmp);
+    }
 }

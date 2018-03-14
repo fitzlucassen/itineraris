@@ -11,7 +11,7 @@ export class Itinerary {
     stepLng: number;
     online: boolean;
     likes: number;
-    
+
     constructor(values: Object = {}) {
         this.users = new Array<User>();
         (<any>Object).assign(this, values);

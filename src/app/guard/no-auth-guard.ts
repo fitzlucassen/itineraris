@@ -8,8 +8,9 @@ export class NoAuthGuard implements CanActivate {
     }
 
     canActivate() {
-        if (!this.userService.isSignedin())
+        if (!this.userService.isSignedin()) {
             return true;
+        }
         else {
             this.router.navigate(['compte/tableau-de-bord.html']);
             return false;

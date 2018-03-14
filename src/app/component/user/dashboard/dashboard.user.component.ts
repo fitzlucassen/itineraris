@@ -13,127 +13,128 @@ import { SearchPipe } from '../../../pipe/search.pipe';
 import { environment } from '../../../../environments/environment';
 
 @Component({
-	selector: 'app-user-dashboard',
-	templateUrl: './dashboard.user.component.html',
-	styleUrls: ['./dashboard.user.component.scss'],
-	providers: [UserService, ItineraryService, MatDialog],
+    selector: 'app-user-dashboard',
+    templateUrl: './dashboard.user.component.html',
+    styleUrls: ['./dashboard.user.component.scss'],
+    providers: [UserService, ItineraryService, MatDialog],
 })
 export class DashboardUserComponent implements OnInit {
-	currentUser: User;
-	itineraries: Array<Itinerary>;
-	dialogRef: MatDialogRef<ItineraryDialogComponent>;
-	showSearch: boolean;
-	search: string;
-	screenHeight: number;
-	isLoading: boolean = false;
-	mapUrl: string;
+    currentUser: User;
+    itineraries: Array<Itinerary>;
+    dialogRef: MatDialogRef<ItineraryDialogComponent>;
+    showSearch: boolean;
+    search: string;
+    screenHeight: number;
+    isLoading = false;
+    mapUrl: string;
 
-	@ViewChild(MatInput) input: any;
+    @ViewChild(MatInput) input: any;
 
-	constructor(public itineraryDialog: MatDialog, private userService: UserService, private itineraryService: ItineraryService, private router: Router, private metaService: Meta, private titleService: Title) {
-		this.titleService.setTitle('Itineraris - Dashboard');
-		this.metaService.updateTag({ content: 'Itineraris - Dashboard' }, 'name="og:title"');
-		this.metaService.updateTag({ content: 'Votre tableau de bord, gérez vos itinéraires de voyages' }, 'name="description"');
-		this.metaService.updateTag({ content: 'Votre tableau de bord, gérez vos itinéraires de voyages' }, 'name="og:description"');
+    constructor(public itineraryDialog: MatDialog, private userService: UserService, private itineraryService: ItineraryService, private router: Router, private metaService: Meta, private titleService: Title) {
+        this.titleService.setTitle('Itineraris - Dashboard');
+        this.metaService.updateTag({ content: 'Itineraris - Dashboard' }, 'name="og:title"');
+        this.metaService.updateTag({ content: 'Votre tableau de bord, gérez vos itinéraires de voyages' }, 'name="description"');
+        this.metaService.updateTag({ content: 'Votre tableau de bord, gérez vos itinéraires de voyages' }, 'name="og:description"');
 
-		this.currentUser = userService.getCurrentUser();
-		this.mapUrl = 'world/' + this.currentUser.id + '/' + this.sanitize(this.currentUser.name);
-		this.showSearch = false;
-		this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
+        this.currentUser = userService.getCurrentUser();
+        this.mapUrl = 'world/' + this.currentUser.id + '/' + this.sanitize(this.currentUser.name);
+        this.showSearch = false;
+        this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
 
-		itineraryService.getUserItineraries(this.currentUser).subscribe(
-			result => this.assignItineraries(result),
-			error => alert(error)
-		);
-	}
+        itineraryService.getUserItineraries(this.currentUser).subscribe(
+            result => this.assignItineraries(result),
+            error => alert(error)
+        );
+    }
 
-	openDialog() {
-		this.dialogRef = this.itineraryDialog.open(ItineraryDialogComponent, {
-			disableClose: false,
-		});
-		this.dialogRef.componentInstance.newItinerary.users.push(new User({ id: this.currentUser.id }));
-		this.dialogRef.componentInstance.newItinerary.online = true;
+    openDialog() {
+        this.dialogRef = this.itineraryDialog.open(ItineraryDialogComponent, {
+            disableClose: false,
+        });
+        this.dialogRef.componentInstance.newItinerary.users.push(new User({ id: this.currentUser.id }));
+        this.dialogRef.componentInstance.newItinerary.online = true;
 
-		let that = this;
-		return this.dialogRef.afterClosed().subscribe(function () {
-			that.itineraryService.getUserItineraries(that.currentUser).subscribe(
-				result => that.assignItineraries(result),
-				error => alert(error)
-			);
-		});
-	}
+        const that = this;
+        return this.dialogRef.afterClosed().subscribe(function () {
+            that.itineraryService.getUserItineraries(that.currentUser).subscribe(
+                result => that.assignItineraries(result),
+                error => alert(error)
+            );
+        });
+    }
 
-	editItinerary(id: string) {
-		this.dialogRef = this.itineraryDialog.open(ItineraryDialogComponent, {
-			disableClose: false,
-		});
-		this.itineraryService.getItineraryById(id).subscribe(
-			result => this.assignItinerary(result),
-			error => alert(error)
-		);
+    editItinerary(id: string) {
+        this.dialogRef = this.itineraryDialog.open(ItineraryDialogComponent, {
+            disableClose: false,
+        });
+        this.itineraryService.getItineraryById(id).subscribe(
+            result => this.assignItinerary(result),
+            error => alert(error)
+        );
 
-		this.dialogRef.componentInstance.isUpdate = true;
+        this.dialogRef.componentInstance.isUpdate = true;
 
-		let that = this;
-		return this.dialogRef.afterClosed().subscribe(function () {
-			that.itineraryService.getUserItineraries(that.currentUser).subscribe(
-				result => that.assignItineraries(result),
-				error => alert(error)
-			);
-		});
-	}
+        const that = this;
+        return this.dialogRef.afterClosed().subscribe(function () {
+            that.itineraryService.getUserItineraries(that.currentUser).subscribe(
+                result => that.assignItineraries(result),
+                error => alert(error)
+            );
+        });
+    }
 
-	removeItinerary(id: number) {
-		if (confirm('Êtes-vous sur de vouloir supprimer cet itinéraire ?')) {
-			this.isLoading = true;
-			this.itineraryService.delete(id).subscribe(
-				id => id != null ? this.successfullyRemoved() : function () { }
-			);
-		}
-	}
+    removeItinerary(id: number) {
+        if (confirm('Êtes-vous sur de vouloir supprimer cet itinéraire ?')) {
+            this.isLoading = true;
+            this.itineraryService.delete(id).subscribe(
+                // tslint:disable-next-line:no-shadowed-variable
+                id => id != null ? this.successfullyRemoved() : function () { }
+            );
+        }
+    }
 
-	toggleSearch() {
-		this.showSearch = !this.showSearch;
+    toggleSearch() {
+        this.showSearch = !this.showSearch;
 
-		setTimeout(() => {
-			this.input.focus();
-		});
-	}
+        setTimeout(() => {
+            this.input.focus();
+        });
+    }
 
-	replaceAll(str: string, replace: string, value: string): string {
-		return str.replace(new RegExp(replace, 'g'), value);
-	}
+    replaceAll(str: string, replace: string, value: string): string {
+        return str.replace(new RegExp(replace, 'g'), value);
+    }
 
-	sanitize(str: string): string {
-		if (!str || str.length === 0) {
-			return str;
-		}
+    sanitize(str: string): string {
+        if (!str || str.length === 0) {
+            return str;
+        }
 
-		let tmp = this.replaceAll(str.toLocaleLowerCase().trim(), ' ', '-');
-		tmp = this.replaceAll(tmp, '[^a-z0-9éèàôûîïêù]', '-');
+        let tmp = this.replaceAll(str.toLocaleLowerCase().trim(), ' ', '-');
+        tmp = this.replaceAll(tmp, '[^a-z0-9éèàôûîïêù]', '-');
         tmp = this.replaceAll(tmp, '[--]+', '-');
 
-		return encodeURIComponent(tmp);
-	}
+        return encodeURIComponent(tmp);
+    }
 
-	signout() {
-		this.userService.signout(this.currentUser, function () { window.location.href = '/'; });
-	}
+    signout() {
+        this.userService.signout(this.currentUser, function () { window.location.href = '/'; });
+    }
 
-	ngOnInit() {
-	}
+    ngOnInit() {
+    }
 
-	private successfullyRemoved() {
-		this.itineraryService.getUserItineraries(this.currentUser).subscribe(
-			result => this.assignItineraries(result),
-			error => alert(error)
-		);
-	}
-	private assignItinerary(result: Itinerary) {
-		this.dialogRef.componentInstance.newItinerary = result;
-	}
-	private assignItineraries(result: Array<Itinerary>) {
-		this.itineraries = result;
-		this.isLoading = false;
-	}
+    private successfullyRemoved() {
+        this.itineraryService.getUserItineraries(this.currentUser).subscribe(
+            result => this.assignItineraries(result),
+            error => alert(error)
+        );
+    }
+    private assignItinerary(result: Itinerary) {
+        this.dialogRef.componentInstance.newItinerary = result;
+    }
+    private assignItineraries(result: Array<Itinerary>) {
+        this.itineraries = result;
+        this.isLoading = false;
+    }
 }

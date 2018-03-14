@@ -1,15 +1,16 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { User } from "app/model/user";
+import { User } from '../model/user';
 
 @Pipe({
-	name: 'SearchUserPipe'
+    name: 'SearchUserPipe'
 })
 export class SearchUserPipe implements PipeTransform {
-	transform(value: Array<User>, args?: string): Array<User> {
-		if (!args)
-			return value;
-		return value.filter(v =>
-			v.name.toLocaleLowerCase().indexOf(args.toLocaleLowerCase()) !== -1 ||
-			v.email.toLocaleLowerCase().indexOf(args.toLocaleLowerCase()) !== -1);
-	}
+    transform(value: Array<User>, args?: string): Array<User> {
+        if (!args) {
+            return value;
+        }
+        return value.filter(v =>
+            v.name.toLocaleLowerCase().indexOf(args.toLocaleLowerCase()) !== -1 ||
+            v.email.toLocaleLowerCase().indexOf(args.toLocaleLowerCase()) !== -1);
+    }
 }

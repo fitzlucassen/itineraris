@@ -27,35 +27,35 @@ import { NoAuthGuard } from '../../guard/no-auth-guard';
 import { routing } from '../../routing/membership.routing';
 
 @NgModule({
-	declarations: [
-		HomeMembershipComponent,
-		SignupMembershipComponent,
-		DashboardUserComponent,
-		ItineraryUserComponent,
-		ItineraryDialogComponent,
-		ItineraryUserDialogComponent,
-		StepDialogComponent,
-		StopDialogComponent,
-		UploadFileComponent,
-		StepDetailDialogComponent,
-		SearchPipe,
-		SearchStepPipe,
-		SearchUserPipe
-	],
-	entryComponents: [
-		ItineraryDialogComponent,
-		StepDialogComponent,
-		StopDialogComponent,
-		ItineraryUserDialogComponent,
-		StepDetailDialogComponent
-	],
-	imports: [
-		ReactiveFormsModule,
-		FormsModule,
-		CommonModule,
-		HttpModule,
-		MatSlideToggleModule, MatNativeDateModule, MatButtonModule, MatCheckboxModule, MatIconModule, MatToolbarModule, MatSidenavModule, MatListModule, MatCardModule, MatInputModule, MatMenuModule, MatSelectModule, MatSliderModule, MatSnackBarModule, MatFormFieldModule, MatDatepickerModule,
-		routing
-	]
+    declarations: [
+        HomeMembershipComponent,
+        SignupMembershipComponent,
+        DashboardUserComponent,
+        ItineraryUserComponent,
+        ItineraryDialogComponent,
+        ItineraryUserDialogComponent,
+        StepDialogComponent,
+        StopDialogComponent,
+        UploadFileComponent,
+        StepDetailDialogComponent,
+        SearchPipe,
+        SearchStepPipe,
+        SearchUserPipe
+    ],
+    entryComponents: [
+        ItineraryDialogComponent,
+        StepDialogComponent,
+        StopDialogComponent,
+        ItineraryUserDialogComponent,
+        StepDetailDialogComponent
+    ],
+    imports: [
+        ReactiveFormsModule,
+        FormsModule,
+        CommonModule,
+        HttpModule,
+        MatSlideToggleModule, MatNativeDateModule, MatButtonModule, MatCheckboxModule, MatIconModule, MatToolbarModule, MatSidenavModule, MatListModule, MatCardModule, MatInputModule, MatMenuModule, MatSelectModule, MatSliderModule, MatSnackBarModule, MatFormFieldModule, MatDatepickerModule,
+        routing
+    ]
 })
 export class MembershipModule { }

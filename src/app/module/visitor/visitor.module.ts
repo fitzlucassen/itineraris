@@ -17,26 +17,26 @@ import { IInfoWindowComponent } from '../../component/visitor/i-info-window/i-in
 import { routing } from '../../routing/visitor.routing';
 
 @NgModule({
-	imports: [
-		CommonModule,
-		ReactiveFormsModule,
-		FormsModule,
-		CommonModule,
-		HttpModule,
-		MatTabsModule, MatButtonModule, MatCheckboxModule, MatIconModule, MatToolbarModule, MatSidenavModule, MatListModule, MatCardModule, MatInputModule, MatMenuModule, MatSelectModule, MatSliderModule, MatSnackBarModule, MatFormFieldModule, MatDatepickerModule,
-		routing
-	],
-	declarations: [
-		UserMapComponent,
-		MapComponent,
-		HomeVisitorComponent,
-		SearchMapComponent,
-		WorldMapComponent,
-		IInfoWindowComponent,
-		SearchItineraryPipe
-	],
-	entryComponents: [
-		IInfoWindowComponent
-	]
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        CommonModule,
+        HttpModule,
+        MatTabsModule, MatButtonModule, MatCheckboxModule, MatIconModule, MatToolbarModule, MatSidenavModule, MatListModule, MatCardModule, MatInputModule, MatMenuModule, MatSelectModule, MatSliderModule, MatSnackBarModule, MatFormFieldModule, MatDatepickerModule,
+        routing
+    ],
+    declarations: [
+        UserMapComponent,
+        MapComponent,
+        HomeVisitorComponent,
+        SearchMapComponent,
+        WorldMapComponent,
+        IInfoWindowComponent,
+        SearchItineraryPipe
+    ],
+    entryComponents: [
+        IInfoWindowComponent
+    ]
 })
 export class VisitorModule { }

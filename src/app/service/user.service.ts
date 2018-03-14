@@ -18,12 +18,12 @@ export class UserService {
     }
 
     isSignedin(): boolean {
-        let c = JSON.parse(localStorage.getItem('current_user'));
-        return c != "" && c != null;
+        const c = JSON.parse(localStorage.getItem('current_user'));
+        return c !== '' && c != null;
     }
 
     getCurrentUser(): User {
-        let c = localStorage.getItem('current_user');
+        const c = localStorage.getItem('current_user');
         return JSON.parse(c);
     }
 
@@ -80,7 +80,7 @@ export class UserService {
     }
 
     private extractData(res: Response) {
-        let body = res.json();
+        const body = res.json();
         return body.result;
     }
     private handleError(error: Response | any) {

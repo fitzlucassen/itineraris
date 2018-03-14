@@ -11,111 +11,112 @@ import { ItineraryService } from '../../../service/itinerary.service';
 import { SharingDialogComponent } from '../../common/sharing-dialog/sharing-dialog.component';
 
 @Component({
-	selector: 'app-world-map',
-	templateUrl: './world-map.component.html',
-	styleUrls: ['./world-map.component.scss'],
-	providers: [ItineraryService]
+    selector: 'app-world-map',
+    templateUrl: './world-map.component.html',
+    styleUrls: ['./world-map.component.scss'],
+    providers: [ItineraryService]
 })
 export class WorldMapComponent implements OnInit, OnDestroy {
-	steps: Array<Array<ItineraryStep>>;
-	stops: Array<Stop>;
+    steps: Array<Array<ItineraryStep>>;
+    stops: Array<Stop>;
 
-	title: string;
-	screenHeight: number;
-	totalShare: number = 0;
-	sharingRef: MatDialogRef<SharingDialogComponent>;
-	
-	currentUrl: string;
-	currentTitle: string = 'Les voyages';
-	currentDescription: string = 'Visualisation des itinéraires de voyage';
+    title: string;
+    screenHeight: number;
+    totalShare = 0;
+    sharingRef: MatDialogRef<SharingDialogComponent>;
 
-	@ViewChild(MapComponent) public map: MapComponent;
-	@ViewChild('toAppend') public sidenav: ElementRef;
+    currentUrl: string;
+    currentTitle = 'Les voyages';
+    currentDescription = 'Visualisation des itinéraires de voyage';
 
-	constructor(
-		public itineraryDialog: MatDialog,
-		public route: ActivatedRoute,
-		private userService: UserService,
-		private itineraryService: ItineraryService,
-		private router: Router,
-		private renderer: Renderer, private metaService: Meta, private titleService: Title) {
+    @ViewChild(MapComponent) public map: MapComponent;
+    @ViewChild('toAppend') public sidenav: ElementRef;
 
-		this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
-		this.currentUrl = window.location.href;
-	}
+    constructor(
+        public itineraryDialog: MatDialog,
+        public route: ActivatedRoute,
+        private userService: UserService,
+        private itineraryService: ItineraryService,
+        private router: Router,
+        private renderer: Renderer, private metaService: Meta, private titleService: Title) {
 
-	ngOnInit() {
-		this.route.params.subscribe(params => {
-			// Récupération des valeurs de l'URL
-			let userId = params['iduser'];
-			let userName = params['nameuser'];
+        this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
+        this.currentUrl = window.location.href;
+    }
 
-			this.title = userName;
+    ngOnInit() {
+        this.route.params.subscribe(params => {
+            // Récupération des valeurs de l'URL
+            const userId = params['iduser'];
+            const userName = params['nameuser'];
 
-			this.currentTitle += ' de ' + userName;
-			this.currentDescription += ' de ' + userName;
+            this.title = userName;
 
-			this.titleService.setTitle(this.currentTitle);
-			this.metaService.updateTag({ content: this.currentTitle }, 'name="og:title"');
-			this.metaService.updateTag({ content: this.currentDescription }, 'name="description"');
-			this.metaService.updateTag({ content: this.currentDescription }, 'name="og:description"');
+            this.currentTitle += ' de ' + userName;
+            this.currentDescription += ' de ' + userName;
 
-			let that = this;
+            this.titleService.setTitle(this.currentTitle);
+            this.metaService.updateTag({ content: this.currentTitle }, 'name="og:title"');
+            this.metaService.updateTag({ content: this.currentDescription }, 'name="description"');
+            this.metaService.updateTag({ content: this.currentDescription }, 'name="og:description"');
 
-			this.itineraryService.getItinerariesSteps(userId).subscribe(
-				result => that.assignItinerarySteps(result),
-				error => alert(error)
-			);
-			this.itineraryService.getItinerariesStops(userId).subscribe(
-				result => that.assignItineraryStops(result),
-				error => alert(error)
-			);
+            const that = this;
 
-			this.renderer.setElementProperty(this.sidenav.nativeElement, 'innerHTML', '<div id="fb-root"></div><div class="fb-comments" data-href="' + this.currentUrl + '" data-numposts="10"></div>');
+            this.itineraryService.getItinerariesSteps(userId).subscribe(
+                result => that.assignItinerarySteps(result),
+                error => alert(error)
+            );
+            this.itineraryService.getItinerariesStops(userId).subscribe(
+                result => that.assignItineraryStops(result),
+                error => alert(error)
+            );
 
-			(function (d, s, id) {
-				let js, fjs = d.getElementsByTagName(s)[0];
-				if (d.getElementById(id) && window['FB']) {
-					window['FB'].XFBML.parse(); // Instead of returning, lets call parse()
-				}
-				js = d.createElement(s); js.id = id;
-				js.src = '//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.8&appId=265963237186602';
-				fjs.parentNode.insertBefore(js, fjs);
-			}(document, 'script', 'facebook-jssdk'));
-		});
-	}
+            this.renderer.setElementProperty(this.sidenav.nativeElement, 'innerHTML', '<div id="fb-root"></div><div class="fb-comments" data-href="' + this.currentUrl + '" data-numposts="10"></div>');
 
-	ngOnDestroy() {
-		delete window['FB'];
-	}
+            (function (d, s, id) {
+                // tslint:disable-next-line:prefer-const
+                let js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id) && window['FB']) {
+                    window['FB'].XFBML.parse(); // Instead of returning, lets call parse()
+                }
+                js = d.createElement(s); js.id = id;
+                js.src = '//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.8&appId=265963237186602';
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        });
+    }
 
-	openSharingPopup() {
-		this.sharingRef = this.itineraryDialog.open(SharingDialogComponent, {
-			disableClose: false,
-		});
+    ngOnDestroy() {
+        delete window['FB'];
+    }
 
-		let userName = this.title;
+    openSharingPopup() {
+        this.sharingRef = this.itineraryDialog.open(SharingDialogComponent, {
+            disableClose: false,
+        });
 
-		this.sharingRef.componentInstance.sharingUrl = this.currentUrl;
-		this.sharingRef.componentInstance.sharingTitle = 'Tous les Itinéraires de voyage de ' + userName;
-		this.sharingRef.componentInstance.sharingDescription = 'Voici tous les itinéraires de voyage de ' + userName + ' - Restez en contact avec lui et laissez lui un message !';
-	}
+        const userName = this.title;
 
-	private assignItinerarySteps(result: Array<Array<ItineraryStep>>) {
-		this.steps = result;
+        this.sharingRef.componentInstance.sharingUrl = this.currentUrl;
+        this.sharingRef.componentInstance.sharingTitle = 'Tous les Itinéraires de voyage de ' + userName;
+        this.sharingRef.componentInstance.sharingDescription = 'Voici tous les itinéraires de voyage de ' + userName + ' - Restez en contact avec lui et laissez lui un message !';
+    }
 
-		this.map.drawItineraries(this.steps);
-	}
-	private assignItineraryStops(result: Array<Stop>) {
-		this.stops = result;
+    private assignItinerarySteps(result: Array<Array<ItineraryStep>>) {
+        this.steps = result;
 
-		let that = this;
+        this.map.drawItineraries(this.steps);
+    }
+    private assignItineraryStops(result: Array<Stop>) {
+        this.stops = result;
 
-		this.stops.forEach(function (element: Stop) {
-			that.itineraryService.getStopPictures(element.id).subscribe(
-				data => { that.map.createInfoWindowForStop(data, element); },
-				error => { alert(error); }
-			);
-		});
-	}
+        const that = this;
+
+        this.stops.forEach(function (element: Stop) {
+            that.itineraryService.getStopPictures(element.id).subscribe(
+                data => { that.map.createInfoWindowForStop(data, element); },
+                error => { alert(error); }
+            );
+        });
+    }
 }

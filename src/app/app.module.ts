@@ -38,7 +38,7 @@ import { ShareButtonsModule } from '@ngx-share/buttons';
         HttpClientModule,      // (Required) for share counts
         HttpClientJsonpModule, // (Optional) For linkedIn & Tumblr counts
         ShareButtonsModule.forRoot(),
-		MatFormFieldModule, MatInputModule,
+        MatFormFieldModule, MatInputModule,
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyDR6MQEKvMFKiYTS0uZZTA-YIKe2yRcfng',
             libraries: ['places']

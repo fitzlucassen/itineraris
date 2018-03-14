@@ -6,23 +6,23 @@ import { DebugElement } from '@angular/core';
 import { StepDialogComponent } from './step-dialog.component';
 
 describe('StepDialogComponent', () => {
-	let component: StepDialogComponent;
-	let fixture: ComponentFixture<StepDialogComponent>;
+    let component: StepDialogComponent;
+    let fixture: ComponentFixture<StepDialogComponent>;
 
-	beforeEach(async(() => {
-		TestBed.configureTestingModule({
-			declarations: [StepDialogComponent]
-		})
-			.compileComponents();
-	}));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [StepDialogComponent]
+        })
+            .compileComponents();
+    }));
 
-	beforeEach(() => {
-		fixture = TestBed.createComponent(StepDialogComponent);
-		component = fixture.componentInstance;
-		fixture.detectChanges();
-	});
+    beforeEach(() => {
+        fixture = TestBed.createComponent(StepDialogComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-	it('should create', () => {
-		expect(component).toBeTruthy();
-	});
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });
