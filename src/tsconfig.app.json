@@ -6,6 +6,11 @@
     "module": "es2015",
     "types": []
   },
+  "include": [
+    "**/itinerary.ts",
+    "**/main.ts",
+    "**/*.ts"
+  ],
   "exclude": [
     "test.ts",
     "**/*.spec.ts"

@@ -12,7 +12,8 @@
             "manifest.json",
             "sitemap.xml",
             "web.config",
-            "robots.txt"
+            "robots.txt",
+            "modernizr-custom.js"
         ],
         "index": "index.html",
         "main": "main.ts",
@@ -61,6 +62,9 @@
         }
     },
     "defaults": {
+        "build": {
+            "preserveSymlinks": true
+          },
         "styleExt": "scss",
         "component": {}
     }

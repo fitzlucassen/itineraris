@@ -37,6 +37,7 @@
     "rxjs": "^5.5.6",
     "sw-precache": "^5.2.1",
     "sw-toolbox": "^3.6.0",
+    "webdriver": "0.0.4",
     "zone.js": "^0.8.19"
   },
   "devDependencies": {
