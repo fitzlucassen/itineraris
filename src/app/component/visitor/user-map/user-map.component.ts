@@ -112,9 +112,9 @@ export class UserMapComponent implements OnInit, OnDestroy {
         this.currentDescription += ' - ' + result.country + ' - Restez en contact avec lui et laissez lui un message !';
 
         this.titleService.setTitle(this.currentTitle);
-        this.metaService.updateTag({ content: this.currentTitle }, 'name="og:title"');
+        this.metaService.updateTag({ content: this.currentTitle }, 'property="og:title"');
         this.metaService.updateTag({ content: this.currentDescription }, 'name="description"');
-        this.metaService.updateTag({ content: this.currentDescription }, 'name="og:description"');
+        this.metaService.updateTag({ content: this.currentDescription }, 'property="og:description"');
 
         this.itinerary = result;
     }

@@ -26,9 +26,9 @@ export class SignupMembershipComponent implements OnInit {
 
     constructor(private ngZone: NgZone, public snackBar: MatSnackBar, private fb: FormBuilder, private userService: UserService, private router: Router, private metaService: Meta, private titleService: Title) {
         this.titleService.setTitle('Itineraris - Inscription');
-        this.metaService.updateTag({ content: 'Itineraris - Inscription' }, 'name="og:title"');
+        this.metaService.updateTag({ content: 'Itineraris - Inscription' }, 'property="og:title"');
         this.metaService.updateTag({ content: 'Inscrivez-vous afin de créer vos itinéraires de voyages' }, 'name="description"');
-        this.metaService.updateTag({ content: 'Inscrivez-vous afin de créer vos itinéraires de voyages' }, 'name="og:description"');
+        this.metaService.updateTag({ content: 'Inscrivez-vous afin de créer vos itinéraires de voyages' }, 'property="og:description"');
 
         this.name = new FormControl('', [Validators.required, Validators.minLength(3)]);
         this.email = new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}')]);

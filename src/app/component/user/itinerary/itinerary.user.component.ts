@@ -47,9 +47,9 @@ export class ItineraryUserComponent implements OnInit {
 
     constructor(public itineraryDialog: MatDialog, public route: ActivatedRoute, private itineraryService: ItineraryService, private userService: UserService, private router: Router, private metaService: Meta, private titleService: Title) {
         this.titleService.setTitle('Itineraris -  Gérer l\'itinéraire');
-        this.metaService.updateTag({ content: 'Itineraris - Gérer l\'itinéraire' }, 'name="og:title"');
+        this.metaService.updateTag({ content: 'Itineraris - Gérer l\'itinéraire' }, 'property="og:title"');
         this.metaService.updateTag({ content: 'Gérer votre itinéraire en ajoutant une ou plusieurs étapes' }, 'name="description"');
-        this.metaService.updateTag({ content: 'Gérer votre itinéraire en ajoutant une ou plusieurs étapes' }, 'name="og:description"');
+        this.metaService.updateTag({ content: 'Gérer votre itinéraire en ajoutant une ou plusieurs étapes' }, 'property="og:description"');
 
         this.currentUser = userService.getCurrentUser();
         this.showSearch = false;

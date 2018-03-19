@@ -23,9 +23,9 @@ export class HomeMembershipComponent implements OnInit {
 
     constructor(private ngZone: NgZone, private fb: FormBuilder, private userService: UserService, private router: Router, private metaService: Meta, private titleService: Title) {
         this.titleService.setTitle('Itineraris - Connexion');
-        this.metaService.updateTag({ content: 'Itineraris - Connexion' }, 'name="og:title"');
+        this.metaService.updateTag({ content: 'Itineraris - Connexion' }, 'property="og:title"');
         this.metaService.updateTag({ content: 'Connectez-vous à votre compte et créez vos itinéraires de voyages' }, 'name="description"');
-        this.metaService.updateTag({ content: 'Connectez-vous à votre compte et créez vos itinéraires de voyages' }, 'name="og:description"');
+        this.metaService.updateTag({ content: 'Connectez-vous à votre compte et créez vos itinéraires de voyages' }, 'property="og:description"');
 
         this.pseudo = new FormControl('', [Validators.required, Validators.minLength(3)]);
         this.password = new FormControl('', [Validators.required, Validators.minLength(3)]);

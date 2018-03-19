@@ -32,9 +32,9 @@ export class DashboardUserComponent implements OnInit {
 
     constructor(public itineraryDialog: MatDialog, private userService: UserService, private itineraryService: ItineraryService, private router: Router, private metaService: Meta, private titleService: Title) {
         this.titleService.setTitle('Itineraris - Dashboard');
-        this.metaService.updateTag({ content: 'Itineraris - Dashboard' }, 'name="og:title"');
+        this.metaService.updateTag({ content: 'Itineraris - Dashboard' }, 'property="og:title"');
         this.metaService.updateTag({ content: 'Votre tableau de bord, gérez vos itinéraires de voyages' }, 'name="description"');
-        this.metaService.updateTag({ content: 'Votre tableau de bord, gérez vos itinéraires de voyages' }, 'name="og:description"');
+        this.metaService.updateTag({ content: 'Votre tableau de bord, gérez vos itinéraires de voyages' }, 'property="og:description"');
 
         this.currentUser = userService.getCurrentUser();
         this.mapUrl = 'world/' + this.currentUser.id + '/' + this.sanitize(this.currentUser.name);

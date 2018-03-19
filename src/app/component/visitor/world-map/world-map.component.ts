@@ -56,9 +56,9 @@ export class WorldMapComponent implements OnInit, OnDestroy {
             this.currentDescription += ' de ' + userName;
 
             this.titleService.setTitle(this.currentTitle);
-            this.metaService.updateTag({ content: this.currentTitle }, 'name="og:title"');
+            this.metaService.updateTag({ content: this.currentTitle }, 'property="og:title"');
             this.metaService.updateTag({ content: this.currentDescription }, 'name="description"');
-            this.metaService.updateTag({ content: this.currentDescription }, 'name="og:description"');
+            this.metaService.updateTag({ content: this.currentDescription }, 'property="og:description"');
 
             const that = this;
 
