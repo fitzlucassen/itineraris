@@ -25,3 +25,9 @@ h2, h3 {
 h3 {
     font-size: 24px;
 }
+.alignMiddle {
+    vertical-align: middle;
+}
+mat-icon.alignMiddle {
+    color: $mainColor;
+}

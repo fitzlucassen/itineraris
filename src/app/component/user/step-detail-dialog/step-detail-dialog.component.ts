@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 
 import { ItineraryService } from '../../../service/itinerary.service';
 import { ItineraryStep } from '../../../model/itinerary-step';
+import { MatAutocompleteSelectedEvent } from '@angular/material';
 
 @Component({
     selector: 'app-step-detail-dialog',
@@ -18,6 +19,7 @@ export class StepDetailDialogComponent implements OnInit {
     stepSleepDescription: string;
     stepFoodDescription: string;
     stepTransportDescription: string;
+    search: string;
 
     form: FormGroup;
     step: FormControl;
@@ -56,5 +58,10 @@ export class StepDetailDialogComponent implements OnInit {
             },
             error => { alert(error); }
         );
+    }
+
+    selectStepId($event: MatAutocompleteSelectedEvent) {
+        this.stepId = this.steps.find(s => s.city == $event.option.value).id;
+        console.log(this.stepId);
     }
 }

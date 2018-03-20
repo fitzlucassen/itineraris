@@ -24,7 +24,6 @@ export class StepDialogComponent implements OnInit, OnChanges {
     images: Array<Picture> = [];
 
     screenHeight: number;
-    popinHeight: number;
 
     @ViewChild('search')
     public searchElementRef: ElementRef;

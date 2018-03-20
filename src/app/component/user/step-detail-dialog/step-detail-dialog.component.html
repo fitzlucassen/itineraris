@@ -1,35 +1,61 @@
 <div class="mat-padding" style="overflow: auto;" [style.max-height]="screenHeight + 'px'">
     <form name="userForm" [formGroup]="form">
         <h2>Partagez les bons plans d'une destination</h2>
-        <h3>Choisissez l'étape :</h3>
-        <mat-form-field>
-            <mat-select placeholder="Étape concernée" formControlName="step" [(ngModel)]="stepId" required flex>
-                <mat-option *ngFor="let step of steps" value="step.id">{{step.city}}</mat-option>
-            </mat-select>
+        <h3>
+            <mat-icon mat-list-avatar class="alignMiddle">place</mat-icon>
+            <span class="alignMiddle">Choisissez l'étape :</span>
+        </h3>
+
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Étape concernée" aria-label="Étape concernée" [matAutocomplete]="auto" formControlName="step"
+                [(ngModel)]="search">
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectStepId($event)">
+                <mat-option *ngFor="let step of steps | SearchStepPipe : search" [value]="step.city ">
+                    <span>{{ step.city }}</span>
+                </mat-option>
+            </mat-autocomplete>
         </mat-form-field>
         <br/>
 
-        <h3>Où avez-vous dormi ?</h3>
+        <h3>
+            <mat-icon mat-list-avatar class="alignMiddle">local_hotel</mat-icon>
+            <span class="alignMiddle">Où avez-vous dormi ?</span>
+        </h3>
         <mat-form-field style="width:100% !important;">
-            <textarea matInput class="big-form" placeholder="Description du lieu" formControlName="sleepDescription" [(ngModel)]="stepSleepDescription" required flex></textarea>
-            <mat-hint *ngIf="!sleepDescription.untouched && !sleepDescription.valid && sleepDescription.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">description requise</mat-hint>
-            <mat-hint *ngIf="!sleepDescription.untouched && !sleepDescription.valid && sleepDescription.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">3 caractères minimum</mat-hint>
+            <textarea matInput class="big-form" placeholder="Description du lieu" formControlName="sleepDescription" [(ngModel)]="stepSleepDescription"
+                required flex></textarea>
+            <mat-hint *ngIf="!sleepDescription.untouched && !sleepDescription.valid && sleepDescription.errors.required" [ngStyle]="{'color': 'red'}"
+                align="start" style="right: 0;">description requise</mat-hint>
+            <mat-hint *ngIf="!sleepDescription.untouched && !sleepDescription.valid && sleepDescription.errors.minlength" [ngStyle]="{'color': 'red'}"
+                align="start" style="right: 0;">3 caractères minimum</mat-hint>
         </mat-form-field>
         <br/>
 
-        <h3>Où avez-vous mangé ?</h3>
+        <h3>
+            <mat-icon mat-list-avatar class="alignMiddle">restaurant</mat-icon>
+            <span class="alignMiddle">Où avez-vous mangé ?</span>
+        </h3>
         <mat-form-field style="width:100% !important;">
-            <textarea matInput class="big-form" placeholder="Description des restaurants, marchés...etc" formControlName="foodDescription" [(ngModel)]="stepFoodDescription" required flex></textarea>
-            <mat-hint *ngIf="!foodDescription.untouched && !foodDescription.valid && foodDescription.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">description requise</mat-hint>
-            <mat-hint *ngIf="!foodDescription.untouched && !foodDescription.valid && foodDescription.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">3 caractères minimum</mat-hint>
+            <textarea matInput class="big-form" placeholder="Description des restaurants, marchés...etc" formControlName="foodDescription"
+                [(ngModel)]="stepFoodDescription" required flex></textarea>
+            <mat-hint *ngIf="!foodDescription.untouched && !foodDescription.valid && foodDescription.errors.required" [ngStyle]="{'color': 'red'}"
+                align="start" style="right: 0;">description requise</mat-hint>
+            <mat-hint *ngIf="!foodDescription.untouched && !foodDescription.valid && foodDescription.errors.minlength" [ngStyle]="{'color': 'red'}"
+                align="start" style="right: 0;">3 caractères minimum</mat-hint>
         </mat-form-field>
         <br/>
 
-        <h3>Comment êtes-vous arrivé là ?</h3>
+        <h3>
+            <mat-icon mat-list-avatar class="alignMiddle">airplanemode_active</mat-icon>
+            <span class="alignMiddle">Comment êtes-vous arrivé là ?</span>
+        </h3>
         <mat-form-field style="width:100% !important;">
-            <textarea matInput class="big-form" placeholder="Description des bus, train...etc" formControlName="transportDescription" [(ngModel)]="stepTransportDescription" required flex></textarea>
-            <mat-hint *ngIf="!transportDescription.untouched && !transportDescription.valid && transportDescription.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">description requise</mat-hint>
-            <mat-hint *ngIf="!transportDescription.untouched && !transportDescription.valid && transportDescription.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">3 caractères minimum</mat-hint>
+            <textarea matInput class="big-form" placeholder="Description des bus, train...etc" formControlName="transportDescription"
+                [(ngModel)]="stepTransportDescription" required flex></textarea>
+            <mat-hint *ngIf="!transportDescription.untouched && !transportDescription.valid && transportDescription.errors.required"
+                [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">description requise</mat-hint>
+            <mat-hint *ngIf="!transportDescription.untouched && !transportDescription.valid && transportDescription.errors.minlength"
+                [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">3 caractères minimum</mat-hint>
         </mat-form-field>
         <br/>
     </form>
