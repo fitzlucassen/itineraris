@@ -6,9 +6,9 @@
             <span class="alignMiddle">Choisissez l'étape :</span>
         </h3>
 
-        <mat-form-field class="example-full-width">
+        <mat-form-field>
             <input matInput placeholder="Étape concernée" aria-label="Étape concernée" [matAutocomplete]="auto" formControlName="step"
-                [(ngModel)]="search">
+                [(ngModel)]="search" required>
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectStepId($event)">
                 <mat-option *ngFor="let step of steps | SearchStepPipe : search" [value]="step.city ">
                     <span>{{ step.city }}</span>
@@ -18,45 +18,51 @@
         <br/>
 
         <h3>
-            <mat-icon mat-list-avatar class="alignMiddle">local_hotel</mat-icon>
-            <span class="alignMiddle">Où avez-vous dormi ?</span>
+            <mat-icon mat-list-avatar class="alignMiddle">beenhere</mat-icon>
+            <span class="alignMiddle">Quel type de détail ?</span>
         </h3>
-        <mat-form-field style="width:100% !important;">
-            <textarea matInput class="big-form" placeholder="Description du lieu" formControlName="sleepDescription" [(ngModel)]="stepSleepDescription"
-                required flex></textarea>
-            <mat-hint *ngIf="!sleepDescription.untouched && !sleepDescription.valid && sleepDescription.errors.required" [ngStyle]="{'color': 'red'}"
-                align="start" style="right: 0;">description requise</mat-hint>
-            <mat-hint *ngIf="!sleepDescription.untouched && !sleepDescription.valid && sleepDescription.errors.minlength" [ngStyle]="{'color': 'red'}"
-                align="start" style="right: 0;">3 caractères minimum</mat-hint>
-        </mat-form-field>
+        <div layout layout-sm="column">
+            <mat-form-field>
+                <mat-select placeholder="Parler de ..." formControlName="detailType" [(ngModel)]="stepDetailType" required flex>
+                    <mat-option value="local_hotel">Hébergement</mat-option>
+                    <mat-option value="restaurant">Nourriture</mat-option>
+                    <mat-option value="airplanemode_active">Transport</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
         <br/>
 
-        <h3>
-            <mat-icon mat-list-avatar class="alignMiddle">restaurant</mat-icon>
-            <span class="alignMiddle">Où avez-vous mangé ?</span>
-        </h3>
-        <mat-form-field style="width:100% !important;">
-            <textarea matInput class="big-form" placeholder="Description des restaurants, marchés...etc" formControlName="foodDescription"
-                [(ngModel)]="stepFoodDescription" required flex></textarea>
-            <mat-hint *ngIf="!foodDescription.untouched && !foodDescription.valid && foodDescription.errors.required" [ngStyle]="{'color': 'red'}"
-                align="start" style="right: 0;">description requise</mat-hint>
-            <mat-hint *ngIf="!foodDescription.untouched && !foodDescription.valid && foodDescription.errors.minlength" [ngStyle]="{'color': 'red'}"
-                align="start" style="right: 0;">3 caractères minimum</mat-hint>
-        </mat-form-field>
-        <br/>
+        <div *ngIf="stepDetailType != null">
+            <h3>
+                <mat-icon mat-list-avatar class="alignMiddle">{{stepDetailType}}</mat-icon>
+                <span class="alignMiddle">Parlez nous de votre expérience :</span>
+            </h3>
+            <div layout layout-sm="column">
+            </div>
+            <mat-grid-list cols="2" rowHeight="100px">
+                <mat-grid-tile>
+                    <mat-form-field>
+                        <input matInput placeholder="Nom..." formControlName="detailName" [(ngModel)]="stepDetail.name" required>
+                    </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <mat-form-field>
+                        <input matInput type="number" placeholder="Prix approximatif..." formControlName="detailPrice" [(ngModel)]="stepDetail.price"
+                            required>
+                    </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile colspan="2">
+                    <mat-form-field>
+                        <textarea matInput class="big-form" placeholder="Petite description" formControlName="detailDescription" [(ngModel)]="stepDetail.description"
+                            flex></textarea>
+                    </mat-form-field>
+                </mat-grid-tile>
+            </mat-grid-list>
 
-        <h3>
-            <mat-icon mat-list-avatar class="alignMiddle">airplanemode_active</mat-icon>
-            <span class="alignMiddle">Comment êtes-vous arrivé là ?</span>
-        </h3>
-        <mat-form-field style="width:100% !important;">
-            <textarea matInput class="big-form" placeholder="Description des bus, train...etc" formControlName="transportDescription"
-                [(ngModel)]="stepTransportDescription" required flex></textarea>
-            <mat-hint *ngIf="!transportDescription.untouched && !transportDescription.valid && transportDescription.errors.required"
-                [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">description requise</mat-hint>
-            <mat-hint *ngIf="!transportDescription.untouched && !transportDescription.valid && transportDescription.errors.minlength"
-                [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">3 caractères minimum</mat-hint>
-        </mat-form-field>
-        <br/>
+            <mat-spinner *ngIf="isLoading"></mat-spinner>
+            <br/>
+            <button mat-raised-button style="margin: 2.5%;">VALIDER</button>
+        </div>
     </form>
 </div>

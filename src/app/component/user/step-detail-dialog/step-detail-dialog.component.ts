@@ -1,33 +1,40 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material';
 
 import { ItineraryService } from '../../../service/itinerary.service';
 import { ItineraryStep } from '../../../model/itinerary-step';
-import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { StepDetail } from '../../../model/step-detail';
+import { ItineraryDetailService } from '../../../service/itineraryDetail.service';
 
 @Component({
     selector: 'app-step-detail-dialog',
     templateUrl: './step-detail-dialog.component.html',
-    styleUrls: ['./step-detail-dialog.component.scss']
+    styleUrls: ['./step-detail-dialog.component.scss'],
+    providers: [ItineraryDetailService]
 })
 export class StepDetailDialogComponent implements OnInit {
     screenHeight: number;
-    itineraryId: number;
-    steps: Array<ItineraryStep>;
+    isLoading = false;
 
+    steps: Array<ItineraryStep>;
+    itineraryId: number;
     stepId: number;
-    stepSleepDescription: string;
-    stepFoodDescription: string;
-    stepTransportDescription: string;
+
+    stepDetailType: string;
+    stepDetail: StepDetail = new StepDetail();
+
     search: string;
 
     form: FormGroup;
     step: FormControl;
-    sleepDescription: FormControl;
-    foodDescription: FormControl;
-    transportDescription: FormControl;
 
-    constructor(private ngZone: NgZone, private itineraryService: ItineraryService, private fb: FormBuilder) {
+    detailType: FormControl;
+    detailName: FormControl;
+    detailPrice: FormControl;
+    detailDescription: FormControl;
+
+    constructor(private ngZone: NgZone, private itineraryService: ItineraryService, private itineraryDetailService: ItineraryDetailService, private fb: FormBuilder) {
         this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
 
         window.onresize = (e) => {
@@ -37,16 +44,18 @@ export class StepDetailDialogComponent implements OnInit {
             });
         };
 
+        this.detailType = new FormControl('', [Validators.required]);
         this.step = new FormControl('', [Validators.required]);
-        this.sleepDescription = new FormControl('', [Validators.required, Validators.minLength(3)]);
-        this.foodDescription = new FormControl('', [Validators.required, Validators.minLength(3)]);
-        this.transportDescription = new FormControl('', [Validators.required, Validators.minLength(3)]);
+        this.detailName = new FormControl('', [Validators.required, Validators.minLength(3)]);
+        this.detailDescription = new FormControl('', [Validators.required, Validators.minLength(3)]);
+        this.detailPrice = new FormControl('', [Validators.required, Validators.pattern('[0-9\,\.]*')]);
 
         this.form = this.fb.group({
             step: this.step,
-            sleepDescription: this.sleepDescription,
-            foodDescription: this.foodDescription,
-            transportDescription: this.transportDescription
+            detailType: this.detailType,
+            detailName: this.detailName,
+            detailDescription: this.detailDescription,
+            detailPrice: this.detailPrice
         });
     }
 
@@ -63,5 +72,17 @@ export class StepDetailDialogComponent implements OnInit {
     selectStepId($event: MatAutocompleteSelectedEvent) {
         this.stepId = this.steps.find(s => s.city == $event.option.value).id;
         console.log(this.stepId);
+    }
+
+    registerStepDetail() {
+        if (this.form.dirty && this.form.valid) {
+            this.isLoading = true;
+
+            this.itineraryDetailService.createStepDetail(this.stepDetail).subscribe(
+                id => function () { },
+                error => alert(error)
+            );
+        }
+        return false;
     }
 }
