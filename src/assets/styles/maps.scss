@@ -85,3 +85,21 @@
 	border-radius: 13px;
 	box-shadow: 0 0 5px $thirdColor;
 }
+
+@media screen and (max-width: 450px) {
+	#iw-container {
+		position: relative;
+	}
+	.gm-style-iw {
+		width: 300px !important;
+	}
+
+	.iw-title {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: calc(100% - 20px);
+		background: rgba(9, 64, 116, 0.5) !important;
+	    box-shadow: 1px 1px 20px rgba(0,0,0,0.5);
+	}
+}

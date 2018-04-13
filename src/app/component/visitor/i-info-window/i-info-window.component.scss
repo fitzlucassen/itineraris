@@ -75,3 +75,13 @@
         }
     }
 }
+
+@media screen and (max-width: 450px) {
+	.tab-header {
+        min-width: 140px !important;
+        padding: 14px !important;
+    }
+    .ink-bar {
+        width: 140px !important;
+    }
+}
