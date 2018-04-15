@@ -8,6 +8,7 @@ import { ItineraryService } from '../../../service/itinerary.service';
 import { MapsService } from '../../../service/maps.service';
 import { UploadFileComponent } from '../../common/upload-file/upload-file.component';
 import { Picture } from '../../../model/picture';
+import { StepDetail } from '../../../model/step-detail';
 
 declare var google: any;
 
@@ -19,6 +20,7 @@ declare var google: any;
 })
 export class StepDialogComponent implements OnInit, OnChanges {
     newStep: ItineraryStep = new ItineraryStep();
+    stepDetails: Array<StepDetail> = new Array<StepDetail>();
     isUpdate = false;
     isLoading = false;
     images: Array<Picture> = [];

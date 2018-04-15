@@ -43,6 +43,7 @@
         <br/>
         <mat-spinner *ngIf="isLoading"></mat-spinner>
         <br/>
-        <button mat-raised-button style="margin: 2.5%;">VALIDER</button>
+        <button mat-raised-button style="margin: 2.5%;" color="primary">Valider</button>
+        <button mat-raised-button style="margin: 2.5%;" disabled="stepDetails != null && stepDetails.length > 0">Voir les détails</button>
     </form>
 </div>

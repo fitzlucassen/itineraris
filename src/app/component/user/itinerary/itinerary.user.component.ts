@@ -16,12 +16,14 @@ import { ItineraryUserDialogComponent } from '../itinerary-user-dialog/itinerary
 import { StepDetailDialogComponent } from '../step-detail-dialog/step-detail-dialog.component';
 
 import { environment } from '../../../../environments/environment';
+import { StepDetail } from '../../../model/step-detail';
+import { ItineraryDetailService } from '../../../service/itineraryDetail.service';
 
 @Component({
     selector: 'app-user-itinerary',
     templateUrl: './itinerary.user.component.html',
     styleUrls: ['./itinerary.user.component.scss'],
-    providers: [ItineraryService, UserService, MatDialog]
+    providers: [ItineraryService, UserService, ItineraryDetailService, MatDialog]
 })
 export class ItineraryUserComponent implements OnInit {
     currentItinerary: Itinerary;
@@ -45,7 +47,15 @@ export class ItineraryUserComponent implements OnInit {
 
     @ViewChild(MatInput) input: any;
 
-    constructor(public itineraryDialog: MatDialog, public route: ActivatedRoute, private itineraryService: ItineraryService, private userService: UserService, private router: Router, private metaService: Meta, private titleService: Title) {
+    constructor(
+        public itineraryDialog: MatDialog,
+        public route: ActivatedRoute,
+        private itineraryService: ItineraryService,
+        private stepDetailService: ItineraryDetailService,
+        private userService: UserService,
+        private router: Router,
+        private metaService: Meta,
+        private titleService: Title) {
         this.titleService.setTitle('Itineraris -  Gérer l\'itinéraire');
         this.metaService.updateTag({ content: 'Itineraris - Gérer l\'itinéraire' }, 'property="og:title"');
         this.metaService.updateTag({ content: 'Gérer votre itinéraire en ajoutant une ou plusieurs étapes' }, 'name="description"');
@@ -136,6 +146,10 @@ export class ItineraryUserComponent implements OnInit {
         });
         this.itineraryService.getStepById(id).subscribe(
             result => result != null ? this.assignItineraryStep(result) : function () { },
+            error => alert(error)
+        );
+        this.stepDetailService.getStepDetails(id).subscribe(
+            result => result != null ? this.assignItineraryStepDetails(result) : function () { },
             error => alert(error)
         );
         this.dialogRef.componentInstance.isUpdate = true;
@@ -335,6 +349,10 @@ export class ItineraryUserComponent implements OnInit {
         step.date = d[0] + '-' + d[1] + '-' + d[2];
 
         this.dialogRef.componentInstance.newStep = step;
+    }
+    private assignItineraryStepDetails(stepDetails: Array<StepDetail>) {
+        console.log(stepDetails);
+        this.dialogRef.componentInstance.stepDetails = stepDetails;
     }
     private assignItineraryStop(stop: Stop) {
         const d = stop.date.split('T')[0].split('-');

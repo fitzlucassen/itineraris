@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { MatAutocompleteSelectedEvent, MatSnackBar, MatDialogRef } from '@angular/material';
 
 import { ItineraryService } from '../../../service/itinerary.service';
 import { ItineraryStep } from '../../../model/itinerary-step';
@@ -34,7 +34,13 @@ export class StepDetailDialogComponent implements OnInit {
     detailPrice: FormControl;
     detailDescription: FormControl;
 
-    constructor(private ngZone: NgZone, private itineraryService: ItineraryService, private itineraryDetailService: ItineraryDetailService, private fb: FormBuilder) {
+    constructor(
+        private ngZone: NgZone,
+        public dialogRef: MatDialogRef<StepDetailDialogComponent>,
+        public snackBar: MatSnackBar,
+        private itineraryService: ItineraryService,
+        private itineraryDetailService: ItineraryDetailService,
+        private fb: FormBuilder) {
         this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
 
         window.onresize = (e) => {
@@ -63,7 +69,6 @@ export class StepDetailDialogComponent implements OnInit {
         this.itineraryService.getItinerarySteps(this.itineraryId).subscribe(
             data => {
                 this.steps = data;
-                console.log(this.steps);
             },
             error => { alert(error); }
         );
@@ -71,18 +76,33 @@ export class StepDetailDialogComponent implements OnInit {
 
     selectStepId($event: MatAutocompleteSelectedEvent) {
         this.stepId = this.steps.find(s => s.city == $event.option.value).id;
-        console.log(this.stepId);
     }
 
     registerStepDetail() {
         if (this.form.dirty && this.form.valid) {
             this.isLoading = true;
 
+            this.stepDetail.stepId = this.stepId;
+            this.stepDetail.type = this.stepDetailType;
+
             this.itineraryDetailService.createStepDetail(this.stepDetail).subscribe(
-                id => function () { },
+                id => this.successfullyCreated(),
                 error => alert(error)
             );
         }
         return false;
+    }
+
+    private successfullyCreated() {
+        this.isLoading = false;
+        this.snackBar.open('Félicitation vos détails ont été enregistré', 'Ok', {
+            duration: 3000
+        });
+
+        const that = this;
+        setTimeout(function () {
+            that.stepDetail = new StepDetail();
+            that.dialogRef.close();
+        }, 500);
     }
 }

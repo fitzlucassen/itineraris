@@ -23,13 +23,20 @@ export class ItineraryDetailService {
     /********************/
     createStepDetail(stepDetail: StepDetail): Observable<number> {
         return this.http
-            .post(this.serviceUrl + '/step/detail', {
+            .post(this.serviceUrl + '/steps/details', {
                 name: stepDetail.name,
                 price: stepDetail.price,
                 description: stepDetail.description,
                 stepId: stepDetail.stepId,
                 type: stepDetail.type
             })
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    getStepDetails(id: string): Observable<Array<StepDetail>> {
+        return this.http
+            .get(this.serviceUrl + '/steps/details/' + id)
             .map(this.extractData)
             .catch(this.handleError);
     }
