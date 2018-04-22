@@ -23,6 +23,7 @@ export class StepDialogComponent implements OnInit, OnChanges {
     stepDetails: Array<StepDetail> = new Array<StepDetail>();
     isUpdate = false;
     isLoading = false;
+    isShown = false;
     images: Array<Picture> = [];
 
     screenHeight: number;
@@ -126,6 +127,11 @@ export class StepDialogComponent implements OnInit, OnChanges {
                 );
             });
         }
+    }
+
+    showDetails() {
+        this.isShown = true;
+        return false;
     }
 
     private fillFormWithGeolocalisation(latitude: number, longitude: number) {

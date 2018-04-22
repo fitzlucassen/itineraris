@@ -41,9 +41,26 @@
         <br/>
         <app-upload-file [stepId]="newStep.id" [images]="images"></app-upload-file>
         <br/>
+        <br/>
+
+        <div *ngIf="isShown" class="details">
+            <h3>Vos bons plans :</h3>
+
+            <mat-list flex>
+                <mat-list-item class="mat-2-line" *ngFor="let detail of stepDetails">
+                    <mat-icon mat-list-avatar>{{detail.type}}</mat-icon>
+                    <a mat-line>
+                        <b>{{detail.name}}</b>
+                    </a>
+                    <a mat-line>{{detail.price}}$</a>
+                </mat-list-item>
+            </mat-list>
+        </div>
+
+        <br/>
         <mat-spinner *ngIf="isLoading"></mat-spinner>
         <br/>
         <button mat-raised-button style="margin: 2.5%;" color="primary">Valider</button>
-        <button mat-raised-button style="margin: 2.5%;" disabled="stepDetails != null && stepDetails.length > 0">Voir les détails</button>
+        <button mat-raised-button style="margin: 2.5%;" [disabled]="stepDetails == null || stepDetails.length == 0" (click)="showDetails()">Voir les détails</button>
     </form>
 </div>

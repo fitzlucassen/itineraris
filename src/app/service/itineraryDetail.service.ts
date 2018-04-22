@@ -36,7 +36,7 @@ export class ItineraryDetailService {
 
     getStepDetails(id: string): Observable<Array<StepDetail>> {
         return this.http
-            .get(this.serviceUrl + '/steps/details/' + id)
+            .get(this.serviceUrl + '/steps/details/step/' + id)
             .map(this.extractData)
             .catch(this.handleError);
     }
