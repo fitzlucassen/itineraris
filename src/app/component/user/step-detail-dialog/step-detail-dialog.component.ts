@@ -1,30 +1,35 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { MatAutocompleteSelectedEvent, MatSnackBar, MatDialogRef } from '@angular/material';
+import { MatAutocompleteSelectedEvent, MatSnackBar, MatDialogRef, MatSelectionListChange } from '@angular/material';
 
 import { ItineraryService } from '../../../service/itinerary.service';
 import { ItineraryStep } from '../../../model/itinerary-step';
 import { StepDetail } from '../../../model/step-detail';
 import { ItineraryDetailService } from '../../../service/itineraryDetail.service';
+import { CurrencyService } from '../../../service/currency.service';
+import { Currency } from '../../../model/currency';
 
 @Component({
     selector: 'app-step-detail-dialog',
     templateUrl: './step-detail-dialog.component.html',
     styleUrls: ['./step-detail-dialog.component.scss'],
-    providers: [ItineraryDetailService]
+    providers: [ItineraryDetailService, CurrencyService]
 })
 export class StepDetailDialogComponent implements OnInit {
     screenHeight: number;
     isLoading = false;
 
     steps: Array<ItineraryStep>;
+    currencies: Array<Currency> = new Array<Currency>();
     itineraryId: number;
     stepId: number;
-
+    stepDetailCurrency: string;
     stepDetailType: string;
+
     stepDetail: StepDetail = new StepDetail();
 
     search: string;
+    searchCurrency: string;
 
     form: FormGroup;
     step: FormControl;
@@ -32,6 +37,7 @@ export class StepDetailDialogComponent implements OnInit {
     detailType: FormControl;
     detailName: FormControl;
     detailPrice: FormControl;
+    detailCurrency: FormControl;
     detailDescription: FormControl;
 
     constructor(
@@ -40,6 +46,7 @@ export class StepDetailDialogComponent implements OnInit {
         public snackBar: MatSnackBar,
         private itineraryService: ItineraryService,
         private itineraryDetailService: ItineraryDetailService,
+        private currencyService: CurrencyService,
         private fb: FormBuilder) {
         this.screenHeight = document.getElementsByTagName('body')[0].clientHeight - 64;
 
@@ -54,6 +61,7 @@ export class StepDetailDialogComponent implements OnInit {
         this.step = new FormControl('', [Validators.required]);
         this.detailName = new FormControl('', [Validators.required, Validators.minLength(3)]);
         this.detailDescription = new FormControl('', [Validators.required, Validators.minLength(3)]);
+        this.detailCurrency = new FormControl('', [Validators.required]);
         this.detailPrice = new FormControl('', [Validators.required, Validators.pattern('[0-9\,\.]*')]);
 
         this.form = this.fb.group({
@@ -61,7 +69,8 @@ export class StepDetailDialogComponent implements OnInit {
             detailType: this.detailType,
             detailName: this.detailName,
             detailDescription: this.detailDescription,
-            detailPrice: this.detailPrice
+            detailPrice: this.detailPrice,
+            detailCurrency: this.detailCurrency
         });
     }
 
@@ -69,6 +78,17 @@ export class StepDetailDialogComponent implements OnInit {
         this.itineraryService.getItinerarySteps(this.itineraryId).subscribe(
             data => {
                 this.steps = data;
+            },
+            error => { alert(error); }
+        );
+        this.currencyService.getAll().subscribe(
+            data => {
+                console.log(data);
+                for (const symbol in data.symbols) {
+                    if (data.symbols.hasOwnProperty(symbol)) {
+                        this.currencies.push(new Currency({ code: symbol, description: data.symbols[symbol]}));
+                    }
+                }
             },
             error => { alert(error); }
         );
@@ -91,6 +111,10 @@ export class StepDetailDialogComponent implements OnInit {
             );
         }
         return false;
+    }
+
+    assignCurrency($event: MatAutocompleteSelectedEvent) {
+        this.stepDetailCurrency = $event.option.value;
     }
 
     private successfullyCreated() {

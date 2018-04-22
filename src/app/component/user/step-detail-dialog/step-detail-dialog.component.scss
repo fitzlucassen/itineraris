@@ -9,6 +9,10 @@ mat-form-field{
     width: 100% !important;
 }
 
+.mat-form-field-infix {
+    width: auto !important;
+}
+
 mat-spinner {
     display: block;
     margin: auto;

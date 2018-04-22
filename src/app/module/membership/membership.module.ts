@@ -20,6 +20,7 @@ import { StepDetailDialogComponent } from '../../component/user/step-detail-dial
 import { SearchPipe } from '../../pipe/search.pipe';
 import { SearchStepPipe } from '../../pipe/search-step.pipe';
 import { SearchUserPipe } from '../../pipe/search-user.pipe';
+import { SearchCurrencyPipe } from '../../pipe/search-currency.pipe';
 
 import { AuthGuard } from '../../guard/auth-guard';
 import { NoAuthGuard } from '../../guard/no-auth-guard';
@@ -40,7 +41,8 @@ import { routing } from '../../routing/membership.routing';
         StepDetailDialogComponent,
         SearchPipe,
         SearchStepPipe,
-        SearchUserPipe
+        SearchUserPipe,
+        SearchCurrencyPipe
     ],
     entryComponents: [
         ItineraryDialogComponent,

@@ -48,8 +48,15 @@
                 </mat-grid-tile>
                 <mat-grid-tile>
                     <mat-form-field>
-                        <input matInput type="number" placeholder="Prix approximatif..." formControlName="detailPrice" [(ngModel)]="stepDetail.price"
-                            required>
+                        <input matInput type="number" placeholder="Prix..." formControlName="detailPrice" [(ngModel)]="stepDetail.price" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput placeholder="Devise..." [matAutocomplete]="auto2" formControlName="detailCurrency" [(ngModel)]="searchCurrency" required>
+                        <mat-autocomplete #auto2="matAutocomplete" (optionSelected)="assignCurrency($event)">
+                            <mat-option *ngFor="let currency of currencies | SearchCurrencyPipe : searchCurrency" [value]="currency.code">
+                                <span>{{ currency.code }} - {{ currency.description }}</span>
+                            </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile colspan="2">
