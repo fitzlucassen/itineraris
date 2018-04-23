@@ -23,4 +23,8 @@ app-root .tempDiv {
 	width: 300px !important;
 }
 
+.step-detail-dialog .mat-form-field-infix {
+    width: auto;
+}
+
 @import './assets/styles/responsive_template';

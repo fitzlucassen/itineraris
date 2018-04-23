@@ -84,9 +84,9 @@ export class StepDetailDialogComponent implements OnInit {
         this.currencyService.getAll().subscribe(
             data => {
                 console.log(data);
-                for (const symbol in data.symbols) {
-                    if (data.symbols.hasOwnProperty(symbol)) {
-                        this.currencies.push(new Currency({ code: symbol, description: data.symbols[symbol]}));
+                for (const symbol in data.results) {
+                    if (data.results.hasOwnProperty(symbol)) {
+                        this.currencies.push(new Currency({ code: symbol, description: data.results[symbol].currencyName}));
                     }
                 }
             },
@@ -105,9 +105,18 @@ export class StepDetailDialogComponent implements OnInit {
             this.stepDetail.stepId = this.stepId;
             this.stepDetail.type = this.stepDetailType;
 
-            this.itineraryDetailService.createStepDetail(this.stepDetail).subscribe(
-                id => this.successfullyCreated(),
-                error => alert(error)
+            this.currencyService.convert(this.stepDetailCurrency).subscribe(
+                data => {
+                    this.stepDetail.price = Math.round(data[`${this.stepDetailCurrency}_EUR`] * this.stepDetail.price);
+
+                    this.itineraryDetailService.createStepDetail(this.stepDetail).subscribe(
+                        id => this.successfullyCreated(),
+                        error => alert(error)
+                    );
+                },
+                error => {
+                    alert(error);
+                }
             );
         }
         return false;

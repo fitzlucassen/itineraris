@@ -4,25 +4,25 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class CurrencyService {
-    apiUrl = 'http://data.fixer.io/api/';
+    apiUrl = 'https://free.currencyconverterapi.com/api/v5/';
     accessToken = '625715ed082dd31d25a0f45ad4237cfa';
 
     constructor(private http: Http) { }
 
-    convert(value: number, currency: string) {
+    convert(currency: string) {
         const endpoint = 'convert';
 
         return this.http
-            .get(this.apiUrl + endpoint + `?access_key=${this.accessToken}&from=${currency}&to=EUR&amount=${value}`)
+            .get(this.apiUrl + endpoint + `?&compact=ultra&q=${currency}_EUR`)
             .map(this.extractData)
             .catch(this.handleError);
     }
 
     getAll() {
-        const endpoint = 'symbols';
+        const endpoint = 'currencies';
 
         return this.http
-            .get(this.apiUrl + endpoint + `?access_key=${this.accessToken}`)
+            .get(this.apiUrl + endpoint + ``)
             .map(this.extractData)
             .catch(this.handleError);
     }
