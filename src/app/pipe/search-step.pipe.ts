@@ -8,7 +8,7 @@ import { ItineraryStep } from '../model/itinerary-step';
 export class SearchStepPipe implements PipeTransform {
 
     transform(value: Array<ItineraryStep>, args?: string): Array<ItineraryStep> {
-        if (!args) {
+        if (!args || !value) {
             return value;
         }
         return value.filter(v => v.city.toLocaleLowerCase().indexOf(args.toLocaleLowerCase()) !== -1);

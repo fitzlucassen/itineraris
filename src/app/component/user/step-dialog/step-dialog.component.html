@@ -3,7 +3,7 @@
         <div layout layout-sm="column">
             <mat-form-field>
                 <input matInput class="big-form" placeholder="Ville de l'étape" focus="window.scrollTo(0, 0);document.body.scrollTop = 0;"
-                    formControlName="city" [(ngModel)]="newStep.city" required flex autocorrect="off" autocapitalize="off" spellcheck="off"
+                    formControlName="city" [(ngModel)]="newStep.city" [disabled]="stepDetail != null && stepDetail.id > 0" required flex autocorrect="off" autocapitalize="off" spellcheck="off"
                     class="form-control" #search />
                 <mat-hint *ngIf="!city.untouched && !city.valid && city.errors.required" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">ville requise</mat-hint>
                 <mat-hint *ngIf="!city.untouched && !city.valid && city.errors.minlength" [ngStyle]="{'color': 'red'}" align="start" style="right: 0;">2 caractères minimum</mat-hint>
@@ -52,7 +52,13 @@
                     <a mat-line>
                         <b>{{detail.name}}</b>
                     </a>
-                    <a mat-line>{{detail.price}}$</a>
+                    <a mat-line>~{{detail.price}}€</a>
+
+                    <div style="cursor:pointer">
+						<mat-icon class="little-icon" (click)="editStepDetail(detail.id)">mode_edit</mat-icon>
+						<br/>
+						<mat-icon class="little-icon" (click)="removeStepDetail(detail.id)">delete</mat-icon>
+					</div>
                 </mat-list-item>
             </mat-list>
         </div>

@@ -9,6 +9,8 @@ import { MapsService } from '../../../service/maps.service';
 import { UploadFileComponent } from '../../common/upload-file/upload-file.component';
 import { Picture } from '../../../model/picture';
 import { StepDetail } from '../../../model/step-detail';
+import { ItineraryDetailService } from '../../../service/itineraryDetail.service';
+import { StepDetailDialogComponent } from '../step-detail-dialog/step-detail-dialog.component';
 
 declare var google: any;
 
@@ -16,7 +18,7 @@ declare var google: any;
     selector: 'app-step-dialog',
     templateUrl: './step-dialog.component.html',
     styleUrls: ['./step-dialog.component.scss'],
-    providers: [UploadFileComponent, MapsService]
+    providers: [UploadFileComponent, MapsService, ItineraryDetailService]
 })
 export class StepDialogComponent implements OnInit, OnChanges {
     newStep: ItineraryStep = new ItineraryStep();
@@ -37,13 +39,17 @@ export class StepDialogComponent implements OnInit, OnChanges {
     type: FormControl;
     form: FormGroup;
 
+    stepDetailDialogRef: MatDialogRef<StepDetailDialogComponent>;
+
     constructor(
+        public itineraryDialog: MatDialog,
         private mapsAPILoader: MapsAPILoader,
         private ngZone: NgZone,
         public snackBar: MatSnackBar,
         private fb: FormBuilder,
         public dialogRef: MatDialogRef<StepDialogComponent>,
         private itineraryService: ItineraryService,
+        private itineraryDetailService: ItineraryDetailService,
         private mapsService: MapsService) {
         this.city = new FormControl('', [Validators.required, Validators.minLength(2)]);
         this.date = new FormControl('', [Validators.required]);
@@ -134,6 +140,30 @@ export class StepDialogComponent implements OnInit, OnChanges {
         return false;
     }
 
+    removeStepDetail(id: number) {
+        if (confirm('Êtes-vous sur de vouloir supprimer ce détail ?' + id)) {
+            this.itineraryDetailService.removeStepDetail(id).subscribe(
+                id => id != null ? this.successfullyRemovedDetail(id) : function () { }
+            );
+        }
+    }
+
+    editStepDetail(id: number) {
+        const stepDetail = this.stepDetails.find(s => s.id === id);
+
+        this.stepDetailDialogRef = this.itineraryDialog.open(StepDetailDialogComponent, {
+            disableClose: false,
+        });
+        this.stepDetailDialogRef.componentInstance.itineraryId = this.newStep.itineraryId;
+        this.stepDetailDialogRef.componentInstance.stepDetailCurrency = 'EUR';
+        this.stepDetailDialogRef.componentInstance.stepDetailType = stepDetail.type;
+        this.stepDetailDialogRef.componentInstance.stepId = this.newStep.id;
+        this.stepDetailDialogRef.componentInstance.stepDetail = stepDetail;
+        this.stepDetailDialogRef.componentInstance.search = this.newStep.city;
+        this.stepDetailDialogRef.componentInstance.searchCurrency = 'EUR';
+        // TODO: subscribe to close event and udpate list data
+    }
+
     private fillFormWithGeolocalisation(latitude: number, longitude: number) {
         const d = new Date();
 
@@ -206,6 +236,12 @@ export class StepDialogComponent implements OnInit, OnChanges {
             that.newStep = new ItineraryStep();
             that.dialogRef.close();
         }, 500);
+    }
+    private successfullyRemovedDetail(id: number){
+        this.snackBar.open('Félicitation ce détail a bien été supprimé', 'Ok', {
+            duration: 3000
+        });
+        this.stepDetails.splice(this.stepDetails.findIndex(s => s.id === id), 1);
     }
     private completeNumberWithZero(number: number): string {
         if ((number + '').length === 1) {

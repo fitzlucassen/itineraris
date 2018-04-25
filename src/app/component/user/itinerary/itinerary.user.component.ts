@@ -351,7 +351,6 @@ export class ItineraryUserComponent implements OnInit {
         this.dialogRef.componentInstance.newStep = step;
     }
     private assignItineraryStepDetails(stepDetails: Array<StepDetail>) {
-        console.log(stepDetails);
         this.dialogRef.componentInstance.stepDetails = stepDetails;
     }
     private assignItineraryStop(stop: Stop) {

@@ -34,9 +34,28 @@ export class ItineraryDetailService {
             .catch(this.handleError);
     }
 
+    updateStepDetail(stepDetail: StepDetail): Observable<number> {
+        return this.http
+            .put(this.serviceUrl + '/steps/details/' + stepDetail.id, {
+                name: stepDetail.name,
+                price: stepDetail.price,
+                description: stepDetail.description,
+                type: stepDetail.type
+            })
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
     getStepDetails(id: string): Observable<Array<StepDetail>> {
         return this.http
             .get(this.serviceUrl + '/steps/details/step/' + id)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    removeStepDetail(id: number): Observable<any> {
+        return this.http
+            .delete(this.serviceUrl + '/steps/details/' + id)
             .map(this.extractData)
             .catch(this.handleError);
     }
