@@ -3,6 +3,7 @@ import { MatTabGroup, MatTabChangeEvent } from '@angular/material';
 
 import { Picture } from '../../../model/picture';
 import { environment } from '../../../../environments/environment';
+import { StepDetail } from '../../../model/step-detail';
 
 declare var google: any;
 
@@ -18,7 +19,7 @@ export class IInfoWindowComponent implements OnInit, AfterViewChecked {
     mainPictureUrl = '';
     mainPictureCaption = '';
     pictures: Array<Picture>;
-    astuces: Array<any>;
+    astuces: Array<StepDetail>;
 
     isTherePictures = false;
     isSumupTabActive = true;
@@ -63,10 +64,11 @@ export class IInfoWindowComponent implements OnInit, AfterViewChecked {
         }
     }
 
-    create(lat: number, lng: number, title: string, date: string, description: string, pictures: Array<Picture>) {
+    create(lat: number, lng: number, title: string, date: string, description: string, details: Array<StepDetail>, pictures: Array<Picture>) {
         this.title = title;
         this.date = date.split('T')[0];
         this.description = description;
+        this.astuces = details;
         this.pictures = pictures;
         this.lat = lat;
         this.lng = lng;

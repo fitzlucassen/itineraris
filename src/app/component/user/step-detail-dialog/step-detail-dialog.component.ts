@@ -105,7 +105,19 @@ export class StepDetailDialogComponent implements OnInit {
             this.isLoading = true;
 
             if (this.stepDetail.id > 0) {
-                console.log(this.stepDetail);
+                this.currencyService.convert(this.stepDetailCurrency).subscribe(
+                    data => {
+                        this.stepDetail.price = Math.round(data[`${this.stepDetailCurrency}_EUR`] * this.stepDetail.price);
+
+                        this.itineraryDetailService.updateStepDetail(this.stepDetail).subscribe(
+                            id => this.successfullyUpdated(),
+                            error => alert(error)
+                        );
+                    },
+                    error => {
+                        alert(error);
+                    }
+                );
             }
             else {
                 this.stepDetail.stepId = this.stepId;
@@ -136,6 +148,19 @@ export class StepDetailDialogComponent implements OnInit {
     private successfullyCreated() {
         this.isLoading = false;
         this.snackBar.open('Félicitation vos détails ont été enregistré', 'Ok', {
+            duration: 3000
+        });
+
+        const that = this;
+        setTimeout(function () {
+            that.stepDetail = new StepDetail();
+            that.dialogRef.close();
+        }, 500);
+    }
+
+    private successfullyUpdated() {
+        this.isLoading = false;
+        this.snackBar.open('Félicitation vos détails ont été modifié', 'Ok', {
             duration: 3000
         });
 

@@ -7,13 +7,16 @@ import { Stop } from '../../../model/stop';
 import { ItineraryService } from '../../../service/itinerary.service';
 import { IInfoWindowComponent } from '../i-info-window/i-info-window.component';
 import { environment } from '../../../../environments/environment';
+import { ItineraryDetailService } from '../../../service/itineraryDetail.service';
+import { StepDetail } from '../../../model/step-detail';
 
 declare var google: any;
 
 @Component({
     selector: 'app-map',
     templateUrl: './map.component.html',
-    styleUrls: ['./map.component.scss']
+    styleUrls: ['./map.component.scss'],
+    providers: [ItineraryDetailService]
 })
 export class MapComponent implements OnInit {
     multiple = false;
@@ -29,7 +32,12 @@ export class MapComponent implements OnInit {
     landColor = '#DADADA'; // Font Color;
     parkColor = '#A4B494';
 
-    constructor(private mapsAPILoader: MapsAPILoader, private itineraryService: ItineraryService, private componentFactoryResolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef) {
+    constructor(
+        private mapsAPILoader: MapsAPILoader,
+        private itineraryDetailService: ItineraryDetailService,
+        private itineraryService: ItineraryService,
+        private componentFactoryResolver: ComponentFactoryResolver,
+        private viewContainerRef: ViewContainerRef) {
     }
 
     ngOnInit() {
@@ -349,18 +357,23 @@ export class MapComponent implements OnInit {
     }
 
     createInfoWindowForStop(pictures: Array<Picture>, origin: Stop) {
-        this.createInfoWindow(pictures, origin.city, origin.description, origin.date, origin.lat, origin.lng, null);
+        this.createInfoWindow(pictures, origin.city, origin.description, '<i>à venir...</i>', origin.date, origin.lat, origin.lng, null);
     }
 
     createInfoWindowForStep(pictures: Array<Picture>, origin: ItineraryStep, markerIndex) {
-        this.createInfoWindow(pictures, origin.city, origin.description, origin.date, origin.lat, origin.lng, markerIndex);
+        this.itineraryDetailService.getStepDetails(origin.id.toString()).subscribe(
+            data => {
+                this.createInfoWindow(pictures, origin.city, origin.description, data, origin.date, origin.lat, origin.lng, markerIndex);
+            },
+            error => alert(error)
+        );
     }
 
-    private createInfoWindow(pictures: Array<Picture>, city, description, date, lat, lng, markerIndex) {
+    private createInfoWindow(pictures: Array<Picture>, city, description, details, date, lat, lng, markerIndex) {
         this.mapsAPILoader.load().then(() => {
             const marker = this.createMarker({ lat: lat, lng: lng }, this.map, city, markerIndex == null ? true : false, markerIndex);
 
-            this.attachClickEvent(marker, { lat: lat, lng: lng }, city, date, description, pictures);
+            this.attachClickEvent(marker, { lat: lat, lng: lng }, city, date, description, details, pictures);
         });
     }
 
@@ -376,13 +389,13 @@ export class MapComponent implements OnInit {
 
         return marker;
     }
-    private attachClickEvent(marker: any, location: any, city, date, description, pictures) {
+    private attachClickEvent(marker: any, location: any, city, date, description, details, pictures) {
         const that = this;
 
         google.maps.event.addListener(marker, 'click', function (e) {
             const infoWindow = that.createComponent();
 
-            infoWindow.instance.create(location.lat, location.lng, city, 'Le ' + date, description, pictures);
+            infoWindow.instance.create(location.lat, location.lng, city, 'Le ' + date, description, details, pictures);
             that.infoWindows.push(infoWindow.instance);
 
             that.infoWindows.forEach(element => { element.close(); });

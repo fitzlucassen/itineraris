@@ -7,7 +7,7 @@
         </h3>
 
         <mat-form-field>
-            <input matInput placeholder="Étape concernée" aria-label="Étape concernée" [matAutocomplete]="auto" formControlName="step"
+            <input matInput placeholder="Étape concernée" aria-label="Étape concernée" [disabled]="stepDetail != null && stepDetail.id > 0" [matAutocomplete]="auto" formControlName="step"
                 [(ngModel)]="search" required>
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectStepId($event)">
                 <mat-option *ngFor="let step of steps | SearchStepPipe : search" [value]="step.city ">

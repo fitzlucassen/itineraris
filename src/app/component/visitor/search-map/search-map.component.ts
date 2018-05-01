@@ -104,7 +104,7 @@ export class SearchMapComponent implements OnInit {
         google.maps.event.addListener(marker, 'click', function (e) {
             const infoWindow = that.createComponent();
 
-            infoWindow.instance.create(location.lat, location.lng, title, country, description, null);
+            infoWindow.instance.create(location.lat, location.lng, title, country, description, null, null);
             that.infoWindows.push(infoWindow.instance);
 
             that.infoWindows.forEach(element => { element.close(); });
