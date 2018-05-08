@@ -24,15 +24,20 @@
                 <div class="tab-content" [class.active]="isSumupTabActive" [innerHTML]="description">
                 </div>
                 <div class="tab-content" [class.active]="!isSumupTabActive">
-                    <mat-list flex>
-                        <mat-list-item class="mat-2-line" *ngFor="let detail of astuces">
-                            <mat-icon mat-list-avatar>{{detail.type}}</mat-icon>
-                            <a mat-line>
-                                <b>{{detail.name}}</b>
-                            </a>
-                            <a mat-line>~{{detail.price}}€</a>
-                        </mat-list-item>
-                    </mat-list>
+                    <div class="tips-container">
+                        <div class="tip-container" class="mat-2-line" *ngFor="let detail of astuces">
+                            <p class="tip">
+                                <mat-icon mat-list-avatar>{{detail.type}}</mat-icon>
+                                <a mat-line>
+                                    <b>{{detail.name}}</b>&nbsp;-&nbsp;~{{detail.price}}€
+                                </a>
+                            </p>
+
+                            <p>{{detail.description}}</p>
+
+                            <mat-divider></mat-divider>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

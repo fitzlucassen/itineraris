@@ -357,7 +357,7 @@ export class MapComponent implements OnInit {
     }
 
     createInfoWindowForStop(pictures: Array<Picture>, origin: Stop) {
-        this.createInfoWindow(pictures, origin.city, origin.description, '<i>à venir...</i>', origin.date, origin.lat, origin.lng, null);
+        this.createInfoWindow(pictures, origin.city, origin.description, [], origin.date, origin.lat, origin.lng, null);
     }
 
     createInfoWindowForStep(pictures: Array<Picture>, origin: ItineraryStep, markerIndex) {

@@ -66,13 +66,29 @@
             top: 0;
             left: 350px;
             padding: 5px;
+            display: none;
 
             transition: .5s cubic-bezier(.35,0,.25,1);
 
             &.active {
                 left: 0;
+                display: block;
             }
         }
+    }
+
+    p.tip > * {
+        display: inline-block;
+        vertical-align: middle;
+    }
+    p.tip > mat-icon {
+        font-size: 22px;
+        width: 10%;
+    }
+    p.tip > a {
+        font-size: 16px;
+        padding-left: 10px;
+        width: 85%;
     }
 }
 
